@@ -34,6 +34,7 @@ model Account {
     user              User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
     @@unique([provider, providerAccountId])
+    @@index([userId])
 }
 
 model Session {
@@ -42,6 +43,8 @@ model Session {
     userId       String
     expires      DateTime
     user         User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@index([userId])
 }
 
 
@@ -80,8 +83,9 @@ model User {
 model Video {
     id            String    @id @default(cuid())
     title         String? @db.Text
-    thumbnail     String? @db.Text
+    thumbnailUrl  String? @db.Text
     description   String? @db.Text
+    videoUrl      String? @db.Text
     publish       Boolean @default(true)
     userId        String
     createdAt     DateTime @default(now())
@@ -89,7 +93,7 @@ model Video {
     user          User @relation(fields: [userId], references:[id], onDelete: Cascade)
     videoEngagement  VideoEngagement[]
     comment          Comment[]
-    videos           PlaylistHasVideo[]
+    playlists        PlaylistHasVideo[]
 
     @@index([userId])
 
