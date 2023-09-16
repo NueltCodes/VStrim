@@ -1,25 +1,7 @@
 import { Fragment, useEffect } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { signIn, useSession } from "next-auth/react";
-
-// import {
-//   ClockRewind,
-//   Folder,
-//   HelpCircle,
-//   Home,
-//   Lock,
-//   MessagePlusSquare,
-//   Settings,
-//   ThumbsUp,
-//   UserCheck,
-//   File,
-//   VideoRecorder,
-//   User,
-//   Brush,
-//   LogOut,
-//   Close,
-// } from "./Icons/Icons";
-import { Logo } from "./Icons/Logo";
+import { Logo } from "./icons/Logo";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { UserImage } from "./Component";
@@ -27,10 +9,13 @@ import {
   AiOutlineLogout,
   AiOutlineSetting,
   AiOutlineCloseCircle,
-  AiOutlineFolderOpen,
 } from "react-icons/ai";
 import { BiHelpCircle, BiUserCircle, BiHomeSmile } from "react-icons/Bi";
-import { MdSlowMotionVideo, MdOutlinePrivacyTip } from "react-icons/md";
+import {
+  MdSlowMotionVideo,
+  MdOutlinePrivacyTip,
+  MdOutlineVideoLibrary,
+} from "react-icons/md";
 import { HiOutlineThumbUp } from "react-icons/hi";
 import { RiUserFollowLine } from "react-icons/ri";
 import { TbClockRecord, TbMessagePlus } from "react-icons/tb";
@@ -90,7 +75,7 @@ export default function Sidebar({
     {
       name: "Library",
       path: userId ? `/${String(userId)}/ProfilePlaylists` : "sign-in",
-      icon: (className) => <AiOutlineFolderOpen className={className} />,
+      icon: (className) => <MdOutlineVideoLibrary className={className} />,
       current: router.asPath === `/${String(userId)}/ProfilePlaylists`,
     },
     {
@@ -170,7 +155,7 @@ export default function Sidebar({
           "bottom-0 top-16  hidden lg:fixed lg:z-40 lg:flex lg:flex-col",
         )}
       >
-        {/*  Sidebar component FOR DESKTOP, swap this element with another sidebar if you like */}
+        {/*  Sidebar component FOR DESKTOP*/}
 
         <div className="flex grow flex-col gap-y-5 overflow-y-auto border border-gray-200 bg-white px-6 pb-4">
           <nav className="flex flex-1 flex-col pt-8">
@@ -250,7 +235,7 @@ export default function Sidebar({
           </nav>
         </div>
       </div>
-      {/* Static sidebar for Mobile Animation */}
+      {/*  sidebar for Mobile Animation */}
       <Transition.Root show={isOpen} as={Fragment}>
         <Dialog
           as="div"
@@ -330,7 +315,7 @@ export default function Sidebar({
                         </ul>
                       </li>
 
-                      <li className="mt-auto border-b ">
+                      <li className="mt-auto border-y ">
                         <Link
                           href="/Blog/Privacy"
                           className="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-700 hover:bg-gray-50 hover:text-primary-600"
@@ -357,11 +342,7 @@ export default function Sidebar({
 
                       {sessionData ? (
                         <div className="my-2 flex bg-blue-300">
-                          <UserImage
-                            image={
-                              sessionData?.user.image || "/public/profile.jpg"
-                            }
-                          />
+                          <UserImage image={sessionData?.user.image ?? ""} />
                           <div className="ml-2 flex w-full flex-col  justify-start truncate text-sm ">
                             <p className="font-semibold text-gray-700">
                               {sessionData && (

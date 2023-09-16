@@ -1,4 +1,4 @@
-import { Navbar, Sidebar } from "./Component";
+import { Footer, Navbar, Sidebar } from "./Component";
 import React, { useState } from "react";
 import { HiOutlineMenuAlt1 } from "react-icons/hi";
 interface LayoutProps {
@@ -17,7 +17,7 @@ export default function Layout({ children, closeSidebar }: LayoutProps) {
       <Navbar>
         <button
           type="button"
-          className="focus:ring-primary-500 -mx-2 inline-flex  items-center justify-center rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-inset"
+          className="-mx-2 inline-flex items-center  justify-center rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary-500"
           onClick={() => setSidebarOpen(true)}
         >
           <HiOutlineMenuAlt1
@@ -32,9 +32,9 @@ export default function Layout({ children, closeSidebar }: LayoutProps) {
         closeSidebar={closeSidebar}
         setSidebarOpen={setSidebarOpen}
       ></Sidebar>
-      {/* <div className="lg:hidden">
+      <div className="lg:hidden">
         <Footer />
-      </div> */}
+      </div>
 
       <div className={classNames(closeSidebar ? "lg:pl-20" : "lg:pl-56")}>
         <main className="py-24">
