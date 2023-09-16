@@ -1,12 +1,28 @@
 import Link from "next/link";
 import { Logo } from "./icons/Logo";
-import { ChangeEvent, Fragment, KeyboardEvent, useState } from "react";
+import {
+  type ChangeEvent,
+  Fragment,
+  type KeyboardEvent,
+  useState,
+} from "react";
 import { useRouter } from "next/router";
 import { LiaSearchSolid } from "react-icons/lia";
-import { BiDotsVerticalRounded } from "react-icons/Bi";
+import {
+  BiDotsVerticalRounded,
+  BiHelpCircle,
+  BiUserCircle,
+} from "react-icons/Bi";
+import {
+  MdSlowMotionVideo,
+  MdOutlinePrivacyTip,
+  MdOutlineFeedback,
+} from "react-icons/md";
+import { AiOutlineLogout, AiOutlineSetting } from "react-icons/ai";
+import { CgFileDocument } from "react-icons/cg";
 import { UserImage } from "./Component";
 import { Menu, Transition } from "@headlessui/react";
-import { signIn, useSession } from "next-auth/react";
+import { signIn, signOut, useSession } from "next-auth/react";
 import Button from "./button/Button";
 
 interface NavbarProps {
@@ -27,87 +43,87 @@ function classNames(...classes: string[]) {
 
 export default function Navbar({ children }: NavbarProps) {
   const { data: sessionData } = useSession();
-  // const userId = sessionData?.user.id;
+  const userId = sessionData?.user.id;
 
-  // const signedInNavigation: NavigationItem[] = [
-  //   {
-  //     icon: (className) => <User className={className} />,
-  //     name: "View Profile",
-  //     path: `/${String(userId)}/ProfileVideos`,
-  //     lineAbove: true,
-  //   },
-  //   {
-  //     icon: (className) => <Brush className={className} />,
-  //     name: "Creator Studio",
-  //     path: "/Dashboard",
-  //     lineAbove: false,
-  //   },
-  //   {
-  //     icon: (className) => <HelpCircle className={className} />,
-  //     name: "Help",
-  //     path: "/Blog/Help",
-  //     lineAbove: true,
-  //   },
-  //   {
-  //     icon: (className) => <Settings className={className} />,
-  //     name: "Settings",
-  //     path: "/Settings",
-  //     lineAbove: false,
-  //   },
-  //   {
-  //     icon: (className) => <MessagePlusSquare className={className} />,
-  //     name: "Feedback",
-  //     path: "#",
-  //     lineAbove: false,
-  //   },
-  //   {
-  //     icon: (className) => <File className={className} />,
-  //     name: "Terms of Service",
-  //     path: "/Blog/TOS",
-  //     lineAbove: true,
-  //   },
-  //   {
-  //     icon: (className) => <Lock className={className} />,
-  //     name: "Privacy",
-  //     path: "/Blog/Privacy",
-  //     lineAbove: false,
-  //   },
-  //   {
-  //     icon: (className) => <LogOut className={className} />,
-  //     name: "Log Out",
-  //     path: "sign-out",
-  //     lineAbove: true,
-  //   },
-  // ];
+  const signedInNavigation: NavigationItem[] = [
+    {
+      icon: (className) => <BiUserCircle className={className} />,
+      name: "View Profile",
+      path: `/${String(userId)}/ProfileVideos`,
+      lineAbove: true,
+    },
+    {
+      icon: (className) => <MdSlowMotionVideo className={className} />,
+      name: "Creator Studio",
+      path: "/Dashboard",
+      lineAbove: false,
+    },
+    {
+      icon: (className) => <BiHelpCircle className={className} />,
+      name: "Help",
+      path: "/Blog/Help",
+      lineAbove: true,
+    },
+    {
+      icon: (className) => <AiOutlineSetting className={className} />,
+      name: "Settings",
+      path: "/Settings",
+      lineAbove: false,
+    },
+    {
+      icon: (className) => <MdOutlineFeedback className={className} />,
+      name: "Feedback",
+      path: "#",
+      lineAbove: false,
+    },
+    {
+      icon: (className) => <CgFileDocument className={className} />,
+      name: "Terms of Service",
+      path: "/Blog/TOS",
+      lineAbove: true,
+    },
+    {
+      icon: (className) => <MdOutlinePrivacyTip className={className} />,
+      name: "Privacy",
+      path: "/Blog/Privacy",
+      lineAbove: false,
+    },
+    {
+      icon: (className) => <AiOutlineLogout className={className} />,
+      name: "Log Out",
+      path: "sign-out",
+      lineAbove: true,
+    },
+  ];
 
-  // const signedOutNavigation: NavigationItem[] = [
-  //   {
-  //     icon: (className) => <HelpCircle className={className} />,
-  //     name: "Help",
-  //     path: "/Blog/Help",
-  //     lineAbove: true,
-  //   },
-  //   {
-  //     icon: (className) => <MessagePlusSquare className={className} />,
-  //     name: "Feedback",
-  //     path: `mailto:vidchill@vidchill.com`,
-  //     lineAbove: false,
-  //   },
-  //   {
-  //     icon: (className) => <File className={className} />,
-  //     name: "Terms of Service",
-  //     path: "/Blog/TOS",
-  //     lineAbove: true,
-  //   },
-  //   {
-  //     icon: (className) => <Lock className={className} />,
-  //     name: "Privacy",
-  //     path: "/Blog/Privacy",
-  //     lineAbove: false,
-  //   },
-  // ];
+  const signedOutNavigation: NavigationItem[] = [
+    {
+      icon: (className) => <BiHelpCircle className={className} />,
+      name: "Help",
+      path: "/Blog/Help",
+      lineAbove: true,
+    },
+    {
+      icon: (className) => <MdOutlineFeedback className={className} />,
+      name: "Feedback",
+      path: `mailto:vidchill@vidchill.com`,
+      lineAbove: false,
+    },
+    {
+      icon: (className) => <CgFileDocument className={className} />,
+      name: "Terms of Service",
+      path: "/Blog/TOS",
+      lineAbove: true,
+    },
+    {
+      icon: (className) => <MdOutlinePrivacyTip className={className} />,
+      name: "Privacy",
+      path: "/Blog/Privacy",
+      lineAbove: false,
+    },
+  ];
 
-  // const Navigation = sessionData ? signedInNavigation : signedOutNavigation;
+  const Navigation = sessionData ? signedInNavigation : signedOutNavigation;
 
   const [searchInput, setSearchInput] = useState("");
   const router = useRouter();
