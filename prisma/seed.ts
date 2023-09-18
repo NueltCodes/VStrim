@@ -1,18 +1,19 @@
 import {
-  type Announcement,
-  type AnnouncementEngagement,
+  type Video,
+  type User,
+  type VideoEngagement,
   type FollowEngagement,
+  type Announcement,
+  PrismaClient,
+  type AnnouncementEngagement,
+  type Comment,
   type Playlist,
   type PlaylistHasVideo,
-  PrismaClient,
-  type User,
-  type Video,
-  type VideoEngagement,
-  type Comment,
 } from "@prisma/client";
 import fs from "fs";
 import path from "path";
 
+// To generate the data files, run the following commands:
 const prisma = new PrismaClient();
 const usersFile = path.join(__dirname, "data/user.json");
 const users: User[] = JSON.parse(fs.readFileSync(usersFile, "utf-8")) as User[];
@@ -77,10 +78,6 @@ async function processInChunks<T, U>(
   return results;
 }
 
-const cloudinaryName = process.env.NEXT_PUBLIC_CLOUDINARY_NAME ?? "";
-const getNextVideoId = generateNextId(1, 31);
-const getNextUserId = generateNextId(164, 178);
-
 function generateNextId(start: number, end: number) {
   let current = start;
   return function getNextId() {
@@ -89,6 +86,11 @@ function generateNextId(start: number, end: number) {
     return nextId.toString();
   };
 }
+
+// Use these functions where you need to update the currentUserId and currentVideoId
+const getNextVideoId = generateNextId(1, 31);
+const getNextUserId = generateNextId(164, 178);
+const cloudinaryName = process.env.NEXT_PUBLIC_CLOUDINARY_NAME ?? "";
 
 async function main() {
   // Delete all records from tables
@@ -182,7 +184,7 @@ async function main() {
       const existingAnnouncementEngagements =
         await prisma.announcementEngagement.findMany({
           where: {
-            announcementId: announcementEngagement.announcementId,
+            announcementId: announcementEngagement.announcementId, // Fixed typo here
             userId: announcementEngagement.userId,
           },
         });
@@ -198,13 +200,6 @@ async function main() {
       }
     },
   );
-
-  //   await processInChunks(users, 1, (user) =>
-  //     prisma.user.upsert({
-  //       where: { id: user.id },
-  //       update: {
-  //         ...user,
-
   await processInChunks(comments, 1, (comment) =>
     prisma.comment.upsert({
       where: { id: comment.id },

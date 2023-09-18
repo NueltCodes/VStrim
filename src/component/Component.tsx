@@ -1,4 +1,4 @@
-export { UserImage } from "./VideoComponent";
+export { UserImage, MuliColumnVideo } from "./VideoComponent";
 
 export { default as Navbar } from "./Navbar";
 export { default as Sidebar } from "./Sidebar";

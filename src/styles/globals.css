@@ -1,3 +1,8 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.animation-container {
+  width: 30vw; /* Adjust to desired width */
+  height: 100px; /* Adjust to desired height */
+}
