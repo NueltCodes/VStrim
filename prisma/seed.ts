@@ -245,5 +245,6 @@ async function main() {
 main()
   .catch((e) => console.error(e))
   .finally(() => {
+    console.log("Starting seeding process...");
     void prisma.$disconnect();
   });

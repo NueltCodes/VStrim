@@ -1,7 +1,7 @@
-// import moment from "moment";
+import moment from "moment";
 import Image from "next/image";
 import Link from "next/link";
-// import { Thumbnail } from "./Components";
+import { Thumbnail } from "./Component";
 
 interface VideoComponentProps {
   videos: {
@@ -34,10 +34,10 @@ export const MuliColumnVideo: React.FC<VideoComponentProps> = ({
           className="flex flex-col items-start justify-between hover:bg-gray-100"
           key={video.id}
         >
-          {/* <div className="relative w-full">
+          <div className="relative w-full">
             <Thumbnail thumbnailUrl={video.thumbnailUrl} />
-            <div className=" max-w-xl ">
-              <div className="items-top relative mt-4 flex gap-x-4 ">
+            <div className="max-w-xl">
+              <div className="relative mt-4 flex items-start gap-x-4 ">
                 <UserImage image={user.image || ""} />
                 <div className="w-full">
                   <VideoTitle title={video.title} limitHeight={true} />
@@ -46,44 +46,44 @@ export const MuliColumnVideo: React.FC<VideoComponentProps> = ({
                 </div>
               </div>
             </div>
-          </div> */}
+          </div>
         </Link>
       );
     })}
   </div>
 );
 
-// export const SingleColumnVideo: React.FC<VideoComponentProps> = ({
-//   videos,
-//   users,
-// }) => (
-//   <div>
-//     {videos.map((video, index) => {
-//       const user = users[index];
-//       if (!user) {
-//         return null;
-//       }
-//       return (
-//         <Link href={`/video/${video.id}`} key={video.id}>
-//           <div className="my-5 flex flex-col gap-4 hover:bg-gray-100 lg:flex-row">
-//             <div className="relative aspect-[16/9] sm:aspect-[2/1] lg:w-64 lg:shrink-0">
-//               {/* <Thumbnail thumbnailUrl={video.thumbnailUrl} /> */}
-//             </div>
-//             <div>
-//               <VideoTitle title={video.title} />
-//               <VideoInfo views={video.views} createdAt={video.createdAt} />
+export const SingleColumnVideo: React.FC<VideoComponentProps> = ({
+  videos,
+  users,
+}) => (
+  <div>
+    {videos.map((video, index) => {
+      const user = users[index];
+      if (!user) {
+        return null;
+      }
+      return (
+        <Link href={`/video/${video.id}`} key={video.id}>
+          <div className="my-5 flex flex-col gap-4 hover:bg-gray-100 lg:flex-row">
+            <div className="relative aspect-[16/9] sm:aspect-[2/1] lg:w-64 lg:shrink-0">
+              <Thumbnail thumbnailUrl={video.thumbnailUrl} />
+            </div>
+            <div>
+              <VideoTitle title={video.title} />
+              <VideoInfo views={video.views} createdAt={video.createdAt} />
 
-//               <div className="relative mt-2 flex flex-row items-center gap-x-4">
-//                 <UserImage image={user.image || ""} />
-//                 <UserName name={user.name || ""} />
-//               </div>
-//             </div>
-//           </div>
-//         </Link>
-//       );
-//     })}
-//   </div>
-// );
+              <div className="relative mt-2 flex flex-row items-center gap-x-4">
+                <UserImage image={user.image || ""} />
+                <UserName name={user.name || ""} />
+              </div>
+            </div>
+          </div>
+        </Link>
+      );
+    })}
+  </div>
+);
 
 // export const SmallSingleColumnVideo: React.FC<VideoComponentProps> = ({
 //   videos,
@@ -118,25 +118,25 @@ export const MuliColumnVideo: React.FC<VideoComponentProps> = ({
 //   </>
 // );
 
-// export function VideoTitle({
-//   title,
-//   limitHeight,
-//   limitSize,
-// }: {
-//   title: string;
-//   limitHeight?: boolean;
-//   limitSize?: boolean;
-// }) {
-//   return (
-//     <h1
-//       className={`max-w-md font-semibold leading-6 text-gray-900 group-hover:text-gray-600 ${
-//         limitSize ? "text-base" : "text-lg"
-//       } ${limitHeight ? "max-h-12 w-full overflow-hidden" : ""}`}
-//     >
-//       {title}
-//     </h1>
-//   );
-// }
+export function VideoTitle({
+  title,
+  limitHeight,
+  limitSize,
+}: {
+  title: string;
+  limitHeight?: boolean;
+  limitSize?: boolean;
+}) {
+  return (
+    <h1
+      className={`max-w-md font-semibold leading-6 text-gray-900 group-hover:text-gray-600 ${
+        limitSize ? "text-base" : "text-lg"
+      } ${limitHeight ? "max-h-12 w-full overflow-hidden" : ""}`}
+    >
+      {title}
+    </h1>
+  );
+}
 
 // export function VideoDescription({ description }: { description: string }) {
 //   return (
@@ -145,24 +145,24 @@ export const MuliColumnVideo: React.FC<VideoComponentProps> = ({
 //     </p>
 //   );
 // }
-// export function VideoInfo({
-//   views,
-//   createdAt,
-// }: {
-//   createdAt: Date | string;
-//   views: number;
-// }) {
-//   return (
-//     <div className="mt-1 flex max-h-6 items-start overflow-hidden text-sm">
-//       <p className=" text-gray-600">
-//         {views}
-//         <span> Views</span>
-//       </p>
-//       <li className="pl-2 text-sm text-gray-500"></li>
-//       <p className=" text-gray-600">{moment(createdAt).fromNow()}</p>
-//     </div>
-//   );
-// }
+export function VideoInfo({
+  views,
+  createdAt,
+}: {
+  createdAt: Date | string;
+  views: number;
+}) {
+  return (
+    <div className="mt-1 flex max-h-6 items-start overflow-hidden text-sm">
+      <p className=" text-gray-600">
+        {views}
+        <span> Views</span>
+      </p>
+      <li className="pl-2 text-sm text-gray-500"></li>
+      <p className=" text-gray-600">{moment(createdAt).fromNow()}</p>
+    </div>
+  );
+}
 
 export function UserImage({
   image,
