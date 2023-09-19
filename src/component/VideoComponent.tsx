@@ -85,38 +85,38 @@ export const SingleColumnVideo: React.FC<VideoComponentProps> = ({
   </div>
 );
 
-// export const SmallSingleColumnVideo: React.FC<VideoComponentProps> = ({
-//   videos,
-//   users,
-//   refetch,
-// }) => (
-//   <>
-//     {videos.map((video, index) => {
-//       const user = users[index];
-//       if (!user) {
-//         return null;
-//       }
-//       return (
-//         <Link href={`/video/${video.id}`} key={video.id} onClick={refetch}>
-//           <div className=" relative isolate my-4 flex flex-col gap-4 rounded-2xl border hover:bg-gray-100 lg:flex-row ">
-//             <div className=" aspect-[16/9] sm:aspect-[2/1] lg:w-52  lg:shrink-0">
-//               {/* <Thumbnail thumbnailUrl={video.thumbnailUrl} /> */}
-//             </div>
-//             <div className="mt-2 flex w-full flex-col items-start overflow-hidden text-xs  max-lg:mx-2">
-//               <VideoTitle
-//                 title={video.title}
-//                 limitHeight={true}
-//                 limitSize={true}
-//               />
-//               <VideoInfo views={video.views} createdAt={video.createdAt} />
-//               <UserName name={user.name || ""} />
-//             </div>
-//           </div>
-//         </Link>
-//       );
-//     })}
-//   </>
-// );
+export const SmallSingleColumnVideo: React.FC<VideoComponentProps> = ({
+  videos,
+  users,
+  refetch,
+}) => (
+  <>
+    {videos.map((video, index) => {
+      const user = users[index];
+      if (!user) {
+        return null;
+      }
+      return (
+        <Link href={`/video/${video.id}`} key={video.id} onClick={refetch}>
+          <div className=" relative isolate my-4 flex flex-col gap-4 rounded-2xl border hover:bg-gray-100 lg:flex-row ">
+            <div className=" aspect-[16/9] sm:aspect-[2/1] lg:w-52  lg:shrink-0">
+              <Thumbnail thumbnailUrl={video.thumbnailUrl} />
+            </div>
+            <div className="mt-2 flex w-full flex-col items-start overflow-hidden text-xs  max-lg:mx-2">
+              <VideoTitle
+                title={video.title}
+                limitHeight={true}
+                limitSize={true}
+              />
+              <VideoInfo views={video.views} createdAt={video.createdAt} />
+              <UserName name={user.name || ""} />
+            </div>
+          </div>
+        </Link>
+      );
+    })}
+  </>
+);
 
 export function VideoTitle({
   title,
@@ -138,13 +138,13 @@ export function VideoTitle({
   );
 }
 
-// export function VideoDescription({ description }: { description: string }) {
-//   return (
-//     <p className="mt-2 h-5 max-w-md overflow-hidden text-sm leading-6 text-gray-600">
-//       {description}
-//     </p>
-//   );
-// }
+export function VideoDescription({ description }: { description: string }) {
+  return (
+    <p className="mt-2 h-5 max-w-md overflow-hidden text-sm leading-6 text-gray-600">
+      {description}
+    </p>
+  );
+}
 export function VideoInfo({
   views,
   createdAt,

@@ -5,9 +5,9 @@ import Head from "next/head";
 import {
   SingleColumnVideo,
   Layout,
-  //   LoadingMessage,
+  LoadingMessage,
   ErrorMessage,
-} from "../Component/Component";
+} from "../component/Component";
 
 const SearchPage: NextPage = () => {
   const router = useRouter();
