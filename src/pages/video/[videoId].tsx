@@ -5,15 +5,9 @@ import { api } from "~/utils/api";
 
 import Link from "next/link";
 import { type NextPage } from "next";
+import { FollowButton } from "~/component/button/Buttons";
 import {
-  FollowButton,
-  LikeDislikeButton,
-  SaveButton,
-} from "~/Components/Buttons/Buttons";
-import {
-  Description,
   SmallSingleColumnVideo,
-  CommentSection,
   Layout,
   ErrorMessage,
   LoadingMessage,
@@ -128,20 +122,6 @@ const VideoPage: NextPage = () => {
                           createdAt={video.createdAt}
                         />
                       </div>
-                      <div className="flex-inline flex items-end justify-start  gap-4 self-start  ">
-                        <LikeDislikeButton
-                          EngagementData={{
-                            id: video.id,
-                            likes: video.likes,
-                            dislikes: video.dislikes,
-                          }}
-                          viewer={{
-                            hasDisliked: viewer.hasDisliked,
-                            hasLiked: viewer.hasLiked,
-                          }}
-                        />
-                        <SaveButton videoId={video.id} />
-                      </div>
                     </div>
 
                     <div className="flex flex-row  place-content-between gap-x-4 ">
@@ -167,31 +147,8 @@ const VideoPage: NextPage = () => {
                         }}
                       />
                     </div>
-                    <Description
-                      text={video.description || ""}
-                      length={200}
-                      border={true}
-                    />
                   </div>
                 </div>
-
-                <CommentSection
-                  videoId={video.id}
-                  comments={videoData.comments.map(({ user, comment }) => ({
-                    comment: {
-                      id: comment.id,
-                      message: comment.message,
-                      createdAt: comment.createdAt,
-                    },
-                    user: {
-                      id: user.id,
-                      name: user.name,
-                      image: user.image,
-                      handle: user.handle,
-                    },
-                  }))}
-                  refetch={refetchVideoData}
-                />
               </div>
             </>
           )}
