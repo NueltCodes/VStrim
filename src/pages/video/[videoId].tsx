@@ -13,6 +13,7 @@ import {
 import {
   Description,
   SmallSingleColumnVideo,
+  Comment,
   Layout,
   ErrorMessage,
   LoadingMessage,
@@ -75,8 +76,9 @@ const VideoPage: NextPage = () => {
 
   const video = videoData?.video;
   const user = videoData?.user;
+  const comments = videoData?.comments;
   const viewer = videoData?.viewer;
-  const errorTypes = !videoData || !user || !video || !viewer;
+  const errorTypes = !videoData || !user || !video || !comments || !viewer;
 
   const DataError = () => {
     if (videoLoading) {
@@ -139,6 +141,7 @@ const VideoPage: NextPage = () => {
                             hasLiked: viewer.hasLiked,
                           }}
                         />
+                        <SaveButton videoId={video.id} />
                       </div>
                     </div>
 
@@ -166,12 +169,30 @@ const VideoPage: NextPage = () => {
                       />
                     </div>
                     <Description
-                      length={200}
                       text={video.description ?? ""}
+                      length={200}
                       border={true}
                     />
                   </div>
                 </div>
+
+                <Comment
+                  videoId={video.id}
+                  comments={comments.map(({ user, comment }) => ({
+                    comment: {
+                      id: comment.id,
+                      message: comment.message,
+                      createdAt: comment.createdAt,
+                    },
+                    user: {
+                      id: user.id,
+                      name: user.name,
+                      image: user.image,
+                      handle: user.handle,
+                    },
+                  }))}
+                  refetch={refetchVideoData}
+                />
               </div>
             </>
           )}
