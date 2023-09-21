@@ -5,8 +5,13 @@ import { api } from "~/utils/api";
 
 import Link from "next/link";
 import { type NextPage } from "next";
-import { FollowButton } from "~/component/button/Buttons";
 import {
+  FollowButton,
+  LikeDisLikeBtn,
+  // SaveButton,
+} from "~/component/button/Buttons";
+import {
+  Description,
   SmallSingleColumnVideo,
   Layout,
   ErrorMessage,
@@ -122,6 +127,19 @@ const VideoPage: NextPage = () => {
                           createdAt={video.createdAt}
                         />
                       </div>
+                      <div className="flex-inline flex items-end justify-start  gap-4 self-start  ">
+                        <LikeDisLikeBtn
+                          EngagementData={{
+                            id: video.id,
+                            likes: video.likes,
+                            dislikes: video.dislikes,
+                          }}
+                          viewer={{
+                            hasDisliked: viewer.hasDisliked,
+                            hasLiked: viewer.hasLiked,
+                          }}
+                        />
+                      </div>
                     </div>
 
                     <div className="flex flex-row  place-content-between gap-x-4 ">
@@ -147,6 +165,11 @@ const VideoPage: NextPage = () => {
                         }}
                       />
                     </div>
+                    <Description
+                      length={200}
+                      text={video.description ?? ""}
+                      border={true}
+                    />
                   </div>
                 </div>
               </div>
