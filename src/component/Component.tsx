@@ -15,6 +15,7 @@ export { default as Layout } from "./Layout";
 export { default as Footer } from "./Footer";
 export { default as Description } from "./Description";
 export { default as Comment } from "./Comment";
+export { default as ProfileHeader } from "./ProfileHeader";
 export { Thumbnail } from "./Thumbnail";
 
 export { ErrorMessage, LoadingMessage } from "./ErrorMessage";
