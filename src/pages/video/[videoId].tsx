@@ -8,7 +8,7 @@ import { type NextPage } from "next";
 import {
   FollowButton,
   LikeDisLikeBtn,
-  // SaveButton,
+  SaveBtn,
 } from "~/component/button/Buttons";
 import {
   Description,
@@ -141,7 +141,7 @@ const VideoPage: NextPage = () => {
                             hasLiked: viewer.hasLiked,
                           }}
                         />
-                        <SaveButton videoId={video.id} />
+                        <SaveBtn videoId={video.id} />
                       </div>
                     </div>
 
