@@ -171,7 +171,7 @@ export const playListRouter = createTRPCRouter({
     .input(
       z.object({
         title: z.string(),
-        userId: z.string(),
+        userId: z.string().optional(),
       }),
     )
     .query(async ({ ctx, input }) => {
