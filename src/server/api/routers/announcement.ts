@@ -28,6 +28,7 @@ export const announcementRouter = createTRPCRouter({
         ({ user, ...annoucement }) => annoucement,
       );
       const user = annoucementsWithUser.map(({ user }) => user);
+
       const annoucementsWithEngagements = await Promise.all(
         annoucements.map(async (annoucement) => {
           const likes = await ctx.prisma.announcementEngagement.count({
