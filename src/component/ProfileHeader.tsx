@@ -26,12 +26,12 @@ export default function ProfileHeader() {
 
     {
       name: "Playlists",
-      path: `/${String(userId)}/ProfilePlaylists`,
+      path: `/${String(userId)}/ProfilePlaylist`,
       current: router.pathname === `/[userId]/ProfilePlaylists`,
     },
     {
       name: "Annoucements",
-      path: `/${String(userId)}/ProfileAnnouncements`,
+      path: `/${String(userId)}/ProfileAnnouncement`,
       current: router.pathname === `/[userId]/ProfileAnnouncements`,
     },
     {

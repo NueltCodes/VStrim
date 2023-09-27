@@ -54,9 +54,9 @@ const ProfilePlaylists: NextPage = () => {
               playlists={data.map((playlist) => ({
                 id: playlist.id,
                 title: playlist.title,
-                description: playlist.description || "",
+                description: playlist.description ?? "",
                 videoCount: playlist.videoCount,
-                playlistThumbnail: playlist?.playlistThumbnail || "",
+                playlistThumbnail: playlist?.playlistThumbnail ?? "",
                 createdAt: playlist.createdAt,
               }))}
             />

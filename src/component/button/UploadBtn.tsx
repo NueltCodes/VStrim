@@ -1,11 +1,11 @@
 import { Transition, Dialog } from "@headlessui/react";
 import React, { useState, useRef, Fragment } from "react";
-import { Plus } from "../Icons/Icons";
 import "cropperjs/dist/cropper.css";
 import { Button } from "./Buttons";
 import { api } from "~/utils/api";
 import { useSession } from "next-auth/react";
 import { env } from "~/env.mjs";
+import { AiOutlineCloudUpload } from "react-icons/ai";
 
 export function UploadButton({ refetch }: { refetch: () => Promise<unknown> }) {
   const [open, setOpen] = useState(false);
@@ -19,7 +19,7 @@ export function UploadButton({ refetch }: { refetch: () => Promise<unknown> }) {
       secure_url: string;
     };
     const videoData = {
-      userId: sessionData?.user.id as string,
+      userId: sessionData ? sessionData.user.id : ("none" as string),
       videoUrl: "",
     };
 
@@ -81,7 +81,7 @@ export function UploadButton({ refetch }: { refetch: () => Promise<unknown> }) {
         size="2xl"
         className="ml-2 flex"
       >
-        <Plus className="mr-2 h-5 w-5 shrink-0 stroke-white" />
+        <AiOutlineCloudUpload className="mr-2 h-5 w-5 shrink-0 stroke-white" />
         Upload
       </Button>
 

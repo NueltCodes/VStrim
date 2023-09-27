@@ -1,4 +1,5 @@
-import { RedTrash, Trash } from "../Icons/Icons";
+import { BsTrash3 } from "react-icons/bs";
+import { AiOutlineDelete } from "react-icons/ai";
 import { Fragment, useRef, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { useSession } from "next-auth/react";
@@ -12,11 +13,11 @@ export default function DeleteButton({
   refetch: () => Promise<unknown>;
 }) {
   const [open, setOpen] = useState(false);
+  const { data: sessionData } = useSession();
   const cancelButtonRef = useRef(null);
   const handleClick = () => {
     setOpen(true);
   };
-  const { data: sessionData } = useSession();
   const deleteVideoMutation = api.video.deleteVideo.useMutation();
   const handleDeleteVideo = (input: { id: string; userId: string }) => {
     deleteVideoMutation.mutate(input, {
@@ -30,7 +31,7 @@ export default function DeleteButton({
   return (
     <>
       <button onClick={() => handleClick()}>
-        <Trash className="mr-2 h-5 w-5 shrink-0 stroke-gray-600" />
+        <AiOutlineDelete className="mr-2 h-5 w-5 shrink-0 stroke-gray-600" />
       </button>
 
       <Transition.Root show={open} as={Fragment}>
@@ -66,7 +67,7 @@ export default function DeleteButton({
                 <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:p-6">
                   <div className="sm:flex sm:items-start">
                     <div className="mx-auto flex !h-12 !w-12">
-                      <RedTrash aria-hidden="true" />
+                      <BsTrash3 aria-hidden="true" />
                     </div>
                     <div className="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
                       <Dialog.Title

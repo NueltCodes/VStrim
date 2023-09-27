@@ -1,12 +1,12 @@
 import { Transition, Dialog } from "@headlessui/react";
-import React, { useState, useRef, Fragment } from "react";
-import { Edit } from "../Icons/Icons";
-import Cropper from "react-cropper";
+import React, { useState, useRef, Fragment, createRef } from "react";
 import "cropperjs/dist/cropper.css";
 import { Button } from "./Buttons";
 import { api } from "~/utils/api";
 import { useSession } from "next-auth/react";
 import { env } from "~/env.mjs";
+import { GrEdit } from "react-icons/gr";
+import { Cropper } from "react-cropper";
 
 interface EditButtonProps {
   video: {
@@ -58,7 +58,7 @@ export function EditButton({ video, refetch }: EditButtonProps) {
     };
     const videoData = {
       id: video.id,
-      userId: sessionData?.user.id as string,
+      userId: sessionData ? sessionData.user.id : ("none" as string),
       title: video.title || undefined,
       description: video.description || undefined,
       thumbnailUrl: video.thumbnailUrl || undefined,
@@ -66,7 +66,7 @@ export function EditButton({ video, refetch }: EditButtonProps) {
 
     const formData = new FormData();
     formData.append("upload_preset", "user_uploads");
-    formData.append("file", croppedImage as string);
+    formData.append("file", croppedImage!);
     fetch(
       "https://api.cloudinary.com/v1_1/" +
         env.NEXT_PUBLIC_CLOUDINARY_NAME +
@@ -129,7 +129,7 @@ export function EditButton({ video, refetch }: EditButtonProps) {
     <>
       {/* ! step 1 start */}
       <button onClick={() => handleClick()}>
-        <Edit className="mr-2 h-5 w-5 shrink-0 stroke-gray-600" />
+        <GrEdit className="mr-2 h-5 w-5 shrink-0 stroke-gray-600" />
       </button>
 
       <Transition.Root show={open} as={Fragment}>
@@ -310,6 +310,15 @@ export function ImageCropper({
   interface CropperImageElement extends HTMLImageElement {
     cropper?: Cropper;
   }
+
+  // const cropperRef = createRef<ReactCropperElement>();
+  // const cropImage = () => {
+  //   if (typeof cropperRef.current?.cropper !== "undefined") {
+  //     setCroppedImage(
+  //       cropperRef.current?.cropper.getCroppedCanvas().toDataURL(),
+  //     );
+  //   }
+  // };
 
   const cropperRef = useRef<CropperImageElement>(null);
   const cropImage = () => {

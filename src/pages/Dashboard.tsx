@@ -14,7 +14,11 @@ import {
   EditButton,
 } from "~/component/button/Buttons";
 import { api } from "~/utils/api";
-import { GreenEye, GreenUserCheck, GreenHeart } from "~/component/Icons/Icons";
+import {
+  GreenEye,
+  GreenUserCheck,
+  GreenHeart,
+} from "~/component/icons/GreenIcons";
 import React from "react";
 const Dashboard: NextPage = () => {
   const { data: sessionData } = useSession();
