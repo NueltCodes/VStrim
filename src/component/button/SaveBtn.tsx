@@ -75,9 +75,11 @@ export default function SaveBtn({ videoId }: { videoId: string }) {
       <Button
         variant="secondary-gray"
         size="2xl"
-        onClick={sessionData ? () => setOpen(true) : () => void signOut()}
+        onClick={sessionData ? () => setOpen(true) : () => void signIn()}
+        className="item-end flex"
       >
-        <AiOutlineSave /> Save
+        <AiOutlineSave className="mr-2 h-5 w-5 shrink-0 stroke-gray-600" />
+        Save
       </Button>
       <Transition.Root show={open} as={Fragment}>
         <Dialog as="div" className="relative z-50" onClose={setOpen}>
@@ -184,7 +186,7 @@ export default function SaveBtn({ videoId }: { videoId: string }) {
                           onKeyUp={(event) => {
                             if (event.key === "Enter") handleCreatePlaylist();
                           }}
-                          className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-600 sm:text-sm sm:leading-6"
+                          className="block w-full rounded-md border-0 px-2 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-600 sm:text-sm sm:leading-6"
                           placeholder="  Enter Playlist Name "
                         />
                       </div>

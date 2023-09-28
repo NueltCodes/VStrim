@@ -74,9 +74,9 @@ export default function Sidebar({
     },
     {
       name: "Library",
-      path: userId ? `/${String(userId)}/ProfilePlaylists` : "sign-in",
+      path: userId ? `/${String(userId)}/ProfilePlaylist` : "sign-in",
       icon: (className) => <MdOutlineVideoLibrary className={className} />,
-      current: router.asPath === `/${String(userId)}/ProfilePlaylists`,
+      current: router.asPath === `/${String(userId)}/ProfilePlaylist`,
     },
     {
       name: "Following",

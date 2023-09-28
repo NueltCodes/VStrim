@@ -65,7 +65,7 @@ export function EditButton({ video, refetch }: EditButtonProps) {
     };
 
     const formData = new FormData();
-    formData.append("upload_preset", "user_uploads");
+    formData.append("upload_preset", "vstrim_user_uploads");
     formData.append("file", croppedImage!);
     fetch(
       "https://api.cloudinary.com/v1_1/" +
@@ -229,7 +229,7 @@ export function EditButton({ video, refetch }: EditButtonProps) {
                                 id="title"
                                 onChange={handleInputChange}
                                 value={user.title}
-                                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-600 sm:text-sm sm:leading-6"
+                                className="block w-full rounded-md border-0 px-2 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-600 sm:text-sm sm:leading-6"
                               />
                             </div>
 

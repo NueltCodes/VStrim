@@ -8,6 +8,7 @@ import { PlaylistPage } from "~/component/PlaylistComponent";
 const Playlist: NextPage = () => {
   const router = useRouter();
   const { playlistId } = router.query;
+
   const { data, isLoading, error } = api.playList.getPlaylistById.useQuery(
     playlistId as string,
   );

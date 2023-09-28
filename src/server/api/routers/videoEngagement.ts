@@ -67,9 +67,17 @@ export const videoEngagementRouter = createTRPCRouter({
           input.userId,
         );
 
-        await ctx.prisma.playlistHasVideo.create({
-          data: { playlistId: playlist.id, videoId: input.id },
+        const existingHistory = await ctx.prisma.playlistHasVideo.findFirst({
+          where: {
+            playlistId: playlist.id,
+            videoId: input.id,
+          },
         });
+        if (existingHistory === null || existingHistory === undefined) {
+          await ctx.prisma.playlistHasVideo.create({
+            data: { playlistId: playlist.id, videoId: input.id },
+          });
+        }
       }
       const view = await createEngagement(
         ctx,
