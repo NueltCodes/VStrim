@@ -3,6 +3,8 @@ import { signIn, useSession } from "next-auth/react";
 import { api } from "~/utils/api";
 import Button from "./Button";
 import { TbUserPlus } from "react-icons/tb";
+import Lottie from "lottie-react";
+import AnimateUserFollow from "../../../public/userPlus.json";
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
@@ -24,6 +26,8 @@ export default function FollowButton({
   const [userChoice, setUserChoice] = useState({
     following: viewer.hasFollowed,
   });
+  const [ifFollowed, setIfFollowed] = useState(false);
+
   const addFollowMutation = api.user.addFollow.useMutation();
   const handleFollow = (input: { followingId: string; followerId: string }) => {
     if (userChoice.following) {
@@ -38,6 +42,8 @@ export default function FollowButton({
       <Button
         variant={userChoice.following ? "secondary-gray" : "primary"}
         size="xl"
+        onMouseEnter={() => setIfFollowed(true)}
+        onMouseLeave={() => setIfFollowed(false)}
         onClick={
           sessionData
             ? () =>
@@ -47,17 +53,37 @@ export default function FollowButton({
                 })
             : () => void signIn()
         }
-        className="flex"
+        className="flex items-center"
       >
-        <TbUserPlus
-          className={classNames(
-            hideIcon
-              ? "hidden"
-              : `mr-2 h-5 w-5 shrink-0
-              ${userChoice.following ? "stroke-gray-600 " : "stroke-white "}
-              `,
-          )}
-        />
+        {ifFollowed ? (
+          <Lottie
+            animationData={AnimateUserFollow}
+            loop
+            autoplay
+            style={{ height: 28, width: 28 }}
+            isClickToPauseDisabled={true}
+            eventListeners={[
+              {
+                eventName: "complete",
+                callback: () => setIfFollowed(null),
+              },
+            ]}
+          />
+        ) : (
+          <TbUserPlus
+            className={classNames(
+              hideIcon
+                ? "hidden"
+                : `mr-2 h-5 w-5 shrink-0
+                        ${
+                          userChoice.following
+                            ? "stroke-gray-600 "
+                            : "stroke-white "
+                        }
+                        `,
+            )}
+          />
+        )}
         {userChoice.following ? "Following" : "Follow"}
       </Button>
     </>

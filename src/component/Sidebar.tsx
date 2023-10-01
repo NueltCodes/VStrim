@@ -2,7 +2,24 @@ import { Fragment, useEffect, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { signIn, useSession } from "next-auth/react";
 import { Logo } from "./icons/Logo";
+import AnimateHome from "../../public/Home.json";
+import AnimateLike from "../../public/Likes.json";
+import AnimateHistory from "../../public/historyClock.json";
 import AnimatePlayVideo from "../../public/Animation-play.json";
+import AnimateLibrary from "../../public/video-libray.json";
+import AnimateFollowing from "../../public/userFollow.json";
+import AnimateHelp from "../../public/help.json";
+import AnimateSettings from "../../public/Settings.json";
+
+import {
+  FollowIcon,
+  HistoryIcon,
+  HomeIcon,
+  LibraryIcon,
+  LikeIcon,
+  VideoIcon,
+} from "../../public/DestopSidebarIcons/home";
+
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { UserImage } from "./Component";
@@ -22,7 +39,6 @@ import { RiUserFollowLine } from "react-icons/ri";
 import { TbClockRecord, TbMessagePlus } from "react-icons/tb";
 import { CgFileDocument } from "react-icons/cg";
 import Button from "./button/Button";
-// import { useLottie } from "lottie-react";
 import Lottie, { useLottie } from "lottie-react";
 
 interface NavigationItem {
@@ -51,25 +67,80 @@ export default function Sidebar({
   const { data: sessionData } = useSession();
   const userId = sessionData?.user.id;
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
-  const [iconIndex, setIconIndex] = useState<number | null>(null);
+  const [isSettings, setIsSettings] = useState<boolean>(false);
+  const [ifhelp, setIfhelp] = useState<boolean>(false);
 
   const DesktopNavigation: NavigationItem[] = [
     {
       name: "Home",
       path: `/`,
-      icon: (className) => <BiHomeSmile className={className} />,
+      icon: (className: string | undefined, index: number) =>
+        hoveredIndex === index ? (
+          <Lottie
+            animationData={AnimateHome}
+            loop
+            autoplay
+            style={{ height: 35, width: 35 }}
+            className={className}
+            isClickToPauseDisabled={true}
+            eventListeners={[
+              {
+                eventName: "complete",
+                callback: () => setHoveredIndex(null),
+              },
+            ]}
+          />
+        ) : (
+          <HomeIcon className={className} />
+        ),
       current: router.pathname === `/`,
     },
     {
       name: "Liked Videos",
       path: userId ? `/playlist/LikedVideos` : "sign-in",
-      icon: (className, index) => <HiOutlineThumbUp className={className} />,
+      icon: (className: string | undefined, index: number) =>
+        hoveredIndex === index ? (
+          <Lottie
+            animationData={AnimateLike}
+            loop
+            autoplay
+            style={{ height: 25, width: 25 }}
+            className={className}
+            isClickToPauseDisabled={true}
+            eventListeners={[
+              {
+                eventName: "complete",
+                callback: () => setHoveredIndex(null),
+              },
+            ]}
+          />
+        ) : (
+          <LikeIcon className={className} />
+        ),
       current: router.pathname === `/playlist/LikedVideos`,
     },
     {
       name: "History",
       path: userId ? `/playlist/History` : "sign-in",
-      icon: (className) => <TbClockRecord className={className} />,
+      icon: (className: string | undefined, index: number) =>
+        hoveredIndex === index ? (
+          <Lottie
+            animationData={AnimateHistory}
+            loop
+            autoplay
+            style={{ height: 25, width: 25 }}
+            className={className}
+            isClickToPauseDisabled={true}
+            eventListeners={[
+              {
+                eventName: "complete",
+                callback: () => setHoveredIndex(null),
+              },
+            ]}
+          />
+        ) : (
+          <HistoryIcon className={className} />
+        ),
       current: router.pathname === `/playlist/History`,
     },
     {
@@ -81,7 +152,7 @@ export default function Sidebar({
             animationData={AnimatePlayVideo}
             loop
             autoplay
-            style={{ height: 50, width: 50 }}
+            style={{ height: 25, width: 25 }}
             className={className}
             isClickToPauseDisabled={true}
             eventListeners={[
@@ -92,20 +163,56 @@ export default function Sidebar({
             ]}
           />
         ) : (
-          <RiUserFollowLine className={className} />
+          <VideoIcon className={className} />
         ),
       current: router.asPath === `/${String(userId)}/ProfileVideos`,
     },
     {
       name: "Library",
       path: userId ? `/${String(userId)}/ProfilePlaylist` : "sign-in",
-      icon: (className) => <MdOutlineVideoLibrary className={className} />,
+      icon: (className: string | undefined, index: number) =>
+        hoveredIndex === index ? (
+          <Lottie
+            animationData={AnimateLibrary}
+            loop
+            autoplay
+            style={{ height: 25, width: 25 }}
+            className={className}
+            isClickToPauseDisabled={true}
+            eventListeners={[
+              {
+                eventName: "complete",
+                callback: () => setHoveredIndex(null),
+              },
+            ]}
+          />
+        ) : (
+          <LibraryIcon className={className} />
+        ),
       current: router.asPath === `/${String(userId)}/ProfilePlaylist`,
     },
     {
       name: "Following",
       path: userId ? `/${String(userId)}/ProfileFollowing` : "sign-in",
-      icon: (className) => <RiUserFollowLine className={className} />,
+      icon: (className: string | undefined, index: number) =>
+        hoveredIndex === index ? (
+          <Lottie
+            animationData={AnimateFollowing}
+            loop
+            autoplay
+            style={{ height: 25, width: 25 }}
+            className={className}
+            isClickToPauseDisabled={true}
+            eventListeners={[
+              {
+                eventName: "complete",
+                callback: () => setHoveredIndex(null),
+              },
+            ]}
+          />
+        ) : (
+          <FollowIcon className={className} />
+        ),
       current: router.asPath === `/${String(userId)}/ProfileFollowing`,
     },
   ];
@@ -113,13 +220,49 @@ export default function Sidebar({
     {
       name: "Profile",
       path: `/${String(userId)}/ProfileVideos`,
-      icon: (className) => <BiUserCircle className={className} />,
+      icon: (className: string | undefined, index: number) =>
+        hoveredIndex === index ? (
+          <Lottie
+            animationData={AnimatePlayVideo}
+            loop
+            autoplay
+            style={{ height: 30, width: 30 }}
+            className={className}
+            isClickToPauseDisabled={true}
+            eventListeners={[
+              {
+                eventName: "complete",
+                callback: () => setHoveredIndex(null),
+              },
+            ]}
+          />
+        ) : (
+          <BiUserCircle className={className} />
+        ),
       current: router.pathname === `/Profile`,
     },
     {
       name: "Creator Studio",
       path: `/Dashboard`,
-      icon: (className) => <MdSlowMotionVideo className={className} />,
+      icon: (className: string | undefined, index: number) =>
+        hoveredIndex === index ? (
+          <Lottie
+            animationData={AnimatePlayVideo}
+            loop
+            autoplay
+            style={{ height: 30, width: 30 }}
+            className={className}
+            isClickToPauseDisabled={true}
+            eventListeners={[
+              {
+                eventName: "complete",
+                callback: () => setHoveredIndex(null),
+              },
+            ]}
+          />
+        ) : (
+          <MdSlowMotionVideo className={className} />
+        ),
       current: router.pathname === `/CreatorStudio`,
     },
     {
@@ -204,16 +347,16 @@ export default function Sidebar({
                           item.current
                             ? " bg-slate-100 text-primary-600"
                             : " text-gray-700 hover:bg-slate-100 hover:text-[#54429f]",
-                          "group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6",
+                          "group flex h-[50px] items-center gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 transition duration-300 ease-in-out",
                         )}
                       >
                         {item.current
                           ? item.icon(
-                              "h-5 w-5 shrink-0 stroke-[#9147ff]",
+                              "h-5 w-5 shrink-0 stroke-primary-600",
                               index,
                             )
                           : item.icon(
-                              "h-5 w-5 shrink-0  stroke-gray-500  group-hover:stroke-[#54429f]",
+                              "h-5 w-5 shrink-0 stroke-gray-500 group-hover:stroke-primary-600",
                               index,
                             )}
                         <p className={classNames(closeSidebar ? "hidden" : "")}>
@@ -227,6 +370,8 @@ export default function Sidebar({
 
               <li className="mt-auto">
                 <Link
+                  onMouseEnter={() => setIsSettings(true)}
+                  onMouseLeave={() => setIsSettings(false)}
                   href="#"
                   onClick={(e) => {
                     e.preventDefault();
@@ -236,26 +381,61 @@ export default function Sidebar({
                         : void signIn();
                     }
                   }}
-                  className="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-700 hover:bg-slate-100 hover:text-[#54429f]"
+                  className="group -mx-2 flex items-center gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-700 hover:bg-slate-100 hover:text-[#54429f]"
                 >
-                  <AiOutlineSetting
-                    className={
-                      "h-5 w-5 shrink-0 stroke-gray-500 group-hover:text-[#54429f]"
-                    }
-                  />
+                  {isSettings ? (
+                    <Lottie
+                      animationData={AnimateSettings}
+                      loop
+                      autoplay
+                      style={{ height: 30, width: 30 }}
+                      isClickToPauseDisabled={true}
+                      eventListeners={[
+                        {
+                          eventName: "complete",
+                          callback: () => setHoveredIndex(null),
+                        },
+                      ]}
+                    />
+                  ) : (
+                    <AiOutlineSetting
+                      className={
+                        "h-5 w-5 shrink-0 stroke-gray-500 group-hover:text-[#54429f]"
+                      }
+                    />
+                  )}
                   <p className={classNames(closeSidebar ? "hidden" : "")}>
                     Settings
                   </p>
                 </Link>
                 <Link
+                  onMouseEnter={() => setIfhelp(true)}
+                  onMouseLeave={() => setIfhelp(false)}
                   href="/Blog/Help"
-                  className="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-700 hover:bg-slate-100 hover:text-[#54429f]"
+                  className="group -mx-2 flex items-center gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-700 hover:bg-slate-100 hover:text-[#54429f]"
                 >
-                  <BiHelpCircle
-                    className={
-                      "h-5 w-5 shrink-0 stroke-gray-500 group-hover:text-[#54429f]"
-                    }
-                  />
+                  {ifhelp ? (
+                    <Lottie
+                      animationData={AnimateHelp}
+                      loop
+                      autoplay
+                      style={{ height: 30, width: 30 }}
+                      isClickToPauseDisabled={true}
+                      eventListeners={[
+                        {
+                          eventName: "complete",
+                          callback: () => setHoveredIndex(null),
+                        },
+                      ]}
+                    />
+                  ) : (
+                    <BiHelpCircle
+                      className={
+                        "h-5 w-5 shrink-0 stroke-gray-500 group-hover:text-[#54429f]"
+                      }
+                    />
+                  )}
+
                   <p className={classNames(closeSidebar ? "hidden" : "")}>
                     Help
                   </p>

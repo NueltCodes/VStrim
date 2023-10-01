@@ -4,6 +4,8 @@ import { useState } from "react";
 import { signIn, useSession } from "next-auth/react";
 import { UserImage } from "./Component";
 import Button from "./button/Button";
+import { FaPaperPlane } from "react-icons/fa";
+
 import { type CommentParams, type UserCommentParams } from "~/types";
 
 interface Comment {
@@ -72,9 +74,9 @@ export default function Comment({ videoId, comments, refetch }: CommentProps) {
                       placeholder="Add A Comment"
                     />
                   </div>
-                  <div className="flex-shrink-0">
+                  <div className="group flex-shrink-0">
                     <Button variant="primary" size="xl" type="submit">
-                      Post
+                      <FaPaperPlane className="text-xs opacity-90 transition-all duration-200 ease-in-out group-hover:-translate-y-1 group-hover:translate-x-1 group-hover:opacity-70" />
                     </Button>
                   </div>
                 </div>
