@@ -24,6 +24,7 @@ import {
 } from "~/component/Component";
 import { useSession } from "next-auth/react";
 import Head from "next/head";
+import { useRef } from "react";
 
 const VideoPage: NextPage = () => {
   const router = useRouter();
@@ -58,13 +59,17 @@ const VideoPage: NextPage = () => {
     addViewMutation.mutate(input);
   };
 
+  const isViewAdded = useRef(false);
+
   useEffect(() => {
-    if (videoId) {
+    if (videoId && !isViewAdded.current) {
       void refetchVideoData();
       addView({
         id: videoId as string,
         userId: sessionData ? sessionData.user.id : " ",
       });
+
+      isViewAdded.current = true; // Set the flag to true once the view is added
     }
   }, [videoId]);
 

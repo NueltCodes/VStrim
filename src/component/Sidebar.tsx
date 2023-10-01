@@ -1,7 +1,8 @@
-import { Fragment, useEffect } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { signIn, useSession } from "next-auth/react";
 import { Logo } from "./icons/Logo";
+import AnimatePlayVideo from "../../public/Animation-play.json";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { UserImage } from "./Component";
@@ -21,11 +22,13 @@ import { RiUserFollowLine } from "react-icons/ri";
 import { TbClockRecord, TbMessagePlus } from "react-icons/tb";
 import { CgFileDocument } from "react-icons/cg";
 import Button from "./button/Button";
+// import { useLottie } from "lottie-react";
+import Lottie, { useLottie } from "lottie-react";
 
 interface NavigationItem {
   name: string;
   path?: string;
-  icon: (className: string) => JSX.Element;
+  icon: (className: string, index: number) => JSX.Element;
   current: boolean;
 }
 
@@ -38,6 +41,7 @@ interface SidebarProps {
   setSidebarOpen: (open: boolean) => void;
   closeSidebar?: boolean;
 }
+
 export default function Sidebar({
   isOpen,
   setSidebarOpen,
@@ -46,6 +50,8 @@ export default function Sidebar({
   const router = useRouter();
   const { data: sessionData } = useSession();
   const userId = sessionData?.user.id;
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const [iconIndex, setIconIndex] = useState<number | null>(null);
 
   const DesktopNavigation: NavigationItem[] = [
     {
@@ -57,7 +63,7 @@ export default function Sidebar({
     {
       name: "Liked Videos",
       path: userId ? `/playlist/LikedVideos` : "sign-in",
-      icon: (className) => <HiOutlineThumbUp className={className} />,
+      icon: (className, index) => <HiOutlineThumbUp className={className} />,
       current: router.pathname === `/playlist/LikedVideos`,
     },
     {
@@ -69,7 +75,25 @@ export default function Sidebar({
     {
       name: "Your Videos",
       path: userId ? `/${String(userId)}/ProfileVideos` : "sign-in",
-      icon: (className) => <MdSlowMotionVideo className={className} />,
+      icon: (className: string | undefined, index: number) =>
+        hoveredIndex === index ? (
+          <Lottie
+            animationData={AnimatePlayVideo}
+            loop
+            autoplay
+            style={{ height: 50, width: 50 }}
+            className={className}
+            isClickToPauseDisabled={true}
+            eventListeners={[
+              {
+                eventName: "complete",
+                callback: () => setHoveredIndex(null),
+              },
+            ]}
+          />
+        ) : (
+          <RiUserFollowLine className={className} />
+        ),
       current: router.asPath === `/${String(userId)}/ProfileVideos`,
     },
     {
@@ -162,9 +186,11 @@ export default function Sidebar({
             <ul role="list" className="flex flex-1 flex-col gap-y-7">
               <li>
                 <ul role="list" className="-mx-2 space-y-1 ">
-                  {DesktopNavigation.map((item) => (
+                  {DesktopNavigation.map((item, index) => (
                     <li key={item.name}>
                       <Link
+                        onMouseEnter={() => setHoveredIndex(index)}
+                        onMouseLeave={() => setHoveredIndex(null)}
                         href="#"
                         onClick={(e) => {
                           e.preventDefault();
@@ -176,15 +202,19 @@ export default function Sidebar({
                         }}
                         className={classNames(
                           item.current
-                            ? " bg-gray-50 text-primary-600"
-                            : " text-gray-700 hover:bg-gray-50 hover:text-primary-600",
+                            ? " bg-slate-100 text-primary-600"
+                            : " text-gray-700 hover:bg-slate-100 hover:text-[#54429f]",
                           "group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6",
                         )}
                       >
                         {item.current
-                          ? item.icon("h-5 w-5 shrink-0 stroke-primary-600 ")
+                          ? item.icon(
+                              "h-5 w-5 shrink-0 stroke-[#9147ff]",
+                              index,
+                            )
                           : item.icon(
-                              "h-5 w-5 shrink-0  stroke-gray-500  group-hover:stroke-primary-600",
+                              "h-5 w-5 shrink-0  stroke-gray-500  group-hover:stroke-[#54429f]",
+                              index,
                             )}
                         <p className={classNames(closeSidebar ? "hidden" : "")}>
                           {item.name}
@@ -206,11 +236,11 @@ export default function Sidebar({
                         : void signIn();
                     }
                   }}
-                  className="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-700 hover:bg-gray-50 hover:text-primary-600"
+                  className="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-700 hover:bg-slate-100 hover:text-[#54429f]"
                 >
                   <AiOutlineSetting
                     className={
-                      "h-5 w-5 shrink-0 stroke-gray-500 group-hover:stroke-primary-600"
+                      "h-5 w-5 shrink-0 stroke-gray-500 group-hover:text-[#54429f]"
                     }
                   />
                   <p className={classNames(closeSidebar ? "hidden" : "")}>
@@ -219,11 +249,11 @@ export default function Sidebar({
                 </Link>
                 <Link
                   href="/Blog/Help"
-                  className="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-700 hover:bg-gray-50 hover:text-primary-600"
+                  className="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-700 hover:bg-slate-100 hover:text-[#54429f]"
                 >
                   <BiHelpCircle
                     className={
-                      "h-5 w-5 shrink-0 stroke-gray-500 group-hover:stroke-primary-600"
+                      "h-5 w-5 shrink-0 stroke-gray-500 group-hover:text-[#54429f]"
                     }
                   />
                   <p className={classNames(closeSidebar ? "hidden" : "")}>
@@ -296,17 +326,17 @@ export default function Sidebar({
                                 }}
                                 className={classNames(
                                   item.current
-                                    ? " bg-gray-50 text-primary-600"
-                                    : " text-gray-700 hover:bg-gray-50 hover:text-primary-600",
+                                    ? " bg-slate-100 text-primary-600"
+                                    : " text-gray-700 hover:bg-slate-100 hover:text-[#54429f]",
                                   "group flex gap-x-3 rounded-md px-2 py-1.5 text-sm font-semibold leading-6",
                                 )}
                               >
                                 {item.current
                                   ? item.icon(
-                                      "h-5 w-5 shrink-0 stroke-primary-600",
+                                      "h-5 w-5 shrink-0 stroke-[#9147ff]",
                                     )
                                   : item.icon(
-                                      "h-5 w-5 shrink-0  stroke-gray-500  group-hover:stroke-primary-600",
+                                      "h-5 w-5 shrink-0  stroke-gray-500  group-hover:stroke-[#54429f]",
                                     )}
                                 {item.name}
                               </Link>
@@ -318,22 +348,22 @@ export default function Sidebar({
                       <li className="mt-auto border-y ">
                         <Link
                           href="/Blog/Privacy"
-                          className="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-700 hover:bg-gray-50 hover:text-primary-600"
+                          className="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-700 hover:bg-slate-100 hover:text-[#54429f]"
                         >
                           <MdOutlinePrivacyTip
                             className={
-                              "h-5 w-5 shrink-0 stroke-gray-500 group-hover:stroke-primary-600"
+                              "h-5 w-5 shrink-0 stroke-gray-500 group-hover:stroke-[#54429f]"
                             }
                           />
                           Privacy
                         </Link>
                         <Link
                           href="/Blog/TOS"
-                          className="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-700 hover:bg-gray-50 hover:text-primary-600"
+                          className="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-700 hover:bg-slate-100 hover:text-[#54429f]"
                         >
                           <CgFileDocument
                             className={
-                              "h-5 w-5 shrink-0 stroke-gray-500 group-hover:stroke-primary-600"
+                              "h-5 w-5 shrink-0 stroke-gray-500 group-hover:stroke-[#54429f]"
                             }
                           />
                           Terms of Service

@@ -268,21 +268,16 @@ export const videoRouter = createTRPCRouter({
 
     .mutation(async ({ ctx, input }) => {
       const playlistAlreadyHasVideo =
-        await ctx.prisma.playlistHasVideo.findMany({
+        await ctx.prisma.playlistHasVideo.findFirst({
           where: {
             playlistId: input.playlistId,
             videoId: input.videoId,
           },
         });
-      if (playlistAlreadyHasVideo.length > 0) {
-        const deleteVideo = await ctx.prisma.playlistHasVideo.deleteMany({
-          where: {
-            playlistId: input.playlistId,
-            videoId: input.videoId,
-          },
-        });
-        return deleteVideo;
-      } else {
+      if (
+        playlistAlreadyHasVideo === null ||
+        playlistAlreadyHasVideo === undefined
+      ) {
         const playlistHasVideo = await ctx.prisma.playlistHasVideo.create({
           data: {
             playlistId: input.playlistId,
@@ -292,6 +287,7 @@ export const videoRouter = createTRPCRouter({
         return playlistHasVideo;
       }
     }),
+
   publishVideo: protectedProcedure
     .input(z.object({ id: z.string(), userId: z.string() }))
     .mutation(async ({ ctx, input }) => {

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { api } from "~/utils/api";
 import { ErrorMessage, Layout, LoadingMessage } from "~/component/Component";
 import { type NextPage } from "next/types";
@@ -8,10 +8,11 @@ import { PlaylistPage } from "~/component/PlaylistComponent";
 const History: NextPage = () => {
   const { data: sessionData } = useSession();
   const QueryTitle = "History" as string;
-  const { data, isLoading, error } = api.playList.getPlaylistsByTitle.useQuery({
-    title: QueryTitle,
-    userId: sessionData ? sessionData.user.id : ("none" as string),
-  });
+  const { data, isLoading, error, refetch } =
+    api.playList.getPlaylistsByTitle.useQuery({
+      title: QueryTitle,
+      userId: sessionData ? sessionData.user.id : ("none" as string),
+    });
 
   const Error = () => {
     if (isLoading) {
@@ -37,6 +38,7 @@ const History: NextPage = () => {
             <Error />
           ) : (
             <PlaylistPage
+              refetch={refetch}
               playlist={{
                 id: data.playlist?.id || "",
                 title: data.playlist?.title || "",
@@ -63,6 +65,7 @@ const History: NextPage = () => {
                 name: data.user?.name || "",
                 followers: data.user?.followers || 0,
               }}
+              ifHistory={true}
             />
           )}
         </>

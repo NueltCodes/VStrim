@@ -6,6 +6,9 @@ import { BiDotsVerticalRounded } from "react-icons/Bi";
 import { Menu, Transition } from "@headlessui/react";
 import { Fragment } from "react";
 import { useSession } from "next-auth/react";
+import { GoTrash } from "react-icons/go";
+import { AiOutlineSave } from "react-icons/ai";
+import { PiShareFatLight } from "react-icons/pi";
 
 interface VideoComponentProps {
   videos: {
@@ -20,6 +23,8 @@ interface VideoComponentProps {
     name: string;
   }[];
   refetch?: () => Promise<unknown>;
+  handleDelete?: (videoId: string) => void | undefined;
+  ifHistory?: boolean;
 }
 
 export const MuliColumnVideo: React.FC<VideoComponentProps> = ({
@@ -91,44 +96,12 @@ export const SingleColumnVideo: React.FC<VideoComponentProps> = ({
   </div>
 );
 
-interface NavigationItem {
-  icon: (className: string) => JSX.Element;
-  name: string;
-  path: string;
-  lineAbove: boolean;
-}
-
-const signedInNavigation: NavigationItem[] = [
-  {
-    icon: (className) => <BiUserCircle className={className} />,
-    name: "View Profile",
-    path: `/${String(userId)}/ProfileVideos`,
-    lineAbove: true,
-  },
-  {
-    icon: (className) => <MdSlowMotionVideo className={className} />,
-    name: "Creator Studio",
-    path: "/Dashboard",
-    lineAbove: false,
-  },
-  {
-    icon: (className) => <BiHelpCircle className={className} />,
-    name: "Help",
-    path: "/Blog/Help",
-    lineAbove: true,
-  },
-  {
-    icon: (className) => <AiOutlineSetting className={className} />,
-    name: "Settings",
-    path: "/Settings",
-    lineAbove: false,
-  },
-];
-
 export const SmallSingleColumnVideo: React.FC<VideoComponentProps> = ({
   videos,
   users,
   refetch,
+  handleDelete,
+  ifHistory,
 }) => (
   <>
     {videos.map((video, index) => {
@@ -137,17 +110,14 @@ export const SmallSingleColumnVideo: React.FC<VideoComponentProps> = ({
         return null;
       }
 
-      const { data: sessionData } = useSession();
-      const userId = sessionData?.user.id;
-
       return (
-        <div key={video.id}>
+        <div key={video.id} className="relative">
           <Link href={`/video/${video.id}`} key={video.id} onClick={refetch}>
             <div className=" relative isolate my-4 flex flex-col gap-4 rounded-2xl border hover:bg-gray-100 lg:flex-row ">
               <div className=" aspect-[16/9] sm:aspect-[2/1] lg:w-52  lg:shrink-0">
                 <Thumbnail thumbnailUrl={video.thumbnailUrl} />
               </div>
-              <div className="mt-2 flex w-full flex-col items-start overflow-hidden text-xs  max-lg:mx-2">
+              <div className="mt-2 flex w-full flex-col items-start overflow-hidden text-xs max-lg:mx-2 lg:mr-5">
                 <VideoTitle
                   title={video.title}
                   limitHeight={true}
@@ -156,78 +126,101 @@ export const SmallSingleColumnVideo: React.FC<VideoComponentProps> = ({
                 <VideoInfo views={video.views} createdAt={video.createdAt} />
                 <UserName name={user.name || ""} />
               </div>
-              <div>
-                <BiDotsVerticalRounded className="mt-1 h-5 w-5" />
-              </div>
-
-              <div className="m-0 hidden w-max px-0 lg:flex lg:items-center lg:justify-end xl:col-span-2">
-                <Menu as="div" className="relative ml-5 flex-shrink-0">
-                  <Transition
-                    as={Fragment}
-                    enter="transition ease-out duration-100"
-                    enterFrom="transform opacity-0 scale-95"
-                    enterTo="transform opacity-100 scale-100"
-                    leave="transition ease-in duration-75"
-                    leaveFrom="transform opacity-100 scale-100"
-                    leaveTo="transform opacity-0 scale-95"
-                  >
-                    <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                      {Navigation.map((item) => (
-                        <Menu.Item key={item.name}>
-                          {({ active }) => (
-                            <Link
-                              onClick={(e) => {
-                                e.preventDefault();
-                                if (item.path === "sign-out") {
-                                  void signOut();
-                                } else {
-                                  void router.push(item.path || "/");
-                                }
-                              }}
-                              href={item.path || "/"}
-                              className={classNames(
-                                active ? "bg-gray-100 " : "",
-                                "block px-4 py-2 text-sm text-gray-700",
-                                item.lineAbove
-                                  ? "border-t border-gray-200"
-                                  : "",
-                              )}
-                            >
-                              <div className="flex items-center ">
-                                {item.icon("h-4 w-4 stroke-gray-700")}
-                                <div className="pl-2">{item.name}</div>
-                              </div>
-                            </Link>
-                          )}
-                        </Menu.Item>
-                      ))}
-                    </Menu.Items>
-                  </Transition>
-                </Menu>
-                {/*Sign up login buttons*/}
-                {sessionData ? (
-                  ""
-                ) : (
-                  <div className="flex flex-row space-x-3 ">
-                    <Button
-                      variant="tertiary-gray"
-                      size="md"
-                      onClick={!sessionData ? () => void signIn() : () => ""}
-                    >
-                      Log in
-                    </Button>
-                    <Button
-                      variant="primary"
-                      size="md"
-                      onClick={!sessionData ? () => void signIn() : () => ""}
-                    >
-                      Sign up
-                    </Button>
-                  </div>
-                )}
-              </div>
             </div>
           </Link>
+          <div
+            className="absolute right-0 top-0 mx-1 mt-2"
+            onClick={(event) => {
+              event.stopPropagation();
+            }}
+          >
+            <Menu as="div" className="relative inline-block text-left">
+              <div>
+                <Menu.Button
+                  className=""
+                  onClick={(event) => {
+                    event.stopPropagation();
+                  }}
+                >
+                  {/* Options */}
+                  <BiDotsVerticalRounded
+                    className="-mr-1 ml-2 h-6 w-6 text-violet-200 hover:text-violet-100"
+                    aria-hidden="true"
+                  />
+                </Menu.Button>
+              </div>
+              <Transition
+                as={Fragment}
+                enter="transition ease-out duration-100"
+                enterFrom="transform opacity-0 scale-95"
+                enterTo="transform opacity-100 scale-100"
+                leave="transition ease-in duration-75"
+                leaveFrom="transform opacity-100 scale-100"
+                leaveTo="transform opacity-0 scale-95"
+              >
+                <Menu.Items className="absolute right-0 z-20 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                  <div className="px-1 py-1">
+                    <Menu.Item>
+                      {({ active }) => (
+                        <button
+                          className={`${
+                            active
+                              ? "bg-violet-500 text-white"
+                              : "text-gray-900"
+                          } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+                        >
+                          <PiShareFatLight
+                            className="mr-2 h-5 w-5"
+                            aria-hidden="true"
+                          />
+                          Share
+                        </button>
+                      )}
+                    </Menu.Item>
+                    <Menu.Item>
+                      {({ active }) => (
+                        <button
+                          className={`${
+                            active
+                              ? "bg-violet-500 text-white"
+                              : "text-gray-900"
+                          } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+                        >
+                          <AiOutlineSave
+                            className="mr-2 h-5 w-5"
+                            aria-hidden="true"
+                          />
+                          Save playlist
+                        </button>
+                      )}
+                    </Menu.Item>
+                  </div>
+                  {ifHistory && (
+                    <div className="px-1 py-1">
+                      <Menu.Item>
+                        {({ active }) => (
+                          <button
+                            onClick={() => handleDelete?.(video?.id)}
+                            className={`${
+                              active
+                                ? "bg-violet-500 text-white"
+                                : "text-gray-900"
+                            } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+                          >
+                            <GoTrash
+                              className="mr-2 h-5 w-5 text-violet-400"
+                              aria-hidden="true"
+                            />
+                            Delete
+                          </button>
+                        )}
+                      </Menu.Item>
+                    </div>
+                  )}
+                </Menu.Items>
+              </Transition>
+            </Menu>
+          </div>
         </div>
       );
     })}
