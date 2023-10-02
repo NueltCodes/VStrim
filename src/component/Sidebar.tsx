@@ -239,7 +239,7 @@ export default function Sidebar({
         ) : (
           <BiUserCircle className={className} />
         ),
-      current: router.pathname === `/Profile`,
+      current: router.asPath === `/${String(userId)}/ProfileVideos`,
     },
     {
       name: "Creator Studio",
@@ -263,7 +263,7 @@ export default function Sidebar({
         ) : (
           <MdSlowMotionVideo className={className} />
         ),
-      current: router.pathname === `/CreatorStudio`,
+      current: router.pathname === `/Dashboard`,
     },
     {
       name: "Help",

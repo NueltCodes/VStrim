@@ -1,8 +1,8 @@
 export function HomeIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
-      width="35px"
-      height="35px"
+      width="40px"
+      height="40px"
       viewBox="-1 -1 27.00 27.00"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"

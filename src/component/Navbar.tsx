@@ -168,7 +168,7 @@ export default function Navbar({ children }: NavbarProps) {
                   <input
                     id="search"
                     name="search"
-                    className="block w-full rounded-md border-0 py-1.5 pl-10 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-500 sm:text-sm sm:leading-6 "
+                    className="block w-full rounded-md border-0 py-1.5 pl-10 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:outline focus:outline-[3px] focus:outline-[#9147ff] sm:text-sm sm:leading-6 "
                     placeholder="Search"
                     type="search"
                     onChange={(e: ChangeEvent<HTMLInputElement>) =>
@@ -207,7 +207,9 @@ export default function Navbar({ children }: NavbarProps) {
                 <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                   {sessionData ? (
                     <div className="mx-4 my-2 flex ">
-                      <UserImage image={sessionData?.user.image ?? ""} />
+                      <div>
+                        <UserImage image={sessionData?.user.image ?? ""} />
+                      </div>
                       <div className="ml-2 flex w-full flex-col justify-start truncate ">
                         <p className="truncate text-sm font-semibold text-gray-700">
                           {sessionData && <span>{sessionData.user?.name}</span>}
