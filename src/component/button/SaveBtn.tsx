@@ -6,7 +6,15 @@ import { Dialog, Transition } from "@headlessui/react";
 import { AiOutlineSave } from "react-icons/ai";
 import { IoMdClose } from "react-icons/io";
 
-export default function SaveBtn({ videoId }: { videoId: string }) {
+export default function SaveBtn({
+  videoId,
+  playList,
+  setPlayList,
+}: {
+  videoId: string;
+  playList: boolean;
+  setPlayList?: (playList: boolean) => void;
+}) {
   const [open, setOpen] = useState(false);
   const [checkedStatus, setCheckedStatus] = useState<Record<string, boolean>>(
     {},
@@ -69,6 +77,14 @@ export default function SaveBtn({ videoId }: { videoId: string }) {
       );
     }
   };
+  const closePlayList = () => {
+    if (setPlayList) {
+      setOpen(false);
+      setPlayList(false);
+    } else {
+      setOpen(false);
+    }
+  };
 
   return (
     <div>
@@ -76,13 +92,14 @@ export default function SaveBtn({ videoId }: { videoId: string }) {
         variant="secondary-gray"
         size="2xl"
         onClick={sessionData ? () => setOpen(true) : () => void signIn()}
-        className="item-end flex"
+        className={playList ? "hidden" : "item-end flex"}
       >
         <AiOutlineSave className="mr-2 h-5 w-5 shrink-0 stroke-gray-600" />
         Save
       </Button>
-      <Transition.Root show={open} as={Fragment}>
-        <Dialog as="div" className="relative z-50" onClose={setOpen}>
+
+      <Transition.Root show={playList || open} as={Fragment}>
+        <Dialog as="div" className="relative z-50" onClose={closePlayList}>
           <Transition.Child
             as={Fragment}
             enter="ease-out duration-300"
@@ -111,7 +128,7 @@ export default function SaveBtn({ videoId }: { videoId: string }) {
                     <button
                       type="button"
                       className="rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
-                      onClick={() => setOpen(false)}
+                      onClick={closePlayList}
                     >
                       <span className="sr-only">Close </span>
                       <IoMdClose className="h-6 w-6" aria-hidden="true" />

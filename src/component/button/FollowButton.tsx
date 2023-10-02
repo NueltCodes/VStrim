@@ -40,7 +40,7 @@ export default function FollowButton({
   return (
     <>
       <Button
-        variant={userChoice.following ? "secondary-gray" : "primary"}
+        variant={userChoice.following ? "tertiary-deep" : "primary"}
         size="xl"
         onMouseEnter={() => setIfFollowed(true)}
         onMouseLeave={() => setIfFollowed(false)}
@@ -77,7 +77,7 @@ export default function FollowButton({
                 : `mr-2 h-5 w-5 shrink-0
                         ${
                           userChoice.following
-                            ? "stroke-gray-600 "
+                            ? "stroke-white "
                             : "stroke-white "
                         }
                         `,

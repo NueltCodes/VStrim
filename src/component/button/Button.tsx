@@ -10,7 +10,7 @@ type ButtonOrAnchorProps = ButtonHTMLAttributes<HTMLButtonElement> &
   AnchorHTMLAttributes<HTMLAnchorElement>;
 
 interface ButtonProps extends ButtonOrAnchorProps {
-  variant?: "primary" | "secondary-gray" | "tertiary-gray";
+  variant?: "primary" | "secondary-gray" | "tertiary-gray" | "tertiary-deep";
   size?: "sm" | "md" | "lg" | "xl" | "2xl";
   href?: string;
 }
@@ -36,6 +36,8 @@ const Button: FC<ButtonProps> = ({
   const variantClasses = {
     primary:
       "bg-primary-600 text-white focus:ring-4 hover:bg-primary-700 shadow-sm focus:ring-primary-100 focus-visible:outline-4 focus-visible:outline-primary-100 focus-visible:outline-offset-4",
+    "tertiary-deep":
+      "bg-gray-800/70 text-white  hover:bg-primary-700 shadow-sm",
     "secondary-gray":
       "bg-white text-gray-700 focus:ring-4 shadow-sm ring-1 ring-inset focus:ring-gray-100  focus-visible:outline-4 focus-visible:outline-gray-100 focus-visible:outline-offset-4 ring-gray-300 hover:text-gray-800 hover:bg-gray-50",
     "tertiary-gray":

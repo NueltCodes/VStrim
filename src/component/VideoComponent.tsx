@@ -9,7 +9,8 @@ import { useSession } from "next-auth/react";
 import { GoTrash } from "react-icons/go";
 import { AiOutlineSave } from "react-icons/ai";
 import { PiShareFatLight } from "react-icons/pi";
-
+import { useState } from "react";
+import SaveBtn from "./button/SaveBtn";
 interface VideoComponentProps {
   videos: {
     id: string;
@@ -110,6 +111,9 @@ export const SmallSingleColumnVideo: React.FC<VideoComponentProps> = ({
         return null;
       }
 
+      // eslint-disable-next-line react-hooks/rules-of-hooks
+      const [playList, setPlayList] = useState(false);
+
       return (
         <div key={video.id} className="relative">
           <Link href={`/video/${video.id}`} key={video.id} onClick={refetch}>
@@ -128,6 +132,9 @@ export const SmallSingleColumnVideo: React.FC<VideoComponentProps> = ({
               </div>
             </div>
           </Link>
+          {playList && (
+            <SaveBtn videoId={video.id} playList setPlayList={setPlayList} />
+          )}
           <div
             className="absolute right-0 top-0 mx-1 mt-2"
             onClick={(event) => {
@@ -180,6 +187,7 @@ export const SmallSingleColumnVideo: React.FC<VideoComponentProps> = ({
                     <Menu.Item>
                       {({ active }) => (
                         <button
+                          onClick={() => setPlayList(true)}
                           className={`${
                             active
                               ? "bg-violet-500 text-white"

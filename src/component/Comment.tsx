@@ -62,7 +62,7 @@ export default function Comment({ videoId, comments, refetch }: CommentProps) {
 
             {sessionData ? (
               <form onSubmit={handleCommentSubmit}>
-                <div className="mt-2 flex flex-row gap-2">
+                <div className="mt-2 flex  gap-2">
                   <div className="w-full">
                     <textarea
                       rows={1}
