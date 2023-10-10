@@ -16,11 +16,13 @@ interface FollowButton {
   viewer: {
     hasFollowed: boolean;
   };
+  refetch: () => Promise<unknown>;
 }
 export default function FollowButton({
   followingId,
   hideIcon,
   viewer,
+  refetch,
 }: FollowButton) {
   const { data: sessionData } = useSession();
   const [userChoice, setUserChoice] = useState({
@@ -29,14 +31,17 @@ export default function FollowButton({
   const [ifFollowed, setIfFollowed] = useState(false);
 
   const addFollowMutation = api.user.addFollow.useMutation();
+
   const handleFollow = (input: { followingId: string; followerId: string }) => {
-    if (userChoice.following) {
-      setUserChoice({ following: false });
-    } else {
-      setUserChoice({ following: true });
-    }
-    addFollowMutation.mutate(input);
+    setUserChoice((prevState) => ({ following: !prevState.following }));
+
+    addFollowMutation.mutate(input, {
+      onSuccess: () => {
+        void refetch();
+      },
+    });
   };
+
   return (
     <>
       <Button

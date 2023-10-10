@@ -12,7 +12,7 @@ export default function SaveBtn({
   setPlayList,
 }: {
   videoId: string;
-  playList: boolean;
+  playList?: boolean;
   setPlayList?: (playList: boolean) => void;
 }) {
   const [open, setOpen] = useState(false);

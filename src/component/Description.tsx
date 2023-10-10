@@ -1,4 +1,6 @@
+import Lottie from "lottie-react";
 import { useState } from "react";
+import EyeUserFollow from "../../public/eye.json";
 
 export default function Description({
   text,
@@ -31,20 +33,26 @@ export default function Description({
       <>
         {border ? <div className="border-b border-gray-200"></div> : ""}
         <div className="relative w-full ">
-          <button
-            onClick={toggleExpand}
-            className="flex flex-row place-content-evenly"
-          >
+          <button onClick={toggleExpand} className=" ">
             <p
-              className={`text-left text-sm font-semibold text-gray-600 ${
+              className={`text-left text-sm font-semibold leading-7 text-gray-600 ${
                 !isExpanded ? "line-clamp-2" : ""
               }`}
             >
               {text}
+              {/* <span className="text-lg text-black ">
+                {isExpanded ? "Show more" : "Show less"}
+              </span> */}
             </p>
-            <span className="items-end ">
-              {isExpanded ? "Show more" : "Show less"}
-            </span>
+            <p className="flex items-center gap-2 text-left font-bold text-black">
+              {isExpanded ? "Show less" : "Show more"}
+              <Lottie
+                animationData={EyeUserFollow}
+                loop
+                autoplay
+                style={{ height: 28, width: 28 }}
+              />
+            </p>
           </button>
         </div>
       </>

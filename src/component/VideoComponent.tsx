@@ -70,7 +70,7 @@ export const SingleColumnVideo: React.FC<VideoComponentProps> = ({
   users,
 }) => (
   <div>
-    {videos.map((video, index) => {
+    {videos?.map((video, index) => {
       const user = users[index];
       if (!user) {
         return null;
@@ -151,7 +151,7 @@ export const SmallSingleColumnVideo: React.FC<VideoComponentProps> = ({
                 >
                   {/* Options */}
                   <BiDotsVerticalRounded
-                    className="-mr-1 ml-2 h-6 w-6 text-violet-200 hover:text-violet-100"
+                    className="ml-2 mr-0 h-6 w-6 rounded-lg bg-gray-700/70 text-violet-200 hover:text-violet-100 md:-mr-1 lg:bg-transparent"
                     aria-hidden="true"
                   />
                 </Menu.Button>
@@ -246,7 +246,7 @@ export function VideoTitle({
 }) {
   return (
     <h1
-      className={`max-w-md font-semibold leading-6 text-gray-900 group-hover:text-gray-600 ${
+      className={`line-clamp-1 max-w-md font-semibold leading-6 text-gray-900 group-hover:text-gray-600 sm:line-clamp-2 ${
         limitSize ? "text-base" : "text-lg"
       } ${limitHeight ? "max-h-12 w-full overflow-hidden" : ""}`}
     >
@@ -270,13 +270,22 @@ export function VideoInfo({
   views: number;
 }) {
   return (
-    <div className="mt-1 flex max-h-6 items-start overflow-hidden text-sm">
+    <div className="mt-1 flex max-h-6 items-start gap-2 overflow-hidden text-sm">
       <p className=" text-gray-600">
         {views}
         <span> Views</span>
       </p>
-      <li className="pl-2 text-sm text-gray-500"></li>
-      <p className=" text-gray-600">{moment(createdAt).fromNow()}</p>
+      <p className="text-gray-400">●</p>
+      <div className="text-gray-600">
+        {(() => {
+          let timeAgo = moment(createdAt).fromNow();
+          timeAgo = timeAgo.replace("months", "mons");
+          timeAgo = timeAgo.replace("month", "mon");
+          timeAgo = timeAgo.replace("years", "yrs");
+          timeAgo = timeAgo.replace("year", "yr");
+          return timeAgo;
+        })()}
+      </div>
     </div>
   );
 }

@@ -150,7 +150,7 @@ const VideoPage: NextPage = () => {
                       </div>
                     </div>
 
-                    <div className="flex flex-row  place-content-between gap-x-4 ">
+                    <div className="flex flex-col place-content-between  gap-x-4 sm:flex-row ">
                       <Link
                         href={`/${video.userId}/ProfileVideos`}
                         key={video.userId}
@@ -168,6 +168,7 @@ const VideoPage: NextPage = () => {
                       </Link>
                       <FollowButton
                         followingId={user.id}
+                        refetch={refetchVideoData}
                         viewer={{
                           hasFollowed: viewer.hasFollowed,
                         }}

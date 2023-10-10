@@ -44,7 +44,7 @@ import Lottie, { useLottie } from "lottie-react";
 interface NavigationItem {
   name: string;
   path?: string;
-  icon: (className: string, index: number) => JSX.Element;
+  icon: (className: string, index?: number) => JSX.Element;
   current: boolean;
 }
 
@@ -279,7 +279,7 @@ export default function Sidebar({
     },
     {
       name: "Feedback",
-      path: `mailto:vidchill@vidchill.com`,
+      path: `mailto:olaniranemmanuet@gmail.com`,
       icon: (className) => <TbMessagePlus className={className} />,
       current: router.pathname === `/Feedback`,
     },
@@ -294,7 +294,7 @@ export default function Sidebar({
 
     {
       name: "Feedback",
-      path: `mailto:vidchill@vidchill.com`,
+      path: `mailto:olaniranemmanuet@gmail.com`,
       icon: (className) => <TbMessagePlus className={className} />,
       current: router.pathname === `/Feedback`,
     },
@@ -464,7 +464,7 @@ export default function Sidebar({
             <div className="fixed inset-0 bg-gray-900/80" />
           </Transition.Child>
 
-          <div className="fixed inset-0 flex">
+          <div className="fixed inset-0 flex w-[75%]">
             <Transition.Child
               as={Fragment}
               enter="transition ease-in-out duration-300 transform"
@@ -478,22 +478,22 @@ export default function Sidebar({
                 <div className="absolute left-full top-0 flex w-16 justify-center pt-5">
                   <button
                     type="button"
-                    className="-m-2.5 p-2.5"
+                    className="z-50 -m-2.5 p-2.5"
                     onClick={() => setSidebarOpen(false)}
                   >
                     <span className="sr-only">Close sidebar</span>
 
                     <AiOutlineCloseCircle
-                      className="h-6 w-6"
+                      className="h-6 w-6 text-white"
                       aria-hidden="true"
                     />
                   </button>
                 </div>
                 {/* Sidebar component FOR MOBILE,*/}
-                <div className=" flex grow  flex-col gap-y-5 overflow-y-auto border-r  border-gray-200 bg-white  px-6 pb-4">
+                <div className="flex grow flex-col gap-y-5 overflow-y-auto border-r  border-gray-200 bg-white px-4 pb-4">
                   <nav className="flex flex-1 flex-col pt-4">
                     <ul role="list" className="flex flex-1 flex-col gap-y-4">
-                      <Logo className="w-24" />
+                      <Logo className="w-20 sm:w-24" />
                       <li className="border-t">
                         <ul role="list" className="-mx-2 space-y-1 pt-3 ">
                           {mobileNavigation.map((item) => (
@@ -551,8 +551,10 @@ export default function Sidebar({
                       </li>
 
                       {sessionData ? (
-                        <div className="my-2 flex bg-blue-300">
-                          <UserImage image={sessionData?.user.image ?? ""} />
+                        <div className="my-2 flex">
+                          <div>
+                            <UserImage image={sessionData?.user.image ?? ""} />
+                          </div>
                           <div className="ml-2 flex w-full flex-col  justify-start truncate text-sm ">
                             <p className="font-semibold text-gray-700">
                               {sessionData && (

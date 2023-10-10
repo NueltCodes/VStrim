@@ -8,18 +8,60 @@ import {
   LoadingMessage,
   ErrorMessage,
 } from "../component/Component";
+import { ChangeEvent, useEffect, useState } from "react";
+import { type Videos } from "~/types";
 
 const SearchPage: NextPage = () => {
   const router = useRouter();
-  const searchQuery = router.query.q;
-  const { data, isLoading, error } = api.video.getVideosBySearch.useQuery(
-    searchQuery as string,
-  );
+  const searchQuery = router.query.q; // Initialize searchQuery based on router query
+  const { data, isLoading, error } = api.video.getRandomVideos.useQuery(100);
+
+  const [searchData, setSearchData] = useState<Videos[]>([]);
+  const [searchInput, setSearchInput] = useState("");
+
+  const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const term = e.target.value;
+    setSearchInput(term);
+
+    if (term.length > 0) {
+      void (await router.push({
+        pathname: "/SearchPage",
+        query: { q: term },
+      }));
+    } else {
+      void (await router.push({
+        pathname: "/SearchPage",
+        query: { q: "" }, // Reset query to empty string
+      }));
+    }
+
+    const filteredVideos = data?.videos
+      ? data.videos.filter(
+          (video) => video?.title?.toLowerCase().includes(term.toLowerCase()),
+        )
+      : [];
+
+    setSearchData(filteredVideos as Videos[]);
+  };
+
+  const NoData = () => {
+    if (searchData.length === 0 && searchInput.length > 0) {
+      return (
+        <ErrorMessage
+          icon="GreenPlay"
+          message={`No results found for ${searchInput}`}
+          description="Please make sure your words are spelled correctly, or use fewer or different keywords."
+        />
+      );
+    } else {
+      return <></>;
+    }
+  };
 
   const Error = () => {
     if (isLoading) {
       return <LoadingMessage />;
-    } else if (error || !data) {
+    } else if (error ?? !data) {
       return (
         <ErrorMessage
           icon="GreenPlay"
@@ -39,13 +81,16 @@ const SearchPage: NextPage = () => {
         <meta name="description" content="Video streaming app by Vstrim" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Layout>
+      <Layout searchInput={searchInput} handleChange={handleChange}>
         <>
+          {/* social dilema netflix */}
+          {!searchData.length && searchInput.length > 0 ? <NoData /> : ""}
+
           {!data ? (
             <Error />
           ) : (
             <SingleColumnVideo
-              videos={data.videos.map((video) => ({
+              videos={searchData?.map((video) => ({
                 id: video?.id || "",
                 title: video?.title || "",
                 thumbnailUrl: video?.thumbnailUrl || "",
@@ -53,8 +98,8 @@ const SearchPage: NextPage = () => {
                 views: video?.views || 0,
               }))}
               users={data.users.map((user) => ({
-                name: user?.name || "",
-                image: user?.image || "",
+                name: user?.name ?? "",
+                image: user?.image ?? "",
               }))}
             />
           )}

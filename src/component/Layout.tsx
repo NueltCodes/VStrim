@@ -4,17 +4,24 @@ import { HiOutlineMenuAlt1 } from "react-icons/hi";
 interface LayoutProps {
   children: JSX.Element;
   closeSidebar?: boolean;
+  searchInput?: string;
+  handleChange?: (e: React.ChangeEvent<HTMLInputElement>) => Promise<void>;
 }
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
 }
-export default function Layout({ children, closeSidebar }: LayoutProps) {
+export default function Layout({
+  children,
+  closeSidebar,
+  searchInput,
+  handleChange,
+}: LayoutProps) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
     <>
-      <Navbar>
+      <Navbar searchInput={searchInput} handleChange={handleChange}>
         <button
           type="button"
           className="-mx-2 inline-flex items-center  justify-center rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary-500"

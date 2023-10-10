@@ -24,9 +24,12 @@ import { UserImage } from "./Component";
 import { Menu, Transition } from "@headlessui/react";
 import { signIn, signOut, useSession } from "next-auth/react";
 import Button from "./button/Button";
+import { type Videos } from "~/types";
 
 interface NavbarProps {
   children?: JSX.Element;
+  searchInput?: string;
+  handleChange?: (e: React.ChangeEvent<HTMLInputElement>) => Promise<void>;
 }
 
 interface NavigationItem {
@@ -41,9 +44,14 @@ function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
 }
 
-export default function Navbar({ children }: NavbarProps) {
+export default function Navbar({
+  children,
+  handleChange,
+  searchInput,
+}: NavbarProps) {
   const { data: sessionData } = useSession();
   const userId = sessionData?.user.id;
+  const [searchData, setSearchData] = useState<Videos[]>([]);
 
   const signedInNavigation: NavigationItem[] = [
     {
@@ -125,25 +133,55 @@ export default function Navbar({ children }: NavbarProps) {
 
   const Navigation = sessionData ? signedInNavigation : signedOutNavigation;
 
-  const [searchInput, setSearchInput] = useState("");
+  // const [searchInput, setSearchInput] = useState("");
   const router = useRouter();
 
-  const handleSearch = async () => {
-    try {
-      await router.push({
-        pathname: "/SearchPage",
-        query: { q: searchInput },
-      });
-    } catch (error) {
-      console.error("Error navigating to search page:", error);
-    }
-  };
+  // const { data, isLoading, error } = api.video.getRandomVideos.useQuery(40);
 
-  const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") {
-      void handleSearch();
-    }
-  };
+  // const handleInputFocus = () => {
+  //   if (searchInput.length > 0) {
+  //     const filteredVideos = data?.videos
+  //       ? data.videos.filter(
+  //           (video) =>
+  //             video?.title?.toLowerCase().includes(searchInput.toLowerCase()),
+  //         )
+  //       : [];
+  //     setSearchData(filteredVideos as Videos[]);
+  //   }
+  // };
+
+  // // const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+  // //   setSearchInput(e.target.value);
+  // //   void handleSearch();
+
+  // // };
+
+  // const handleSearch = async () => {
+  //   try {
+  //     await router.push({
+  //       pathname: "/SearchPage",
+  //       query: { q: searchInput },
+  //     });
+  //   } catch (error) {
+  //     console.error("Error navigating to search page:", error);
+  //   }
+  // };
+
+  // const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+  //   if (e.key === "Enter") {
+  //     void handleSearch();
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   const timeout = setTimeout(() => {
+  //     if (searchInput.trim() !== '') {
+  //       void handleSearch();
+  //     }
+  //   }, 300); // Adjust the delay as needed
+
+  //   return () => clearTimeout(timeout);
+  // }, [searchInput]);
 
   return (
     <>
@@ -151,7 +189,7 @@ export default function Navbar({ children }: NavbarProps) {
         <div className="mx-auto flex max-w-full px-6 lg:px-16 xl:grid xl:grid-cols-12">
           <div className="flex flex-shrink-0 items-center lg:static xl:col-span-2">
             <Link href="/#" aria-label="Home">
-              <Logo className="h-10" />
+              <Logo className=" w-16" />
             </Link>
           </div>
           <div className="w-full min-w-0 flex-1 lg:px-0 xl:col-span-8">
@@ -171,10 +209,8 @@ export default function Navbar({ children }: NavbarProps) {
                     className="block w-full rounded-md border-0 py-1.5 pl-10 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:outline focus:outline-[3px] focus:outline-[#9147ff] sm:text-sm sm:leading-6 "
                     placeholder="Search"
                     type="search"
-                    onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                      setSearchInput(e.target.value)
-                    }
-                    onKeyDown={handleKeyDown}
+                    onChange={handleChange}
+                    // onKeyDown={handleKeyDown}
                   />
                 </div>
               </div>

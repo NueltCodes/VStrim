@@ -61,7 +61,7 @@ export const videoRouter = createTRPCRouter({
 
       const followers = await ctx.prisma.followEngagement.count({
         where: {
-          followerId: video.userId,
+          followingId: video.userId,
         },
       });
       const likes = await ctx.prisma.videoEngagement.count({
