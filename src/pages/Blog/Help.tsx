@@ -87,7 +87,7 @@ const Help: NextPage = () => {
               className="mt-6"
               variant="primary"
               size="2xl"
-              href="mailto:vidchill@vidchill.com"
+              href="mailto:olaniranemmanuet@gmail.com"
             >
               Contact
             </Button>

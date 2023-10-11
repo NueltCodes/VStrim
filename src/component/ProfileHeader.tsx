@@ -32,7 +32,7 @@ export default function ProfileHeader() {
     {
       name: "Annoucements",
       path: `/${String(userId)}/ProfileAnnouncement`,
-      current: router.pathname === `/[userId]/ProfileAnnouncements`,
+      current: router.pathname === `/[userId]/ProfileAnnouncement`,
     },
     {
       name: "Following",
@@ -58,7 +58,7 @@ export default function ProfileHeader() {
 
   const Error = () => {
     if (isLoading) {
-      return <LoadingMessage />;
+      return "";
     } else if (errorTypes) {
       return (
         <ErrorMessage
@@ -141,7 +141,7 @@ export default function ProfileHeader() {
             </div>
           </div>
           {/* BELOW ARE TABS    */}
-          <div className="mb-8 mt-4 overflow-x-auto  border-b border-gray-200">
+          <div className="mb-8 mt-4 border-b border-gray-200">
             <nav
               className=" -mb-px flex min-w-max whitespace-nowrap"
               aria-label="Tabs"
@@ -157,8 +157,8 @@ export default function ProfileHeader() {
                   className={classNames(
                     tab.current
                       ? "border-primary-500 bg-primary-50 text-primary-600"
-                      : "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700",
-                    "  w-full border-b-4  px-1 py-4 text-center text-sm font-medium ",
+                      : "border-transparent text-gray-500 transition-all duration-300 ease-in-out hover:border-primary-400 hover:bg-primary-200/20 hover:text-gray-700",
+                    "w-full border-b-2 px-1 py-4 text-center text-sm font-medium ",
                   )}
                   aria-current={tab.current ? "page" : undefined}
                 >

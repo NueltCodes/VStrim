@@ -133,26 +133,15 @@ export default function Navbar({
 
   const Navigation = sessionData ? signedInNavigation : signedOutNavigation;
 
-  // const [searchInput, setSearchInput] = useState("");
   const router = useRouter();
 
   // const { data, isLoading, error } = api.video.getRandomVideos.useQuery(40);
 
-  // const handleInputFocus = () => {
-  //   if (searchInput.length > 0) {
-  //     const filteredVideos = data?.videos
-  //       ? data.videos.filter(
-  //           (video) =>
-  //             video?.title?.toLowerCase().includes(searchInput.toLowerCase()),
-  //         )
-  //       : [];
-  //     setSearchData(filteredVideos as Videos[]);
-  //   }
-  // };
-
-  // // const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-  // //   setSearchInput(e.target.value);
-  // //   void handleSearch();
+  const handleSearchClick = async () => {
+    if (router.pathname !== "/SearchPage") {
+      await router.push("/SearchPage");
+    }
+  };
 
   // // };
 
@@ -168,9 +157,9 @@ export default function Navbar({
   // };
 
   // const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
-  //   if (e.key === "Enter") {
-  //     void handleSearch();
-  //   }
+  //   router.push({
+  //     pathname: "/SearchPage",
+  //   });
   // };
 
   // useEffect(() => {
@@ -210,7 +199,7 @@ export default function Navbar({
                     placeholder="Search"
                     type="search"
                     onChange={handleChange}
-                    // onKeyDown={handleKeyDown}
+                    onClick={() => void handleSearchClick()}
                   />
                 </div>
               </div>

@@ -33,8 +33,8 @@ const ProfileFollowigs: NextPage = () => {
       return (
         <ErrorMessage
           icon="GreenHorn"
-          message="No people followed"
-          description="You have yet to follow anyone else. Follow someone now!"
+          message="No following"
+          description="You are yet to follow anyone. Follow at choice!"
         />
       );
     } else if (errorTypes) {

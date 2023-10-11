@@ -82,7 +82,6 @@ export default function Sidebar({
             autoplay
             style={{ height: 35, width: 35 }}
             className={className}
-            isClickToPauseDisabled={true}
             eventListeners={[
               {
                 eventName: "complete",
@@ -106,7 +105,6 @@ export default function Sidebar({
             autoplay
             style={{ height: 25, width: 25 }}
             className={className}
-            isClickToPauseDisabled={true}
             eventListeners={[
               {
                 eventName: "complete",
@@ -130,7 +128,6 @@ export default function Sidebar({
             autoplay
             style={{ height: 25, width: 25 }}
             className={className}
-            isClickToPauseDisabled={true}
             eventListeners={[
               {
                 eventName: "complete",
@@ -154,7 +151,6 @@ export default function Sidebar({
             autoplay
             style={{ height: 25, width: 25 }}
             className={className}
-            isClickToPauseDisabled={true}
             eventListeners={[
               {
                 eventName: "complete",
@@ -178,7 +174,6 @@ export default function Sidebar({
             autoplay
             style={{ height: 25, width: 25 }}
             className={className}
-            isClickToPauseDisabled={true}
             eventListeners={[
               {
                 eventName: "complete",
@@ -202,7 +197,6 @@ export default function Sidebar({
             autoplay
             style={{ height: 25, width: 25 }}
             className={className}
-            isClickToPauseDisabled={true}
             eventListeners={[
               {
                 eventName: "complete",
@@ -228,7 +222,6 @@ export default function Sidebar({
             autoplay
             style={{ height: 30, width: 30 }}
             className={className}
-            isClickToPauseDisabled={true}
             eventListeners={[
               {
                 eventName: "complete",
@@ -252,7 +245,6 @@ export default function Sidebar({
             autoplay
             style={{ height: 30, width: 30 }}
             className={className}
-            isClickToPauseDisabled={true}
             eventListeners={[
               {
                 eventName: "complete",
@@ -315,7 +307,7 @@ export default function Sidebar({
 
   return (
     <>
-      {/* Static sidebar for desktop */}
+      {/* sidebar for desktop */}
       <div
         className={classNames(
           closeSidebar ? "lg:w-20" : "lg:w-56",
@@ -334,7 +326,7 @@ export default function Sidebar({
                       <Link
                         onMouseEnter={() => setHoveredIndex(index)}
                         onMouseLeave={() => setHoveredIndex(null)}
-                        href="#"
+                        href={item.path}
                         onClick={(e) => {
                           e.preventDefault();
                           if (item.path === "sign-in") {
@@ -381,15 +373,18 @@ export default function Sidebar({
                         : void signIn();
                     }
                   }}
-                  className="group -mx-2 flex items-center gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-700 hover:bg-slate-100 hover:text-[#54429f]"
+                  className={` ${
+                    router.pathname === "/Settings"
+                      ? " bg-slate-100 text-primary-600"
+                      : " text-gray-700 hover:bg-slate-100 hover:text-[#54429f]"
+                  } group -mx-2 mb-1 flex h-[50px] items-center gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-700 transition duration-300 ease-in-out hover:bg-slate-100 hover:text-[#54429f]`}
                 >
                   {isSettings ? (
                     <Lottie
                       animationData={AnimateSettings}
                       loop
                       autoplay
-                      style={{ height: 30, width: 30 }}
-                      isClickToPauseDisabled={true}
+                      style={{ height: 25, width: 25 }}
                       eventListeners={[
                         {
                           eventName: "complete",
@@ -400,7 +395,7 @@ export default function Sidebar({
                   ) : (
                     <AiOutlineSetting
                       className={
-                        "h-5 w-5 shrink-0 stroke-gray-500 group-hover:text-[#54429f]"
+                        "h-[25px] w-[25px] shrink-0 stroke-gray-500 group-hover:text-[#54429f]"
                       }
                     />
                   )}
@@ -412,15 +407,18 @@ export default function Sidebar({
                   onMouseEnter={() => setIfhelp(true)}
                   onMouseLeave={() => setIfhelp(false)}
                   href="/Blog/Help"
-                  className="group -mx-2 flex items-center gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-700 hover:bg-slate-100 hover:text-[#54429f]"
+                  className={` ${
+                    router.pathname === "/Blog/Help"
+                      ? " bg-slate-100 text-primary-600"
+                      : " text-gray-700 hover:bg-slate-100 hover:text-[#54429f]"
+                  } group  -mx-2 flex h-[50px] items-center gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-700 transition duration-300 ease-in-out hover:bg-slate-100 hover:text-[#54429f]`}
                 >
                   {ifhelp ? (
                     <Lottie
                       animationData={AnimateHelp}
                       loop
                       autoplay
-                      style={{ height: 30, width: 30 }}
-                      isClickToPauseDisabled={true}
+                      style={{ height: 25, width: 25 }}
                       eventListeners={[
                         {
                           eventName: "complete",
@@ -431,7 +429,7 @@ export default function Sidebar({
                   ) : (
                     <BiHelpCircle
                       className={
-                        "h-5 w-5 shrink-0 stroke-gray-500 group-hover:text-[#54429f]"
+                        "h-[25px] w-[25px] shrink-0 stroke-gray-500 group-hover:text-[#54429f]"
                       }
                     />
                   )}

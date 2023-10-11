@@ -46,7 +46,32 @@ const ProfileAnnouncements: NextPage = () => {
       viewerId: sessionData?.user.id,
     });
   const announcements = data?.annoucements;
-  const errorTypes = error || announcements?.length == 0 || !data;
+  const errorTypes = (error ?? announcements?.length == 0) || !data;
+
+  const Error1 = () => {
+    if (isLoading) {
+      return "";
+    } else if (userId == sessionData?.user.id && errorTypes) {
+      return (
+        <ErrorMessage
+          icon="GreenHorn"
+          message="No Announcements"
+          description="You are yet to make an announcement. Post one now?"
+        />
+      );
+    } else if (errorTypes) {
+      return (
+        <ErrorMessage
+          icon="GreenHorn"
+          message="No Announcements"
+          description="This page has yet to make an announcement."
+        />
+      );
+    } else {
+      return <></>;
+    }
+  };
+
   const Error = () => {
     if (isLoading) {
       return <LoadingMessage />;
@@ -55,7 +80,7 @@ const ProfileAnnouncements: NextPage = () => {
         <ErrorMessage
           icon="GreenHorn"
           message="No Announcements"
-          description="You have yet to make an announcement. Post one now!"
+          description="You are yet to make an announcement. Post one now?"
         />
       );
     } else if (errorTypes) {
@@ -76,33 +101,36 @@ const ProfileAnnouncements: NextPage = () => {
       <Layout>
         <>
           <ProfileHeader />
-          {userId == sessionData?.user.id ? (
-            <form onSubmit={handleAnnouncementSubmit}>
-              <div className=" relative mt-2 flex flex-row gap-2">
-                <div className="w-full">
-                  <textarea
-                    rows={4}
-                    name="announcement"
-                    id="announcement"
-                    value={announcementInput}
-                    onChange={(e) => setAnnouncementInput(e.target.value)}
-                    className="block w-full rounded-md border-0 p-4 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-600 sm:text-sm sm:leading-6"
-                    placeholder="Add A Announcement"
-                  />
-                </div>
-                <div className="flex-shrink-0">
-                  <button
-                    type="submit"
-                    className="inline-flex items-center rounded-md bg-primary-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-600"
-                  >
-                    Post
-                  </button>
-                </div>
-              </div>
-            </form>
+          {!data || error ? (
+            <Error1 />
           ) : (
-            ""
+            userId == sessionData?.user.id && (
+              <form onSubmit={handleAnnouncementSubmit}>
+                <div className=" relative mt-2 flex flex-row gap-2">
+                  <div className="w-full">
+                    <textarea
+                      rows={4}
+                      name="announcement"
+                      id="announcement"
+                      value={announcementInput}
+                      onChange={(e) => setAnnouncementInput(e.target.value)}
+                      className="block w-full rounded-md border-0 p-4 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-600 sm:text-sm sm:leading-6"
+                      placeholder="Add A Announcement"
+                    />
+                  </div>
+                  <div className="flex-shrink-0">
+                    <button
+                      type="submit"
+                      className="inline-flex items-center rounded-md bg-primary-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-600"
+                    >
+                      Post
+                    </button>
+                  </div>
+                </div>
+              </form>
+            )
           )}
+
           {errorTypes ? (
             <Error />
           ) : (
@@ -121,7 +149,7 @@ const ProfileAnnouncements: NextPage = () => {
                   return (
                     <li className="pt-4" key={announcement.id}>
                       <div className="flex gap-2">
-                        <UserImage image={user.image || ""} />
+                        <UserImage image={user.image ?? ""} />
                         <div className="flex w-full flex-col ">
                           <div className="flex flex-col">
                             <div className="flex flex-row items-start gap-2 text-xs">

@@ -1,7 +1,9 @@
 // import { GreenHorn, GreenPeople, GreenPlay } from "./Icons/Icons";
 import animationData from "../../public/loading-animation3.json";
-import { useLottie } from "lottie-react";
+import Lottie, { useLottie } from "lottie-react";
 import { GreenHorn, GreenPeople, GreenPlay } from "./icons/GreenIcons";
+import AnimatePlayVideo from "../../public/Animation-play.json";
+import AnimateHero from "../../public/heroAnimate.json";
 
 export function ErrorMessage({
   children,
@@ -22,11 +24,33 @@ export function ErrorMessage({
     className: string;
   }) => {
     if (icon === "GreenHorn") {
-      return <GreenHorn className={className} />;
+      return (
+        <Lottie
+          animationData={AnimateHero}
+          loop
+          autoplay
+          style={{ height: 70, width: 70 }}
+        />
+      );
     } else if (icon === "GreenPeople") {
-      return <GreenPeople className={className} />;
+      return (
+        <Lottie
+          animationData={AnimateHero}
+          loop
+          autoplay
+          style={{ height: 70, width: 70 }}
+        />
+      );
     } else {
-      return <GreenPlay className={className} />;
+      // return <GreenPlay className={className} />;
+      return (
+        <Lottie
+          animationData={AnimatePlayVideo}
+          loop
+          autoplay
+          style={{ height: 70, width: 70 }}
+        />
+      );
     }
   };
 

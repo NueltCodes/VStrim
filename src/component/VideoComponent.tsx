@@ -5,7 +5,6 @@ import { Thumbnail } from "./Component";
 import { BiDotsVerticalRounded } from "react-icons/Bi";
 import { Menu, Transition } from "@headlessui/react";
 import { Fragment } from "react";
-import { useSession } from "next-auth/react";
 import { GoTrash } from "react-icons/go";
 import { AiOutlineSave } from "react-icons/ai";
 import { PiShareFatLight } from "react-icons/pi";
@@ -240,7 +239,7 @@ export function VideoTitle({
   limitHeight,
   limitSize,
 }: {
-  title: string;
+  title: string | null;
   limitHeight?: boolean;
   limitSize?: boolean;
 }) {

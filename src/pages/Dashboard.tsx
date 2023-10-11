@@ -20,6 +20,10 @@ import {
   GreenHeart,
 } from "~/component/icons/GreenIcons";
 import React from "react";
+import EyeUserFollow from "../../public/eye.json";
+import Lottie from "lottie-react";
+import AnimateFollowing from "../../public/userFollow.json";
+
 const Dashboard: NextPage = () => {
   const { data: sessionData } = useSession();
 
@@ -35,12 +39,12 @@ const Dashboard: NextPage = () => {
   const Error = () => {
     if (isLoading) {
       return <LoadingMessage />;
-    } else if (error || !data) {
+    } else if (error ?? !data) {
       return (
         <ErrorMessage
           icon="GreenPeople"
           message="Error loading channel"
-          description="Sorry there is at this time."
+          description="Sorry no result at this time, try again."
         />
       );
     } else {
@@ -51,17 +55,32 @@ const Dashboard: NextPage = () => {
   const stats: StatsItem[] = [
     {
       name: "Total Views",
-      stat: data?.totalViews?.toString() || "0",
-      icon: (className) => <GreenEye className={className} />,
+      stat: data?.totalViews?.toString() ?? "0",
+      icon: (className) => (
+        <Lottie
+          animationData={EyeUserFollow}
+          loop
+          autoplay
+          style={{ height: 28, width: 28 }}
+          className={className}
+        />
+      ),
     },
     {
       name: "Total followers",
-      stat: data?.totalFollowers?.toString() || "0",
-      icon: (className) => <GreenUserCheck className={className} />,
+      stat: data?.totalFollowers?.toString() ?? "0",
+      icon: (className) => (
+        <Lottie
+          animationData={AnimateFollowing}
+          loop
+          autoplay
+          style={{ height: 28, width: 28 }}
+        />
+      ),
     },
     {
       name: "Total likes",
-      stat: data?.totalLikes?.toString() || "0",
+      stat: data?.totalLikes?.toString() ?? "0",
       icon: (className) => <GreenHeart className={className} />,
     },
   ];
@@ -101,7 +120,7 @@ const Dashboard: NextPage = () => {
                       <dt className="text-base font-normal text-gray-900">
                         {item.name}
                       </dt>
-                      <dd className="mt-1 text-3xl font-semibold text-primary-600 md:block lg:flex">
+                      <dd className="mt-1 text-3xl font-semibold text-success-500 md:block lg:flex">
                         {item.stat}
                       </dd>
                     </div>
@@ -189,9 +208,9 @@ const Dashboard: NextPage = () => {
                                   <EditButton
                                     video={{
                                       id: video?.id || "",
-                                      title: video?.title || "",
-                                      description: video?.description || "",
-                                      thumbnailUrl: video?.thumbnailUrl || "",
+                                      title: video?.title ?? "",
+                                      description: video?.description ?? "",
+                                      thumbnailUrl: video?.thumbnailUrl ?? "",
                                     }}
                                     refetch={refetch}
                                   />
