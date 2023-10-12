@@ -30,6 +30,7 @@
     "react": "18.2.0",
     "react-cropper": "^2.3.3",
     "react-dom": "18.2.0",
+    "react-hot-toast": "^2.4.1",
     "react-icons": "^4.11.0",
     "react-player": "^2.13.0",
     "superjson": "^1.13.1",

@@ -9,6 +9,8 @@ import { Transition, Dialog } from "@headlessui/react";
 import { ImageCropper } from "~/component/button/EditBtn";
 import { api } from "~/utils/api";
 import { env } from "~/env.mjs";
+import AnimateInfo from "../../public/info.json";
+import Lottie from "lottie-react";
 
 const Settings: NextPage = () => {
   const { data: sessionData } = useSession();
@@ -55,7 +57,7 @@ const Settings: NextPage = () => {
   };
 
   const handleSubmit = () => {
-    setLoading(false);
+    setLoading(true);
     const userData = {
       id: channel.id,
       name: channel.name ?? undefined,
@@ -100,8 +102,8 @@ const Settings: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Layout closeSidebar={false}>
-        <>
-          <div>
+        <div className="w-full">
+          <div className="w-full">
             <CropImageModal
               iconType="background"
               channel={{
@@ -149,6 +151,12 @@ const Settings: NextPage = () => {
                 <p className="mt-1 text-sm leading-6 text-gray-600">
                   Update your photo and personal details.
                 </p>
+                <Lottie
+                  animationData={AnimateInfo}
+                  loop
+                  autoplay
+                  style={{ height: 100, width: 200 }}
+                />
               </div>
 
               <form className="bg-white shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl md:col-span-2">
@@ -266,13 +274,13 @@ const Settings: NextPage = () => {
                     disabled={loading}
                     onClick={() => handleSubmit()}
                   >
-                    Save
+                    {loading ? "Saving" : "Save"}
                   </Button>
                 </div>
               </form>
             </div>
           </div>
-        </>
+        </div>
       </Layout>
     </>
   );

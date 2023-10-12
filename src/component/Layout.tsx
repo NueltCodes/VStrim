@@ -1,6 +1,7 @@
 import { Footer, Navbar, Sidebar } from "./Component";
 import React, { useState } from "react";
 import { HiOutlineMenuAlt1 } from "react-icons/hi";
+import ToasterProvider from "~/providers/ToasterProvider";
 interface LayoutProps {
   children: JSX.Element;
   closeSidebar?: boolean;
@@ -42,6 +43,7 @@ export default function Layout({
       <div className="lg:hidden">
         <Footer />
       </div>
+      <ToasterProvider />
 
       <div className={classNames(closeSidebar ? "lg:pl-20" : "lg:pl-56")}>
         <main className="py-24">

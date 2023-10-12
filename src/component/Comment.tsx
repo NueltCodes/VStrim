@@ -8,6 +8,7 @@ import { FaPaperPlane, FaRegCommentDots } from "react-icons/fa";
 
 import { type CommentParams, type UserCommentParams } from "~/types";
 import { Dialog, Transition } from "@headlessui/react";
+import { toast } from "react-hot-toast";
 
 interface Comment {
   comment: CommentParams;
@@ -46,11 +47,15 @@ export default function Comment({ videoId, comments, refetch }: CommentProps) {
 
   const handleCommentSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    addComment({
-      videoId: videoId,
-      userId: sessionData ? sessionData.user.id : ("none" as string),
-      message: commentInput,
-    });
+    if (commentInput && commentInput.length >= 3) {
+      addComment({
+        videoId: videoId,
+        userId: sessionData ? sessionData.user.id : ("none" as string),
+        message: commentInput,
+      });
+    } else {
+      toast.error("Oops! Your comment must contain at least 3 words.");
+    }
   };
 
   return (
@@ -106,7 +111,7 @@ export default function Comment({ videoId, comments, refetch }: CommentProps) {
                 Add A Comment
               </button>
             )}
-            <div className="block md:hidden">
+            <div className="block cursor-pointer lg:hidden">
               {comments
                 .sort(
                   (a, b) =>
@@ -158,7 +163,7 @@ export default function Comment({ videoId, comments, refetch }: CommentProps) {
                 ))}
             </div>
 
-            <Transition.Root show={open} as={Fragment}>
+            <Transition.Root show={open && comments.length > 0} as={Fragment}>
               <Dialog as="div" className="relative z-50" onClose={setOpen}>
                 <Transition.Child
                   as={Fragment}
@@ -183,7 +188,7 @@ export default function Comment({ videoId, comments, refetch }: CommentProps) {
                       leaveFrom="opacity-100 translate-y-0 sm:scale-100"
                       leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                     >
-                      <Dialog.Panel className="block h-[70vh] w-screen overflow-y-scroll bg-slate-100 p-2 md:hidden">
+                      <Dialog.Panel className="block h-[70vh] w-screen overflow-y-scroll bg-slate-100 p-2 lg:hidden">
                         {comments
                           .sort(
                             (a, b) =>
@@ -246,7 +251,7 @@ export default function Comment({ videoId, comments, refetch }: CommentProps) {
                 </div>
               </Dialog>
             </Transition.Root>
-            <div className="hidden md:block">
+            <div className="hidden lg:block">
               {comments
                 .sort(
                   (a, b) =>
