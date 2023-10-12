@@ -1,6 +1,6 @@
 import { type NextPage } from "next";
 import Head from "next/head";
-import { Layout } from "~/component/Component";
+import { Layout, LoadingMessage } from "~/component/Component";
 import { useSession } from "next-auth/react";
 import { Button } from "~/component/button/Buttons";
 import Image from "next/image";
@@ -15,8 +15,9 @@ const Settings: NextPage = () => {
   const userId = sessionData?.user.id;
   const addUserUpdateMutation = api.user.updateUser.useMutation();
   const { data, refetch } = api.user.getChannelById.useQuery({
-    id: userId as string,
+    id: userId!,
   });
+  const [loading, setLoading] = useState(false);
   const channel = data?.user;
   const [user, setUser] = useState({
     name: "",
@@ -37,7 +38,11 @@ const Settings: NextPage = () => {
   }, [channel]);
 
   if (!channel) {
-    return <div>Channel not loading</div>;
+    return (
+      <div>
+        <LoadingMessage />
+      </div>
+    );
   }
 
   const handleInputChange = (
@@ -50,14 +55,15 @@ const Settings: NextPage = () => {
   };
 
   const handleSubmit = () => {
+    setLoading(false);
     const userData = {
       id: channel.id,
-      name: channel.name || undefined,
+      name: channel.name ?? undefined,
       email: channel.email,
-      handle: channel.handle || undefined,
-      image: channel.image || undefined,
-      backgroundImage: channel.backgroundImage || undefined,
-      description: channel.description || undefined,
+      handle: channel.handle ?? undefined,
+      image: channel.image ?? undefined,
+      backgroundImage: channel.backgroundImage ?? undefined,
+      description: channel.description ?? undefined,
     };
 
     if (
@@ -79,6 +85,7 @@ const Settings: NextPage = () => {
 
       addUserUpdateMutation.mutate(newUserData, {
         onSuccess: () => {
+          setLoading(false);
           void refetch();
         },
       });
@@ -100,7 +107,7 @@ const Settings: NextPage = () => {
               channel={{
                 id: channel.id || "",
                 image: channel.image ?? "",
-                backgroundImage: channel.backgroundImage ?? "",
+                backgroundImage: channel.backgroundImage ?? "/background.jpg",
               }}
               refetch={refetch}
               imageType="backgroundImage"
@@ -256,6 +263,7 @@ const Settings: NextPage = () => {
                     type="reset"
                     variant="primary"
                     size="lg"
+                    disabled={loading}
                     onClick={() => handleSubmit()}
                   >
                     Save
@@ -291,6 +299,7 @@ export function CropImageModal({
   const [image, setImage] = useState<File | null>(null);
   const [croppedImage, setCroppedImage] = useState<string | null>(null);
   const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
   const addUserUpdateMutation = api.user.updateUser.useMutation();
 
   const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -300,6 +309,8 @@ export function CropImageModal({
     }
   };
   const handleSubmit = (croppedDataUrl: string) => {
+    // setOpen(false);
+    setLoading(true);
     type UploadResponse = {
       secure_url: string;
     };
@@ -309,7 +320,7 @@ export function CropImageModal({
     };
 
     const formData = new FormData();
-    formData.append("upload_preset", "user_uploads");
+    formData.append("upload_preset", "vstrim_user_uploads");
     formData.append("file", croppedDataUrl);
 
     fetch(
@@ -331,8 +342,10 @@ export function CropImageModal({
           };
           addUserUpdateMutation.mutate(newUserData, {
             onSuccess: () => {
-              setOpen(false);
               void refetch();
+              setOpen(false);
+              // setImage(null);
+              setLoading(false);
             },
           });
         }
@@ -355,10 +368,10 @@ export function CropImageModal({
               onChange={onFileChange}
             />
             <Image
-              className="h-24 w-24 rounded-full ring-4 ring-white sm:h-32 sm:w-32"
+              className="h-24 w-24 cursor-pointer rounded-full ring-4 ring-white sm:h-32 sm:w-32"
               width="2000"
               height="2000"
-              src={channel?.image || "/profile.jpg"}
+              src={channel?.image ?? "/profile.jpg"}
               alt="error"
             />
           </label>
@@ -374,8 +387,8 @@ export function CropImageModal({
               onChange={onFileChange}
             />
             <Image
-              className="h-32 w-full object-cover lg:h-64"
-              src={channel.backgroundImage || "/background.jpg"}
+              className="h-32 w-full cursor-pointer object-cover lg:h-64"
+              src={channel.backgroundImage ?? "/background.jpg"}
               width={2000}
               height={2000}
               alt="error"
@@ -384,7 +397,7 @@ export function CropImageModal({
         </>
       )}
       <Transition.Root show={open} as={Fragment}>
-        <Dialog as="div" className="relative z-10" onClose={setOpen}>
+        <Dialog as="div" className="relative z-50" onClose={setOpen}>
           <Transition.Child
             as={Fragment}
             enter="ease-out duration-300"
@@ -397,7 +410,7 @@ export function CropImageModal({
             <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
           </Transition.Child>
 
-          <div className="fixed inset-0 z-10 overflow-y-auto">
+          <div className="fixed inset-0 z-[100] overflow-y-auto">
             <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
               <Transition.Child
                 as={Fragment}
@@ -413,6 +426,7 @@ export function CropImageModal({
                     <ImageCropper
                       setCroppedImage={setCroppedImage}
                       image={image}
+                      loading={loading}
                       imageType={imageType}
                       handleSubmit={handleSubmit}
                       setOpen={setOpen}

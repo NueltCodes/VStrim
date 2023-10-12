@@ -20,9 +20,10 @@ import {
   GreenHeart,
 } from "~/component/icons/GreenIcons";
 import React from "react";
-import EyeUserFollow from "../../public/eye.json";
 import Lottie from "lottie-react";
+import EyeUserFollow from "../../public/eye.json";
 import AnimateFollowing from "../../public/userFollow.json";
+import AnimateHeart from "../../public/Heart.json";
 
 const Dashboard: NextPage = () => {
   const { data: sessionData } = useSession();
@@ -81,7 +82,14 @@ const Dashboard: NextPage = () => {
     {
       name: "Total likes",
       stat: data?.totalLikes?.toString() ?? "0",
-      icon: (className) => <GreenHeart className={className} />,
+      icon: (className) => (
+        <Lottie
+          animationData={AnimateHeart}
+          loop
+          autoplay
+          style={{ height: 28, width: 28 }}
+        />
+      ),
     },
   ];
 
@@ -155,7 +163,7 @@ const Dashboard: NextPage = () => {
                               scope="col"
                               className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
                             >
-                              Rating
+                              Likes
                             </th>
                             <th
                               scope="col"

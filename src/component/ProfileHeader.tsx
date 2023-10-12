@@ -143,7 +143,8 @@ export default function ProfileHeader() {
           {/* BELOW ARE TABS    */}
           <div className="mb-8 mt-4 border-b border-gray-200">
             <nav
-              className=" -mb-px flex min-w-max whitespace-nowrap"
+              className=" scrollbar-hide s colsmoo -mb-px flex
+              w-full overflow-x-scroll  whitespace-nowrap"
               aria-label="Tabs"
             >
               {tabs.map((tab) => (
@@ -158,7 +159,7 @@ export default function ProfileHeader() {
                     tab.current
                       ? "border-primary-500 bg-primary-50 text-primary-600"
                       : "border-transparent text-gray-500 transition-all duration-300 ease-in-out hover:border-primary-400 hover:bg-primary-200/20 hover:text-gray-700",
-                    "w-full border-b-2 px-1 py-4 text-center text-sm font-medium ",
+                    "w-full place-content-evenly border-b-2 px-1 py-4 text-center text-sm font-medium ",
                   )}
                   aria-current={tab.current ? "page" : undefined}
                 >

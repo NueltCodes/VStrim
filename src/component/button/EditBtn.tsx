@@ -281,6 +281,7 @@ export function EditButton({ video, refetch }: EditButtonProps) {
 export function ImageCropper({
   setCurrentPage,
   setCroppedImage,
+  loading,
   image,
   handleSubmit,
   imageType,
@@ -288,6 +289,7 @@ export function ImageCropper({
 }: {
   handleSubmit?: (croppedDataUrl: string) => void;
   setCurrentPage?: (page: number) => void;
+  loading?: boolean;
   setCroppedImage: (image: string | null) => void;
   image: File | null | string;
   imageType?: "backgroundImage" | "image";
@@ -333,10 +335,20 @@ export function ImageCropper({
               ref={cropperRef}
             />
             <div className="mt-5 flex justify-end gap-2">
-              <Button variant="secondary-gray" size="lg" onClick={cancelCrop}>
+              <Button
+                disabled={loading}
+                variant="secondary-gray"
+                size="lg"
+                onClick={cancelCrop}
+              >
                 cancel
               </Button>
-              <Button variant="primary" size="lg" onClick={completeCrop}>
+              <Button
+                disabled={loading}
+                variant="primary"
+                size="lg"
+                onClick={completeCrop}
+              >
                 Crop Image
               </Button>
             </div>

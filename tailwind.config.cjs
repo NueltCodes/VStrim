@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 /** @type {import('tailwindcss').Config} */
 
 const config = {
@@ -60,8 +61,14 @@ const config = {
         fontFamily: { inter: "Inter" },
       },
     },
-    plugins: [require("@tailwindcss/forms")],
   },
+  plugins: [
+    require("@tailwindcss/forms"),
+    // @ts-ignore
+    require("tailwind-scrollbar-hide"),
+    // @ts-ignore
+    require("tailwind-scrollbar"),
+  ],
 };
 
 module.exports = config;

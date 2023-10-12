@@ -25,6 +25,8 @@ import { Menu, Transition } from "@headlessui/react";
 import { signIn, signOut, useSession } from "next-auth/react";
 import Button from "./button/Button";
 import { type Videos } from "~/types";
+import Lottie from "lottie-react";
+import AnimatePlayVideo from "../../public/Animation-play.json";
 
 interface NavbarProps {
   children?: JSX.Element;
@@ -178,7 +180,18 @@ export default function Navbar({
         <div className="mx-auto flex max-w-full px-6 lg:px-16 xl:grid xl:grid-cols-12">
           <div className="flex flex-shrink-0 items-center lg:static xl:col-span-2">
             <Link href="/#" aria-label="Home">
-              <Logo className=" w-16" />
+              <div className="flex items-center justify-center gap-1 font-bold">
+                <Lottie
+                  animationData={AnimatePlayVideo}
+                  loop
+                  autoplay
+                  style={{ height: 25, width: 25 }}
+                />
+                <span className="text-[13px] text-gray-700 sm:text-[15px]">
+                  Vstrim
+                </span>
+              </div>
+              {/* <Logo className=" w-16" /> */}
             </Link>
           </div>
           <div className="w-full min-w-0 flex-1 lg:px-0 xl:col-span-8">

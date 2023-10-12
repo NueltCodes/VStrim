@@ -5,11 +5,23 @@ import { BiHomeSmile } from "react-icons/Bi";
 import { TbClockRecord } from "react-icons/tb";
 import { MdOutlineVideoLibrary } from "react-icons/md";
 import { RiUserFollowLine } from "react-icons/ri";
+import Lottie from "lottie-react";
+import { useState } from "react";
+import AnimateHome from "../../public/Home.json";
+import AnimateHistory from "../../public/historyClock.json";
+import AnimateLibrary from "../../public/video-libray.json";
+import AnimateFollowing from "../../public/userFollow.json";
+import {
+  FollowIcon,
+  HistoryIcon,
+  HomeIcon,
+  LibraryIcon,
+} from "public/DestopSidebarIcons/home";
 
 interface NavigationItem {
   name: string;
   path?: string;
-  icon: (className: string) => JSX.Element;
+  icon: (className: string, index?: number) => JSX.Element;
   current: boolean;
 }
 function classNames(...classes: string[]) {
@@ -25,33 +37,77 @@ export default function Footer() {
     {
       name: "Home",
       path: `/`,
-      icon: (className) => <BiHomeSmile className={className} />,
+      icon: (className: string | undefined) =>
+        router.pathname === `/` ? (
+          <Lottie
+            animationData={AnimateHome}
+            loop
+            autoplay
+            style={{ height: 35, width: 35 }}
+            className={className}
+          />
+        ) : (
+          <HomeIcon className={className} />
+        ),
       current: router.pathname === `/`,
     },
 
     {
       name: "History",
       path: userId ? `/playlist/History` : "sign-in",
-      icon: (className) => <TbClockRecord className={className} />,
+      icon: (className) =>
+        router.pathname === `/playlist/History` ? (
+          <Lottie
+            animationData={AnimateHistory}
+            loop
+            autoplay
+            style={{ height: 25, width: 25 }}
+            className={className}
+          />
+        ) : (
+          <HistoryIcon className={className} />
+        ),
       current: router.pathname === `/playlist/History`,
     },
     {
       name: "Library",
-      path: userId ? `/${String(userId)}/ProfilePlaylists` : "sign-in",
-      icon: (className) => <MdOutlineVideoLibrary className={className} />,
+      path: userId ? `/${String(userId)}/ProfilePlaylist` : "sign-in",
+      icon: (className) =>
+        router.asPath === `/${String(userId)}/ProfilePlaylist` ? (
+          <Lottie
+            animationData={AnimateLibrary}
+            loop
+            autoplay
+            style={{ height: 25, width: 25 }}
+            className={className}
+          />
+        ) : (
+          <LibraryIcon className={className} />
+        ),
       current: router.asPath === `/${String(userId)}/ProfilePlaylists`,
     },
     {
       name: "Following",
       path: userId ? `/${String(userId)}/ProfileFollowing` : "sign-in",
-      icon: (className) => <RiUserFollowLine className={className} />,
+      icon: (className) =>
+        router.asPath === `/${userId}/ProfileFollowing` ? (
+          <Lottie
+            animationData={AnimateFollowing}
+            loop
+            autoplay
+            style={{ height: 25, width: 25 }}
+            className={className}
+          />
+        ) : (
+          <FollowIcon className={className} />
+        ),
       current: router.asPath === `/${userId}/ProfileFollowing`,
     },
   ];
   return (
     <footer className="fixed bottom-0 z-50 w-full border border-gray-200 bg-white shadow-sm ">
       <nav className="isolate flex rounded-lg shadow" aria-label="Tabs">
-        {tabs.map((tab) => (
+        {tabs.map((tab, index) => (
           <Link
             key={tab.name}
             href="#"
@@ -61,6 +117,10 @@ export default function Footer() {
             )}
             onClick={(e) => {
               e.preventDefault();
+              // {
+              //   () => setHoveredIndex(index);
+              // }
+
               if (tab.path === "sign-in") {
                 void signIn();
               } else {

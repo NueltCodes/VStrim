@@ -28,18 +28,12 @@ import {
   AiOutlineSetting,
   AiOutlineCloseCircle,
 } from "react-icons/ai";
-import { BiHelpCircle, BiUserCircle, BiHomeSmile } from "react-icons/Bi";
-import {
-  MdSlowMotionVideo,
-  MdOutlinePrivacyTip,
-  MdOutlineVideoLibrary,
-} from "react-icons/md";
-import { HiOutlineThumbUp } from "react-icons/hi";
-import { RiUserFollowLine } from "react-icons/ri";
-import { TbClockRecord, TbMessagePlus } from "react-icons/tb";
+import { BiHelpCircle, BiUserCircle } from "react-icons/Bi";
+import { MdSlowMotionVideo, MdOutlinePrivacyTip } from "react-icons/md";
+import { TbMessagePlus } from "react-icons/tb";
 import { CgFileDocument } from "react-icons/cg";
 import Button from "./button/Button";
-import Lottie, { useLottie } from "lottie-react";
+import Lottie from "lottie-react";
 
 interface NavigationItem {
   name: string;
@@ -74,20 +68,14 @@ export default function Sidebar({
     {
       name: "Home",
       path: `/`,
-      icon: (className: string | undefined, index: number) =>
-        hoveredIndex === index ? (
+      icon: (className: string, index?: number) =>
+        hoveredIndex === index || router.asPath === `/` ? (
           <Lottie
             animationData={AnimateHome}
             loop
             autoplay
             style={{ height: 35, width: 35 }}
             className={className}
-            eventListeners={[
-              {
-                eventName: "complete",
-                callback: () => setHoveredIndex(null),
-              },
-            ]}
           />
         ) : (
           <HomeIcon className={className} />
@@ -97,20 +85,14 @@ export default function Sidebar({
     {
       name: "Liked Videos",
       path: userId ? `/playlist/LikedVideos` : "sign-in",
-      icon: (className: string | undefined, index: number) =>
-        hoveredIndex === index ? (
+      icon: (className: string, index?: number) =>
+        hoveredIndex === index || router.asPath === `/playlist/LikedVideos` ? (
           <Lottie
             animationData={AnimateLike}
             loop
             autoplay
             style={{ height: 25, width: 25 }}
             className={className}
-            eventListeners={[
-              {
-                eventName: "complete",
-                callback: () => setHoveredIndex(null),
-              },
-            ]}
           />
         ) : (
           <LikeIcon className={className} />
@@ -120,20 +102,14 @@ export default function Sidebar({
     {
       name: "History",
       path: userId ? `/playlist/History` : "sign-in",
-      icon: (className: string | undefined, index: number) =>
-        hoveredIndex === index ? (
+      icon: (className: string, index?: number) =>
+        hoveredIndex === index || router.pathname === `/playlist/History` ? (
           <Lottie
             animationData={AnimateHistory}
             loop
             autoplay
             style={{ height: 25, width: 25 }}
             className={className}
-            eventListeners={[
-              {
-                eventName: "complete",
-                callback: () => setHoveredIndex(null),
-              },
-            ]}
           />
         ) : (
           <HistoryIcon className={className} />
@@ -143,20 +119,15 @@ export default function Sidebar({
     {
       name: "Your Videos",
       path: userId ? `/${String(userId)}/ProfileVideos` : "sign-in",
-      icon: (className: string | undefined, index: number) =>
-        hoveredIndex === index ? (
+      icon: (className: string, index?: number) =>
+        hoveredIndex === index ||
+        router.asPath === `/${String(userId)}/ProfileVideos` ? (
           <Lottie
             animationData={AnimatePlayVideo}
             loop
             autoplay
             style={{ height: 25, width: 25 }}
             className={className}
-            eventListeners={[
-              {
-                eventName: "complete",
-                callback: () => setHoveredIndex(null),
-              },
-            ]}
           />
         ) : (
           <VideoIcon className={className} />
@@ -166,20 +137,15 @@ export default function Sidebar({
     {
       name: "Library",
       path: userId ? `/${String(userId)}/ProfilePlaylist` : "sign-in",
-      icon: (className: string | undefined, index: number) =>
-        hoveredIndex === index ? (
+      icon: (className: string, index?: number) =>
+        hoveredIndex === index ||
+        router.asPath === `/${String(userId)}/ProfilePlaylist` ? (
           <Lottie
             animationData={AnimateLibrary}
             loop
             autoplay
             style={{ height: 25, width: 25 }}
             className={className}
-            eventListeners={[
-              {
-                eventName: "complete",
-                callback: () => setHoveredIndex(null),
-              },
-            ]}
           />
         ) : (
           <LibraryIcon className={className} />
@@ -189,20 +155,15 @@ export default function Sidebar({
     {
       name: "Following",
       path: userId ? `/${String(userId)}/ProfileFollowing` : "sign-in",
-      icon: (className: string | undefined, index: number) =>
-        hoveredIndex === index ? (
+      icon: (className: string, index?: number) =>
+        hoveredIndex === index ||
+        router.asPath === `/${String(userId)}/ProfileFollowing` ? (
           <Lottie
             animationData={AnimateFollowing}
             loop
             autoplay
             style={{ height: 25, width: 25 }}
             className={className}
-            eventListeners={[
-              {
-                eventName: "complete",
-                callback: () => setHoveredIndex(null),
-              },
-            ]}
           />
         ) : (
           <FollowIcon className={className} />
@@ -214,7 +175,7 @@ export default function Sidebar({
     {
       name: "Profile",
       path: `/${String(userId)}/ProfileVideos`,
-      icon: (className: string | undefined, index: number) =>
+      icon: (className: string, index?: number) =>
         hoveredIndex === index ? (
           <Lottie
             animationData={AnimatePlayVideo}
@@ -222,12 +183,6 @@ export default function Sidebar({
             autoplay
             style={{ height: 30, width: 30 }}
             className={className}
-            eventListeners={[
-              {
-                eventName: "complete",
-                callback: () => setHoveredIndex(null),
-              },
-            ]}
           />
         ) : (
           <BiUserCircle className={className} />
@@ -237,7 +192,7 @@ export default function Sidebar({
     {
       name: "Creator Studio",
       path: `/Dashboard`,
-      icon: (className: string | undefined, index: number) =>
+      icon: (className: string, index?: number) =>
         hoveredIndex === index ? (
           <Lottie
             animationData={AnimatePlayVideo}
@@ -245,12 +200,6 @@ export default function Sidebar({
             autoplay
             style={{ height: 30, width: 30 }}
             className={className}
-            eventListeners={[
-              {
-                eventName: "complete",
-                callback: () => setHoveredIndex(null),
-              },
-            ]}
           />
         ) : (
           <MdSlowMotionVideo className={className} />
@@ -379,7 +328,7 @@ export default function Sidebar({
                       : " text-gray-700 hover:bg-slate-100 hover:text-[#54429f]"
                   } group -mx-2 mb-1 flex h-[50px] items-center gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-700 transition duration-300 ease-in-out hover:bg-slate-100 hover:text-[#54429f]`}
                 >
-                  {isSettings ? (
+                  {isSettings || router.pathname === `/Settings` ? (
                     <Lottie
                       animationData={AnimateSettings}
                       loop
@@ -413,7 +362,7 @@ export default function Sidebar({
                       : " text-gray-700 hover:bg-slate-100 hover:text-[#54429f]"
                   } group  -mx-2 flex h-[50px] items-center gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-700 transition duration-300 ease-in-out hover:bg-slate-100 hover:text-[#54429f]`}
                 >
-                  {ifhelp ? (
+                  {ifhelp || router.pathname === `/Blog/Help` ? (
                     <Lottie
                       animationData={AnimateHelp}
                       loop

@@ -55,7 +55,9 @@ const ProfileFollowigs: NextPage = () => {
         <>
           <ProfileHeader />
           {errorTypes ? (
-            <Error />
+            <div>
+              <Error />
+            </div>
           ) : (
             <ul role="list" className="-mt-8 divide-y divide-gray-200">
               {user?.followings.map((following) => (
