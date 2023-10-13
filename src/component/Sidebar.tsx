@@ -35,13 +35,9 @@ import {
   AiOutlineSetting,
   AiOutlineCloseCircle,
 } from "react-icons/ai";
-import { BiHelpCircle, BiUserCircle } from "react-icons/Bi";
-import {
-  MdSlowMotionVideo,
-  MdOutlinePrivacyTip,
-  MdOutlineFeedback,
-} from "react-icons/md";
-import { TbMessagePlus } from "react-icons/tb";
+import { FaRegUserCircle } from "react-icons/fa";
+import { FiHelpCircle } from "react-icons/fi";
+import { MdOutlinePrivacyTip, MdOutlineFeedback } from "react-icons/md";
 import { CgFileDocument } from "react-icons/cg";
 import Button from "./button/Button";
 import Lottie from "lottie-react";
@@ -200,7 +196,7 @@ export default function Sidebar({
             className={className}
           />
         ) : (
-          <BiUserCircle className={className} />
+          <FaRegUserCircle className={className} />
         ),
       current: router.asPath === `/${String(userId)}/ProfileVideos`,
     },
@@ -234,7 +230,7 @@ export default function Sidebar({
             className={className}
           />
         ) : (
-          <BiHelpCircle className={className} />
+          <FiHelpCircle className={className} />
         ),
       current: router.pathname === `/Blog/Help`,
     },
@@ -287,7 +283,7 @@ export default function Sidebar({
             className={className}
           />
         ) : (
-          <BiHelpCircle className={className} />
+          <FiHelpCircle className={className} />
         ),
       current: router.pathname === `/Blog/Help`,
     },
@@ -434,7 +430,7 @@ export default function Sidebar({
                       style={{ height: 25, width: 25 }}
                     />
                   ) : (
-                    <BiHelpCircle
+                    <FiHelpCircle
                       className={
                         "h-[25px] w-[25px] shrink-0 stroke-gray-500 group-hover:text-[#54429f]"
                       }
