@@ -66,13 +66,6 @@ export default function FollowButton({
             loop
             autoplay
             style={{ height: 28, width: 28 }}
-            isClickToPauseDisabled={true}
-            eventListeners={[
-              {
-                eventName: "complete",
-                callback: () => setIfFollowed(null),
-              },
-            ]}
           />
         ) : (
           <TbUserPlus

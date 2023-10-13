@@ -24,9 +24,13 @@ export default function SaveBtn({
 
   // below is SavedPlaylist being queried from the api router
   const { data: playlists, refetch: refetchPlaylists } =
-    api.playList.getSavePlaylistData.useQuery(sessionData?.user?.id as string, {
-      enabled: false, // this query will not run automatically
-    });
+    api.playList.getSavePlaylistData.useQuery(
+      sessionData ? sessionData.user.id : ("none" as string),
+
+      {
+        enabled: false, // this query will not run automatically
+      },
+    );
 
   // This useEffect is used in assigning or marking the checkBtn true matching if any video in PlaylistHasVideo[] is === present VideoId
   useEffect(() => {
@@ -65,7 +69,7 @@ export default function SaveBtn({
     if (newPlaylistName) {
       createPlaylistMutation.mutate(
         {
-          userId: sessionData?.user.id as string,
+          userId: sessionData ? sessionData.user.id : ("none" as string),
           title: newPlaylistName,
         },
         {
@@ -98,7 +102,7 @@ export default function SaveBtn({
         Save
       </Button>
 
-      <Transition.Root show={playList || open} as={Fragment}>
+      <Transition.Root show={playList ?? open} as={Fragment}>
         <Dialog as="div" className="relative z-50" onClose={closePlayList}>
           <Transition.Child
             as={Fragment}
@@ -156,7 +160,7 @@ export default function SaveBtn({
                               aria-describedby="comments-description"
                               name="comments"
                               type="checkbox"
-                              checked={checkedStatus[playlist.id] || false}
+                              checked={checkedStatus[playlist.id] ?? false}
                               onChange={(event) =>
                                 handleCheckmarkToggle(event, {
                                   videoId: videoId,

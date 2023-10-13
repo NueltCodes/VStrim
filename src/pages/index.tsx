@@ -1,5 +1,4 @@
-import { NextPage } from "next";
-import { signIn, signOut, useSession } from "next-auth/react";
+import { type NextPage } from "next";
 import Head from "next/head";
 import { Layout, MuliColumnVideo } from "~/component/Component";
 import { ErrorMessage, LoadingMessage } from "~/component/ErrorMessage";
@@ -38,15 +37,15 @@ const Home: NextPage = () => {
           <>
             <MuliColumnVideo
               videos={data.videos.map((video) => ({
-                id: video?.id || "",
-                title: video?.title || "",
-                thumbnailUrl: video?.thumbnailUrl || "",
-                createdAt: video?.createdAt || new Date(),
-                views: video?.views || 0,
+                id: video?.id ?? "",
+                title: video?.title ?? "",
+                thumbnailUrl: video?.thumbnailUrl ?? "",
+                createdAt: video?.createdAt ?? new Date(),
+                views: video?.views ?? 0,
               }))}
               users={data.users.map((user) => ({
-                name: user?.name || "",
-                image: user?.image || "",
+                name: user?.name ?? "",
+                image: user?.image ?? "",
               }))}
             />
           </>

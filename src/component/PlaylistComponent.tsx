@@ -11,7 +11,7 @@ import { api } from "~/utils/api";
 import React, { useState } from "react";
 
 interface PlaylistPageProps {
-  refetch: () => Promise<unknown>;
+  refetch?: () => Promise<unknown>;
   playlist: {
     id: string;
     title: string;
@@ -38,7 +38,7 @@ interface PlaylistPageProps {
     name: string;
     followers: number;
   };
-  ifHistory: boolean;
+  ifHistory?: boolean;
 }
 
 export const PlaylistPage: React.FC<PlaylistPageProps> = ({
@@ -58,7 +58,7 @@ export const PlaylistPage: React.FC<PlaylistPageProps> = ({
   const deleteHistory = (input: { videoId: string; playlistId: string }) => {
     deleteMutation.mutate(input, {
       onSuccess: () => {
-        void refetch();
+        void refetch?.();
       },
     });
   };

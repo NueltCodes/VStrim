@@ -10,13 +10,13 @@ const LikedVideos: NextPage = () => {
   const QueryTitle = "Liked Videos" as string;
   const { data, isLoading, error } = api.playList.getPlaylistsByTitle.useQuery({
     title: QueryTitle,
-    userId: sessionData?.user.id as string,
+    userId: sessionData ? sessionData.user.id : ("none" as string),
   });
 
   const Error = () => {
     if (isLoading) {
       return <LoadingMessage />;
-    } else if (error || !data) {
+    } else if (error ?? !data) {
       return (
         <ErrorMessage
           icon="GreenPlay"
@@ -40,27 +40,27 @@ const LikedVideos: NextPage = () => {
               playlist={{
                 id: data.playlist?.id || "",
                 title: data.playlist?.title || "",
-                description: data.playlist?.description || "",
+                description: data.playlist?.description ?? "",
                 videoCount: data.videos.length || 0,
-                playlistThumbnail: data.videos[0]?.thumbnailUrl || "",
+                playlistThumbnail: data.videos[0]?.thumbnailUrl ?? "",
                 createdAt: data.playlist?.createdAt || new Date(),
               }}
               videos={data.videos.map((video) => ({
-                id: video?.id || "",
-                title: video?.title || "",
-                thumbnailUrl: video?.thumbnailUrl || "",
-                createdAt: video?.createdAt || new Date(),
+                id: video?.id ?? "",
+                title: video?.title ?? "",
+                thumbnailUrl: video?.thumbnailUrl ?? "",
+                createdAt: video?.createdAt ?? new Date(),
                 views: video?.views || 0,
               }))}
               authors={data.authors.map((author) => ({
-                id: author?.id || "",
-                name: author?.name || "",
-                image: author?.image || "",
+                id: author?.id ?? "",
+                name: author?.name ?? "",
+                image: author?.image ?? "",
               }))}
               user={{
-                id: data.user?.id || "",
-                image: data.user?.image || "",
-                name: data.user?.name || "",
+                id: data.user?.id ?? "",
+                image: data.user?.image ?? "",
+                name: data.user?.name ?? "",
                 followers: data.user?.followers || 0,
               }}
             />
