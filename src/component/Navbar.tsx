@@ -8,11 +8,7 @@ import {
 } from "react";
 import { useRouter } from "next/router";
 import { LiaSearchSolid } from "react-icons/lia";
-import {
-  BiDotsVerticalRounded,
-  BiHelpCircle,
-  BiUserCircle,
-} from "react-icons/Bi";
+
 import {
   MdSlowMotionVideo,
   MdOutlinePrivacyTip,
@@ -27,7 +23,9 @@ import Button from "./button/Button";
 import { type Videos } from "~/types";
 import Lottie from "lottie-react";
 import AnimatePlayVideo from "../../public/Animation-play.json";
-
+import { FaRegUserCircle } from "react-icons/fa";
+import { FiHelpCircle } from "react-icons/fi";
+import { BsThreeDotsVertical } from "react-icons/bs";
 interface NavbarProps {
   children?: JSX.Element;
   searchInput?: string;
@@ -57,7 +55,7 @@ export default function Navbar({
 
   const signedInNavigation: NavigationItem[] = [
     {
-      icon: (className) => <BiUserCircle className={className} />,
+      icon: (className) => <FaRegUserCircle className={className} />,
       name: "View Profile",
       path: `/${String(userId)}/ProfileVideos`,
       lineAbove: true,
@@ -69,7 +67,7 @@ export default function Navbar({
       lineAbove: false,
     },
     {
-      icon: (className) => <BiHelpCircle className={className} />,
+      icon: (className) => <FiHelpCircle className={className} />,
       name: "Help",
       path: "/Blog/Help",
       lineAbove: true,
@@ -108,7 +106,7 @@ export default function Navbar({
 
   const signedOutNavigation: NavigationItem[] = [
     {
-      icon: (className) => <BiHelpCircle className={className} />,
+      icon: (className) => <FiHelpCircle className={className} />,
       name: "Help",
       path: "/Blog/Help",
       lineAbove: true,
@@ -229,7 +227,7 @@ export default function Navbar({
                   {sessionData ? (
                     <UserImage image={sessionData?.user.image ?? ""} />
                   ) : (
-                    <BiDotsVerticalRounded className="w-5 stroke-gray-700 " />
+                    <BsThreeDotsVertical className="w-5 stroke-gray-700 " />
                   )}
                 </Menu.Button>
               </div>
