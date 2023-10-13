@@ -4,7 +4,7 @@ import { Layout } from "~/component/Component";
 import { Disclosure } from "@headlessui/react";
 import Button from "~/component/button/Button";
 import { BsPlus } from "react-icons/bs";
-import { BiMinus } from "react-icons/Bi";
+import { FiMinus } from "react-icons/fi";
 
 const Help: NextPage = () => {
   const faqs = [
@@ -104,7 +104,7 @@ const Help: NextPage = () => {
                         </span>
                         <span className="ml-6 flex h-7 items-center">
                           {open ? (
-                            <BiMinus className="h-6 w-6" aria-hidden="true" />
+                            <FiMinus className="h-6 w-6" aria-hidden="true" />
                           ) : (
                             <BsPlus className="h-6 w-6" aria-hidden="true" />
                           )}
