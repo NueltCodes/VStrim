@@ -11,6 +11,13 @@ import AnimateFollowing from "../../public/userFollow.json";
 import AnimateHelp from "../../public/help.json";
 import AnimateSettings from "../../public/Settings.json";
 
+// Mobile Lottie export
+import AnimateCamera from "../../public/mobileLottie/Camera.json";
+import AnimateProfile from "../../public/mobileLottie/profile.json";
+import AnimateFeedback from "../../public/mobileLottie/Feedback.json";
+import Animateterms from "../../public/mobileLottie/terms&condition.json";
+import AnimatePrivacy from "../../public/mobileLottie/Privacy.json";
+
 import {
   FollowIcon,
   HistoryIcon,
@@ -29,11 +36,16 @@ import {
   AiOutlineCloseCircle,
 } from "react-icons/ai";
 import { BiHelpCircle, BiUserCircle } from "react-icons/Bi";
-import { MdSlowMotionVideo, MdOutlinePrivacyTip } from "react-icons/md";
+import {
+  MdSlowMotionVideo,
+  MdOutlinePrivacyTip,
+  MdOutlineFeedback,
+} from "react-icons/md";
 import { TbMessagePlus } from "react-icons/tb";
 import { CgFileDocument } from "react-icons/cg";
 import Button from "./button/Button";
 import Lottie from "lottie-react";
+import { Photograph } from "public/mobileIcon/SidebarSvg";
 
 interface NavigationItem {
   name: string;
@@ -63,6 +75,8 @@ export default function Sidebar({
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [isSettings, setIsSettings] = useState<boolean>(false);
   const [ifhelp, setIfhelp] = useState<boolean>(false);
+  const [ifPrivacy, setIfPrivacy] = useState<boolean>(false);
+  const [ifTos, setIfTos] = useState<boolean>(false);
 
   const DesktopNavigation: NavigationItem[] = [
     {
@@ -176,12 +190,13 @@ export default function Sidebar({
       name: "Profile",
       path: `/${String(userId)}/ProfileVideos`,
       icon: (className: string, index?: number) =>
-        hoveredIndex === index ? (
+        hoveredIndex === index ||
+        router.asPath === `/${String(userId)}/ProfileVideos` ? (
           <Lottie
-            animationData={AnimatePlayVideo}
+            animationData={AnimateProfile}
             loop
             autoplay
-            style={{ height: 30, width: 30 }}
+            style={{ height: 25, width: 25 }}
             className={className}
           />
         ) : (
@@ -193,35 +208,68 @@ export default function Sidebar({
       name: "Creator Studio",
       path: `/Dashboard`,
       icon: (className: string, index?: number) =>
-        hoveredIndex === index ? (
+        hoveredIndex === index || router.pathname === `/Dashboard` ? (
           <Lottie
-            animationData={AnimatePlayVideo}
+            animationData={AnimateCamera}
             loop
             autoplay
-            style={{ height: 30, width: 30 }}
+            style={{ height: 25, width: 25 }}
             className={className}
           />
         ) : (
-          <MdSlowMotionVideo className={className} />
+          <Photograph className={className} />
         ),
       current: router.pathname === `/Dashboard`,
     },
     {
       name: "Help",
       path: `/Blog/Help`,
-      icon: (className) => <BiHelpCircle className={className} />,
+      icon: (className: string, index?: number) =>
+        hoveredIndex === index || router.asPath === `/Blog/Help` ? (
+          <Lottie
+            animationData={AnimateHelp}
+            loop
+            autoplay
+            style={{ height: 25, width: 25 }}
+            className={className}
+          />
+        ) : (
+          <BiHelpCircle className={className} />
+        ),
       current: router.pathname === `/Blog/Help`,
     },
     {
       name: "Settings",
       path: `/Settings`,
-      icon: (className) => <AiOutlineSetting className={className} />,
+      icon: (className: string, index?: number) =>
+        hoveredIndex === index || router.pathname === `/Settings` ? (
+          <Lottie
+            animationData={AnimateSettings}
+            loop
+            autoplay
+            style={{ height: 25, width: 25 }}
+          />
+        ) : (
+          <AiOutlineSetting className={className} />
+        ),
+
       current: router.pathname === `/Settings`,
     },
     {
       name: "Feedback",
       path: `mailto:olaniranemmanuet@gmail.com`,
-      icon: (className) => <TbMessagePlus className={className} />,
+      icon: (className: string, index?: number) =>
+        hoveredIndex === index ||
+        router.pathname === `mailto:olaniranemmanuet@gmail.com` ? (
+          <Lottie
+            animationData={AnimateFeedback}
+            loop
+            autoplay
+            style={{ height: 30, width: 25 }}
+          />
+        ) : (
+          <MdOutlineFeedback className={className} />
+        ),
       current: router.pathname === `/Feedback`,
     },
   ];
@@ -229,14 +277,36 @@ export default function Sidebar({
     {
       name: "Help",
       path: `/Blog/Help`,
-      icon: (className) => <BiHelpCircle className={className} />,
+      icon: (className: string, index?: number) =>
+        hoveredIndex === index || router.asPath === `/Blog/Help` ? (
+          <Lottie
+            animationData={AnimateHelp}
+            loop
+            autoplay
+            style={{ height: 25, width: 25 }}
+            className={className}
+          />
+        ) : (
+          <BiHelpCircle className={className} />
+        ),
       current: router.pathname === `/Blog/Help`,
     },
 
     {
       name: "Feedback",
       path: `mailto:olaniranemmanuet@gmail.com`,
-      icon: (className) => <TbMessagePlus className={className} />,
+      icon: (className: string, index?: number) =>
+        hoveredIndex === index ||
+        router.pathname === `mailto:olaniranemmanuet@gmail.com` ? (
+          <Lottie
+            animationData={AnimateFeedback}
+            loop
+            autoplay
+            style={{ height: 30, width: 25 }}
+          />
+        ) : (
+          <MdOutlineFeedback className={className} />
+        ),
       current: router.pathname === `/Feedback`,
     },
   ];
@@ -275,7 +345,7 @@ export default function Sidebar({
                       <Link
                         onMouseEnter={() => setHoveredIndex(index)}
                         onMouseLeave={() => setHoveredIndex(null)}
-                        href={item.path}
+                        href={item.path ?? "/"}
                         onClick={(e) => {
                           e.preventDefault();
                           if (item.path === "sign-in") {
@@ -334,12 +404,6 @@ export default function Sidebar({
                       loop
                       autoplay
                       style={{ height: 25, width: 25 }}
-                      eventListeners={[
-                        {
-                          eventName: "complete",
-                          callback: () => setHoveredIndex(null),
-                        },
-                      ]}
                     />
                   ) : (
                     <AiOutlineSetting
@@ -368,12 +432,6 @@ export default function Sidebar({
                       loop
                       autoplay
                       style={{ height: 25, width: 25 }}
-                      eventListeners={[
-                        {
-                          eventName: "complete",
-                          callback: () => setHoveredIndex(null),
-                        },
-                      ]}
                     />
                   ) : (
                     <BiHelpCircle
@@ -443,27 +501,31 @@ export default function Sidebar({
                       <Logo className="w-20 sm:w-24" />
                       <li className="border-t">
                         <ul role="list" className="-mx-2 space-y-1 pt-3 ">
-                          {mobileNavigation.map((item) => (
+                          {mobileNavigation.map((item, index) => (
                             <li key={item.name}>
                               <Link
+                                onMouseEnter={() => setHoveredIndex(index)}
+                                onMouseLeave={() => setHoveredIndex(null)}
                                 href={item.path ?? "/"}
                                 onClick={(e) => {
                                   e.preventDefault();
-                                  void router.push(item.path || "/");
+                                  void router.push(item.path ?? "/");
                                 }}
                                 className={classNames(
                                   item.current
                                     ? " bg-slate-100 text-primary-600"
                                     : " text-gray-700 hover:bg-slate-100 hover:text-[#54429f]",
-                                  "group flex gap-x-3 rounded-md px-2 py-1.5 text-sm font-semibold leading-6",
+                                  "group flex h-[50px] items-center gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 transition duration-300 ease-in-out",
                                 )}
                               >
                                 {item.current
                                   ? item.icon(
-                                      "h-5 w-5 shrink-0 stroke-[#9147ff]",
+                                      "h-[25px] w-[25px] shrink-0 stroke-[#9147ff]",
+                                      index,
                                     )
                                   : item.icon(
-                                      "h-5 w-5 shrink-0  stroke-gray-500  group-hover:stroke-[#54429f]",
+                                      "h-[25px] w-[25px] shrink-0  stroke-gray-500  group-hover:stroke-[#54429f]",
+                                      index,
                                     )}
                                 {item.name}
                               </Link>
@@ -474,25 +536,55 @@ export default function Sidebar({
 
                       <li className="mt-auto border-y ">
                         <Link
+                          onMouseEnter={() => setIfPrivacy(true)}
+                          onMouseLeave={() => setIfPrivacy(false)}
                           href="/Blog/Privacy"
-                          className="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-700 hover:bg-slate-100 hover:text-[#54429f]"
+                          className={` ${
+                            router.pathname === "/Blog/Privacy"
+                              ? " bg-slate-100 text-primary-600"
+                              : " text-gray-700 hover:bg-slate-100 hover:text-[#54429f]"
+                          } group  -mx-2 flex h-[50px] items-center gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-700 transition duration-300 ease-in-out hover:bg-slate-100 hover:text-[#54429f]`}
                         >
-                          <MdOutlinePrivacyTip
-                            className={
-                              "h-5 w-5 shrink-0 stroke-gray-500 group-hover:stroke-[#54429f]"
-                            }
-                          />
+                          {ifPrivacy || router.pathname === `/Blog/Privacy` ? (
+                            <Lottie
+                              animationData={AnimatePrivacy}
+                              loop
+                              autoplay
+                              style={{ height: 25, width: 25 }}
+                            />
+                          ) : (
+                            <MdOutlinePrivacyTip
+                              className={
+                                "h-[25px] w-[25px] shrink-0 stroke-gray-500 group-hover:text-[#54429f]"
+                              }
+                            />
+                          )}
                           Privacy
                         </Link>
                         <Link
+                          onMouseEnter={() => setIfTos(true)}
+                          onMouseLeave={() => setIfTos(false)}
                           href="/Blog/TOS"
-                          className="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-700 hover:bg-slate-100 hover:text-[#54429f]"
+                          className={` ${
+                            router.pathname === "/Blog/TOS"
+                              ? " bg-slate-100 text-primary-600"
+                              : " text-gray-700 hover:bg-slate-100 hover:text-[#54429f]"
+                          } group  -mx-2 flex h-[50px] items-center gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-700 transition duration-300 ease-in-out hover:bg-slate-100 hover:text-[#54429f]`}
                         >
-                          <CgFileDocument
-                            className={
-                              "h-5 w-5 shrink-0 stroke-gray-500 group-hover:stroke-[#54429f]"
-                            }
-                          />
+                          {ifTos || router.pathname === `/Blog/TOS` ? (
+                            <Lottie
+                              animationData={Animateterms}
+                              loop
+                              autoplay
+                              style={{ height: 25, width: 25 }}
+                            />
+                          ) : (
+                            <CgFileDocument
+                              className={
+                                "h-[25px] w-[25px] shrink-0 stroke-gray-500 group-hover:text-[#54429f]"
+                              }
+                            />
+                          )}
                           Terms of Service
                         </Link>
                       </li>

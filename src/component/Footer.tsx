@@ -1,12 +1,7 @@
 import { signIn, useSession } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { BiHomeSmile } from "react-icons/Bi";
-import { TbClockRecord } from "react-icons/tb";
-import { MdOutlineVideoLibrary } from "react-icons/md";
-import { RiUserFollowLine } from "react-icons/ri";
 import Lottie from "lottie-react";
-import { useState } from "react";
 import AnimateHome from "../../public/Home.json";
 import AnimateHistory from "../../public/historyClock.json";
 import AnimateLibrary from "../../public/video-libray.json";

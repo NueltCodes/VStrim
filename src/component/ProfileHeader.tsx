@@ -27,7 +27,7 @@ export default function ProfileHeader() {
     {
       name: "Playlists",
       path: `/${String(userId)}/ProfilePlaylist`,
-      current: router.pathname === `/[userId]/ProfilePlaylists`,
+      current: router.pathname === `/[userId]/ProfilePlaylist`,
     },
     {
       name: "Annoucements",
@@ -47,7 +47,7 @@ export default function ProfileHeader() {
     });
   }, [router.pathname]);
 
-  const { data, isLoading, error } = api.user.getChannelById.useQuery({
+  const { data, isLoading, refetch, error } = api.user.getChannelById.useQuery({
     id: userId as string,
     viewerId: sessionData?.user?.id,
   });
@@ -130,6 +130,7 @@ export default function ProfileHeader() {
                     </Button>
                   ) : (
                     <FollowButton
+                      refetch={refetch}
                       followingId={userId as string}
                       viewer={{
                         hasFollowed: viewer.hasFollowed,

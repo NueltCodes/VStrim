@@ -105,7 +105,7 @@ const VideoPage: NextPage = () => {
     <>
       <Head>
         <title>{video?.title}</title>
-        <meta name="description" content={user?.description || ""} />
+        <meta name="description" content={user?.description ?? ""} />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Layout closeSidebar={true}>
@@ -121,7 +121,7 @@ const VideoPage: NextPage = () => {
                     style={{ borderRadius: "1rem", overflow: "hidden" }}
                     width={"100%"}
                     height={"50%"}
-                    url={video.videoUrl || ""}
+                    url={video.videoUrl ?? ""}
                   />
                 </div>
                 <div className="flex space-x-3 rounded-2xl border border-gray-200 p-4 shadow-sm">
@@ -156,9 +156,9 @@ const VideoPage: NextPage = () => {
                         key={video.userId}
                       >
                         <div className="flex flex-row gap-2">
-                          <UserImage image={user.image || ""} />
+                          <UserImage image={user.image ?? ""} />
                           <button className="flex flex-col">
-                            <UserName name={user.name || ""} />
+                            <UserName name={user.name ?? ""} />
                             <p className=" text-sm text-gray-600">
                               {user.followers}
                               <span> Followers</span>
@@ -209,15 +209,15 @@ const VideoPage: NextPage = () => {
               <SmallSingleColumnVideo
                 refetch={refetchSidebarVideos}
                 videos={sidebarVideos.videos.map((video) => ({
-                  id: video?.id || "",
-                  title: video?.title || "",
-                  thumbnailUrl: video?.thumbnailUrl || "",
-                  createdAt: video?.createdAt || new Date(),
-                  views: video?.views || 0,
+                  id: video?.id ?? "",
+                  title: video?.title ?? "",
+                  thumbnailUrl: video?.thumbnailUrl ?? "",
+                  createdAt: video?.createdAt ?? new Date(),
+                  views: video?.views ?? 0,
                 }))}
                 users={sidebarVideos.users.map((user) => ({
-                  name: user?.name || "",
-                  image: user?.image || "",
+                  name: user?.name ?? "",
+                  image: user?.image ?? "",
                 }))}
               />
             )}

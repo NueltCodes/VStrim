@@ -67,7 +67,7 @@ export function LoadingMessage() {
   const { View } = useLottie(options);
 
   return (
-    <div className="relative z-[150] mt-16 flex w-full flex-col items-center justify-center gap-2 text-center">
+    <div className="relative mt-16 flex w-full flex-col items-center justify-center gap-2  text-center">
       <div className="animation-container">{View}</div>
       {/* <h1 className="text-2xl font-semibold text-gray-900">Loading</h1> */}
     </div>

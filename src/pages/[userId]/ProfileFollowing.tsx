@@ -18,13 +18,14 @@ const ProfileFollowigs: NextPage = () => {
   const {
     data: user,
     isLoading,
+    refetch,
     error,
   } = api.user.getUserFollowings.useQuery({
     id: userId as string,
     viewerId: sessionData?.user.id,
   });
   const errorTypes =
-    !user?.followings || error || user?.followings?.length === 0;
+    !user?.followings ?? error ?? user?.followings?.length === 0;
 
   const Error = () => {
     if (isLoading) {
@@ -65,7 +66,7 @@ const ProfileFollowigs: NextPage = () => {
                   <div className="flex gap-2">
                     <UserImage
                       className="!h-10 !w-10 "
-                      image={following.following?.image || ""}
+                      image={following.following?.image ?? ""}
                     />
                     <div className="flex w-full flex-row justify-between">
                       <div className="flex flex-col text-sm">
@@ -77,6 +78,7 @@ const ProfileFollowigs: NextPage = () => {
                         </p>
                       </div>
                       <FollowButton
+                        refetch={refetch}
                         followingId={following.following.id}
                         viewer={{ hasFollowed: following.viewerHasFollowed }}
                       />
