@@ -2,7 +2,8 @@ import moment from "moment";
 import Image from "next/image";
 import Link from "next/link";
 import { Thumbnail } from "./Component";
-import { BiDotsVerticalRounded } from "react-icons/Bi";
+import { BsThreeDotsVertical } from "react-icons/bs";
+
 import { Menu, Transition } from "@headlessui/react";
 import { Fragment } from "react";
 import { GoTrash } from "react-icons/go";
@@ -149,7 +150,7 @@ export const SmallSingleColumnVideo: React.FC<VideoComponentProps> = ({
                   }}
                 >
                   {/* Options */}
-                  <BiDotsVerticalRounded
+                  <BsThreeDotsVertical
                     className="ml-2 mr-0 h-6 w-6 rounded-lg bg-gray-700/70 text-violet-200 hover:text-violet-100 md:-mr-1 lg:bg-transparent"
                     aria-hidden="true"
                   />
