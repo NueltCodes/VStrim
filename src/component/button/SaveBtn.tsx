@@ -47,8 +47,9 @@ export default function SaveBtn({
     }
   }, [open]);
 
-  // 6 adding video to playList
+  // adding video to playList
   const addVideoToPlaylistMutation = api.video.addVideoToPlaylist.useMutation();
+
   const handleCheckmarkToggle = (
     event: React.ChangeEvent<HTMLInputElement>,
     input: {
@@ -65,7 +66,11 @@ export default function SaveBtn({
 
   // This is for creating playlist
   const createPlaylistMutation = api.playList.addPlaylist.useMutation();
+
   const handleCreatePlaylist = () => {
+    if (sessionData && !sessionData?.user.id) {
+      void signIn();
+    }
     if (newPlaylistName) {
       createPlaylistMutation.mutate(
         {
@@ -95,7 +100,7 @@ export default function SaveBtn({
       <Button
         variant="secondary-gray"
         size="2xl"
-        onClick={sessionData ? () => setOpen(true) : () => void signIn()}
+        onClick={() => setOpen(true)}
         className={playList ? "hidden" : "item-end flex"}
       >
         <AiOutlineSave className="mr-2 h-5 w-5 shrink-0 stroke-gray-600" />
@@ -185,8 +190,7 @@ export default function SaveBtn({
                       </div>
                     ))}
                   </fieldset>
-                  {/* 5 start stop */}
-                  {/* 9 Start */}
+
                   <div className="mt-5 flex w-full flex-col gap-2 text-left">
                     <div>
                       <label

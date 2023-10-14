@@ -5,7 +5,7 @@ import { ErrorMessage, LoadingMessage } from "~/component/ErrorMessage";
 import { api } from "~/utils/api";
 
 const Home: NextPage = () => {
-  const { data, isLoading, error } = api.video.getRandomVideos.useQuery(40);
+  const { data, isLoading, error } = api.video.getRandomVideos.useQuery(10000);
 
   const Error = () => {
     if (isLoading) {

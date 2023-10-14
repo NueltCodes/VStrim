@@ -38,7 +38,7 @@ export default function Footer() {
             animationData={AnimateHome}
             loop
             autoplay
-            style={{ height: 35, width: 35 }}
+            style={{ height: 25, width: 25 }}
             className={className}
           />
         ) : (
@@ -101,7 +101,10 @@ export default function Footer() {
   ];
   return (
     <footer className="fixed bottom-0 z-50 w-full border border-gray-200 bg-white shadow-sm ">
-      <nav className="isolate flex rounded-lg shadow" aria-label="Tabs">
+      <nav
+        className="isolate flex items-end rounded-lg shadow"
+        aria-label="Tabs"
+      >
         {tabs.map((tab, index) => (
           <Link
             key={tab.name}

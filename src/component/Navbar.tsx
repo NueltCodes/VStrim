@@ -179,17 +179,11 @@ export default function Navbar({
           <div className="flex flex-shrink-0 items-center lg:static xl:col-span-2">
             <Link href="/#" aria-label="Home">
               <div className="flex items-center justify-center gap-1 font-bold">
-                <Lottie
-                  animationData={AnimatePlayVideo}
-                  loop
-                  autoplay
-                  style={{ height: 25, width: 25 }}
-                />
-                <span className="text-[13px] text-gray-700 sm:text-[15px]">
+                <Logo />
+                <span className="hidden text-[13px] text-gray-700 sm:block sm:text-[15px]">
                   Vstrim
                 </span>
               </div>
-              {/* <Logo className=" w-16" /> */}
             </Link>
           </div>
           <div className="w-full min-w-0 flex-1 lg:px-0 xl:col-span-8">

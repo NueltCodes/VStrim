@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import ReactPlayer from "react-player";
 import { api } from "~/utils/api";
 
@@ -25,6 +25,8 @@ import {
 import { useSession } from "next-auth/react";
 import Head from "next/head";
 import { useRef } from "react";
+import { PiShareFatLight } from "react-icons/pi";
+import ShareBtn from "~/component/button/ShareBtn";
 
 const VideoPage: NextPage = () => {
   const router = useRouter();
@@ -84,6 +86,7 @@ const VideoPage: NextPage = () => {
   const comments = videoData?.comments;
   const viewer = videoData?.viewer;
   const errorTypes = !videoData || !user || !video || !comments || !viewer;
+  const [ifShare, setIfShare] = useState(false);
 
   const DataError = () => {
     if (videoLoading) {
@@ -134,7 +137,7 @@ const VideoPage: NextPage = () => {
                           createdAt={video.createdAt}
                         />
                       </div>
-                      <div className="flex-inline flex items-end justify-start  gap-4 self-start  ">
+                      <div className="flex-inline flex items-end justify-start gap-4 self-start overflow-x-scroll scrollbar-hide">
                         <LikeDisLikeBtn
                           EngagementData={{
                             id: video.id,
@@ -147,6 +150,11 @@ const VideoPage: NextPage = () => {
                           }}
                         />
                         <SaveBtn videoId={video.id} />
+                        <ShareBtn
+                          videoId={video.id}
+                          ifShare={ifShare}
+                          setIfShare={setIfShare}
+                        />
                       </div>
                     </div>
 

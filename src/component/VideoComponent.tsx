@@ -4,13 +4,16 @@ import Link from "next/link";
 import { Thumbnail } from "./Component";
 import { BsThreeDotsVertical } from "react-icons/bs";
 
-import { Menu, Transition } from "@headlessui/react";
+import { Dialog, Menu, Transition } from "@headlessui/react";
 import { Fragment } from "react";
 import { GoTrash } from "react-icons/go";
 import { AiOutlineSave } from "react-icons/ai";
 import { PiShareFatLight } from "react-icons/pi";
 import { useState } from "react";
 import SaveBtn from "./button/SaveBtn";
+import { IoMdClose } from "react-icons/io";
+import ShareBtn from "./button/ShareBtn";
+
 interface VideoComponentProps {
   videos: {
     id: string;
@@ -113,6 +116,16 @@ export const SmallSingleColumnVideo: React.FC<VideoComponentProps> = ({
 
       // eslint-disable-next-line react-hooks/rules-of-hooks
       const [playList, setPlayList] = useState(false);
+      // eslint-disable-next-line react-hooks/rules-of-hooks
+      const [ifShare, setIfShare] = useState(false);
+
+      const closeShareOption = () => {
+        if (ifShare) {
+          setIfShare(false);
+        } else {
+          setIfShare(false);
+        }
+      };
 
       return (
         <div key={video.id} className="relative">
@@ -135,6 +148,16 @@ export const SmallSingleColumnVideo: React.FC<VideoComponentProps> = ({
           {playList && (
             <SaveBtn videoId={video.id} playList setPlayList={setPlayList} />
           )}
+
+          {/* Sharing options to socials */}
+          {ifShare && (
+            <ShareBtn
+              videoId={video.id}
+              ifShare={ifShare}
+              setIfShare={setIfShare}
+            />
+          )}
+
           <div
             className="absolute right-0 top-0 mx-1 mt-2"
             onClick={(event) => {
@@ -175,6 +198,7 @@ export const SmallSingleColumnVideo: React.FC<VideoComponentProps> = ({
                               ? "bg-violet-500 text-white"
                               : "text-gray-900"
                           } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+                          onClick={() => setIfShare(true)}
                         >
                           <PiShareFatLight
                             className="mr-2 h-5 w-5"

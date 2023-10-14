@@ -494,7 +494,14 @@ export default function Sidebar({
                 <div className="flex grow flex-col gap-y-5 overflow-y-auto border-r  border-gray-200 bg-white px-4 pb-4">
                   <nav className="flex flex-1 flex-col pt-4">
                     <ul role="list" className="flex flex-1 flex-col gap-y-4">
-                      <Logo className="w-20 sm:w-24" />
+                      <Link href="/#" aria-label="Home">
+                        <div className="flex items-center justify-center gap-1 font-bold">
+                          <Logo />
+                          <span className="text-[13px] text-gray-700 sm:text-[15px]">
+                            Vstrim
+                          </span>
+                        </div>
+                      </Link>{" "}
                       <li className="border-t">
                         <ul role="list" className="-mx-2 space-y-1 pt-3 ">
                           {mobileNavigation.map((item, index) => (
@@ -529,7 +536,6 @@ export default function Sidebar({
                           ))}
                         </ul>
                       </li>
-
                       <li className="mt-auto border-y ">
                         <Link
                           onMouseEnter={() => setIfPrivacy(true)}
@@ -584,7 +590,6 @@ export default function Sidebar({
                           Terms of Service
                         </Link>
                       </li>
-
                       {sessionData ? (
                         <div className="my-2 flex">
                           <div>
