@@ -97,8 +97,8 @@ const Settings: NextPage = () => {
   return (
     <>
       <Head>
-        <title>Vidchill </title>
-        <meta name="description" content="Settings for VidChill" />
+        <title>Vstrim </title>
+        <meta name="description" content="Settings for Vstrim" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Layout closeSidebar={false}>
@@ -274,7 +274,7 @@ const Settings: NextPage = () => {
                     disabled={loading}
                     onClick={() => handleSubmit()}
                   >
-                    {loading ? "Saving" : "Save"}
+                    {loading ? "Saving..." : "Save"}
                   </Button>
                 </div>
               </form>

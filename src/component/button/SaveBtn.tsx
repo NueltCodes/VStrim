@@ -5,6 +5,7 @@ import Button from "./Button";
 import { Dialog, Transition } from "@headlessui/react";
 import { AiOutlineSave } from "react-icons/ai";
 import { IoMdClose } from "react-icons/io";
+import toast from "react-hot-toast";
 
 export default function SaveBtn({
   videoId,
@@ -21,6 +22,7 @@ export default function SaveBtn({
   );
   const { data: sessionData } = useSession();
   const [newPlaylistName, setNewPlaylistName] = useState("");
+  const [loading, setLoading] = useState(false);
 
   // below is SavedPlaylist being queried from the api router
   const { data: playlists, refetch: refetchPlaylists } =
@@ -54,6 +56,7 @@ export default function SaveBtn({
     event: React.ChangeEvent<HTMLInputElement>,
     input: {
       playlistId: string;
+      playlistTitle: string;
       videoId: string;
     },
   ) => {
@@ -62,12 +65,16 @@ export default function SaveBtn({
       ...checkedStatus,
       [input.playlistId]: event.target.checked,
     });
+    if (event.target.checked) {
+      toast.success(`Saved to ${input.playlistTitle}`);
+    }
   };
 
   // This is for creating playlist
   const createPlaylistMutation = api.playList.addPlaylist.useMutation();
 
   const handleCreatePlaylist = () => {
+    setLoading(true);
     if (sessionData && !sessionData?.user.id) {
       void signIn();
     }
@@ -81,6 +88,7 @@ export default function SaveBtn({
           onSuccess: () => {
             void refetchPlaylists(); // Refetch playlists data after successful mutation
             setNewPlaylistName(""); // Clear the input field
+            setLoading(false);
           },
         },
       );
@@ -151,14 +159,12 @@ export default function SaveBtn({
                       Save Video To Playlist
                     </Dialog.Title>
                   </div>
-                  {/* 3 End */}
-                  {/* 5 start */}
+
                   <fieldset className="w-full">
                     {playlists?.map((playlist) => (
                       <div key={playlist.id} className=" space-y-5  py-1 ">
                         <div className="relative flex items-start justify-start text-left">
-                          {/* 5 skip here */}
-                          {/* 7 start */}
+                          {/* input Check field */}
                           <div className="flex h-6 items-center">
                             <input
                               id="comments"
@@ -170,13 +176,12 @@ export default function SaveBtn({
                                 handleCheckmarkToggle(event, {
                                   videoId: videoId,
                                   playlistId: playlist.id,
+                                  playlistTitle: playlist.title,
                                 })
                               }
                               className="h-4 w-4 rounded border-gray-300 text-primary-600 focus:ring-primary-600"
                             />
                           </div>
-                          {/* 7 start End */}
-                          {/* 5 skip stop */}
 
                           <div className="ml-3 text-sm leading-6">
                             <label
@@ -220,12 +225,12 @@ export default function SaveBtn({
                       variant="primary"
                       onClick={handleCreatePlaylist}
                       className="p-2"
+                      disabled={loading}
                       size="xl"
                     >
-                      Create New Playlist
+                      {loading ? "Creating..." : "Create New Playlist"}
                     </Button>
                   </div>
-                  {/* 9 End */}
                 </Dialog.Panel>
               </Transition.Child>
             </div>

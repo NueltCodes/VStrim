@@ -21,8 +21,6 @@ import { Menu, Transition } from "@headlessui/react";
 import { signIn, signOut, useSession } from "next-auth/react";
 import Button from "./button/Button";
 import { type Videos } from "~/types";
-import Lottie from "lottie-react";
-import AnimatePlayVideo from "../../public/Animation-play.json";
 import { FaRegUserCircle } from "react-icons/fa";
 import { FiHelpCircle } from "react-icons/fi";
 import { BsThreeDotsVertical } from "react-icons/bs";
@@ -51,7 +49,6 @@ export default function Navbar({
 }: NavbarProps) {
   const { data: sessionData } = useSession();
   const userId = sessionData?.user.id;
-  const [searchData, setSearchData] = useState<Videos[]>([]);
 
   const signedInNavigation: NavigationItem[] = [
     {
