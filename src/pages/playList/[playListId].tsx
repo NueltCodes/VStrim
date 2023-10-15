@@ -18,14 +18,14 @@ const Playlist: NextPage = () => {
       return <LoadingMessage />;
     } else if (error ?? !data) {
       return (
-        <ErrorMessage
-          icon="GreenPlay"
-          message="No Playlists are avaliable"
-          description="Go create some playlists."
-        />
+        <>
+          <ErrorMessage
+            icon="GreenPlay"
+            message="No Playlists are available"
+            description="User is yet to create playlists."
+          />
+        </>
       );
-    } else {
-      return <></>;
     }
   };
 
