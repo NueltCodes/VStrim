@@ -16,16 +16,11 @@ const Playlist: NextPage = () => {
   const Error = () => {
     if (isLoading) {
       return <LoadingMessage />;
-    } else if (error ?? !data) {
-      return (
-        <>
-          <ErrorMessage
-            icon="GreenPlay"
-            message="No Playlists are available"
-            description="User is yet to create playlists."
-          />
-        </>
-      );
+      // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+    } else if (error || !data) {
+      return <ErrorMessage icon="GreenPlay" message="No Playlists avaliable" />;
+    } else {
+      return <></>;
     }
   };
 
