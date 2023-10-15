@@ -74,8 +74,9 @@ export default function SaveBtn({
   const createPlaylistMutation = api.playList.addPlaylist.useMutation();
 
   const handleCreatePlaylist = () => {
-    if (sessionData && !sessionData?.user.id) {
+    if (!sessionData?.user.id) {
       void signIn();
+      return;
     }
     setLoading(true);
     if (newPlaylistName) {
