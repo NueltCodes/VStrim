@@ -14,28 +14,12 @@ const History: NextPage = () => {
       userId: sessionData ? sessionData.user.id : ("none" as string),
     });
 
-  const Error = () => {
-    if (isLoading) {
-      return <LoadingMessage />;
-    } else if (error ?? !data) {
-      return (
-        <ErrorMessage
-          icon="GreenPlay"
-          message="No Current History"
-          description="Watch some videos in order to add to history."
-        />
-      );
-    } else {
-      return <></>;
-    }
-  };
-
   return (
     <>
       <Layout>
         <>
           {!data ? (
-            <Error />
+            "Error"
           ) : (
             <PlaylistPage
               refetch={refetch}
