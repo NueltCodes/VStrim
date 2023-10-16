@@ -79,7 +79,7 @@ export default function SaveBtn({
       return;
     }
     setLoading(true);
-    if (newPlaylistName) {
+    if (newPlaylistName.length > 3) {
       createPlaylistMutation.mutate(
         {
           userId: sessionData ? sessionData.user.id : ("none" as string),
@@ -93,6 +93,8 @@ export default function SaveBtn({
           },
         },
       );
+    } else {
+      toast.error("Text must contain at least 3 words");
     }
   };
   const closePlayList = () => {

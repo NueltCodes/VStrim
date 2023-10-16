@@ -494,7 +494,7 @@ export default function Sidebar({
                 <div className="flex grow flex-col gap-y-5 overflow-y-auto border-r  border-gray-200 bg-white px-4 pb-4">
                   <nav className="flex flex-1 flex-col pt-4">
                     <ul role="list" className="flex flex-1 flex-col gap-y-4">
-                      <Link href="/#" aria-label="Home">
+                      <Link href="/" aria-label="Home">
                         <div className="flex items-center justify-center gap-1 font-bold">
                           <Logo />
                           <span className="text-[13px] text-gray-700 sm:text-[15px]">

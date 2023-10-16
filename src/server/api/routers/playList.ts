@@ -1,4 +1,5 @@
-import { EngagementType } from "@prisma/client";
+import { type PrismaClient, EngagementType } from "@prisma/client";
+import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 
 import {
@@ -6,6 +7,10 @@ import {
   publicProcedure,
   protectedProcedure,
 } from "~/server/api/trpc";
+
+type Context = {
+  prisma: PrismaClient;
+};
 
 export const playListRouter = createTRPCRouter({
   removeVideoToPlaylist: protectedProcedure

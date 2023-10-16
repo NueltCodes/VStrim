@@ -174,7 +174,7 @@ export default function Navbar({
       <div className=" fixed z-50 w-full border border-gray-200 bg-white shadow-sm">
         <div className="mx-auto flex max-w-full px-6 lg:px-16 xl:grid xl:grid-cols-12">
           <div className="flex flex-shrink-0 items-center lg:static xl:col-span-2">
-            <Link href="/#" aria-label="Home">
+            <Link href="/" aria-label="Home">
               <div className="flex items-center justify-center gap-1 font-bold">
                 <Logo />
                 <span className="hidden text-[13px] text-gray-700 sm:block sm:text-[15px]">
