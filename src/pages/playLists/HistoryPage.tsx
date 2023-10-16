@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { api } from "~/utils/api";
 import { ErrorMessage, Layout, LoadingMessage } from "~/component/Component";
 import { type NextPage } from "next/types";
@@ -29,6 +29,10 @@ const History: NextPage = () => {
       return <></>;
     }
   };
+
+  if (isLoading) {
+    return <LoadingMessage />;
+  }
 
   return (
     <>
