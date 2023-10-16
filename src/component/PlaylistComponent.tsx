@@ -155,7 +155,7 @@ export function MultiColumnPlaylist({
     <div className=" mx-auto grid grid-cols-1 gap-x-4 gap-y-8 md:mx-0 md:max-w-none md:grid-cols-2 lg:mx-0 lg:max-w-none lg:grid-cols-2 xl:mx-0 xl:max-w-none xl:grid-cols-2 2xl:mx-0 2xl:max-w-none 2xl:grid-cols-2  ">
       {playlists?.map((playlist) => (
         <Link
-          href={`/playlist/${playlist.id}`}
+          href={`/playLists/${playlist.id}`}
           className="flex flex-col items-start justify-between hover:bg-gray-100"
           key={playlist.id}
         >

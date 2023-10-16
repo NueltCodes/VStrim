@@ -94,9 +94,9 @@ export default function Sidebar({
     },
     {
       name: "Liked Videos",
-      path: userId ? `/playlist/LikedVideos` : "sign-in",
+      path: userId ? `/playLists/LikedVideos` : "sign-in",
       icon: (className: string, index?: number) =>
-        hoveredIndex === index || router.asPath === `/playlist/LikedVideos` ? (
+        hoveredIndex === index || router.asPath === `/playLists/LikedVideos` ? (
           <Lottie
             animationData={AnimateLike}
             loop
@@ -107,13 +107,14 @@ export default function Sidebar({
         ) : (
           <LikeIcon className={className} />
         ),
-      current: router.pathname === `/playlist/LikedVideos`,
+      current: router.pathname === `/playLists/LikedVideos`,
     },
     {
       name: "History",
-      path: userId ? `/playlist/History` : "sign-in",
+      path: userId ? `/playLists/HistoryPage` : "sign-in",
       icon: (className: string, index?: number) =>
-        hoveredIndex === index || router.pathname === `/playlist/History` ? (
+        hoveredIndex === index ||
+        router.pathname === `/playLists/HistoryPage` ? (
           <Lottie
             animationData={AnimateHistory}
             loop
@@ -124,7 +125,7 @@ export default function Sidebar({
         ) : (
           <HistoryIcon className={className} />
         ),
-      current: router.pathname === `/playlist/History`,
+      current: router.pathname === `/playLists/HistoryPage`,
     },
     {
       name: "Your Videos",
