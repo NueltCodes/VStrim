@@ -67,36 +67,24 @@ export const videoEngagementRouter = createTRPCRouter({
           input.userId,
         );
 
-        // const existingHistory = await ctx.prisma.playlistHasVideo.findFirst({
-        //   where: {
-        //     playlistId: playlist.id,
-        //     videoId: input.id,
-        //   },
-        // });
-        const existingHistories = await ctx.prisma.playlistHasVideo.findMany({
+        const existingHistory = await ctx.prisma.playlistHasVideo.findFirst({
           where: {
             playlistId: playlist.id,
             videoId: input.id,
           },
         });
 
-        if (existingHistories.length > 1) {
-          // Keep the first entry and delete the rest
-          const historiesToDelete = existingHistories.slice(1);
-
-          await Promise.all(
-            historiesToDelete.map(async (history) => {
-              await ctx.prisma.playlistHasVideo.delete({
-                where: { id: history.id },
-              });
-            }),
-          );
-        } else if (existingHistories.length === 0) {
-          // Create a new history entry if none exists
-          await ctx.prisma.playlistHasVideo.create({
-            data: { playlistId: playlist.id, videoId: input.id },
+        if (existingHistory) {
+          // Delete the old history entry
+          await ctx.prisma.playlistHasVideo.delete({
+            where: { id: existingHistory.id },
           });
         }
+
+        // Create a new history entry
+        await ctx.prisma.playlistHasVideo.create({
+          data: { playlistId: playlist.id, videoId: input.id },
+        });
       }
       const view = await createEngagement(
         ctx,
