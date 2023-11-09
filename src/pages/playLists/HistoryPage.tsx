@@ -41,12 +41,12 @@ const History: NextPage = () => {
           <PlaylistPage
             refetch={refetch}
             playlist={{
-              id: data?.playlist?.id || "",
-              title: data?.playlist?.title || "",
+              id: data?.playlist?.id ?? "",
+              title: data?.playlist?.title ?? "",
               description: data?.playlist?.description ?? "",
-              videoCount: data?.videos?.length || 0,
+              videoCount: data?.videos?.length ?? 0,
               playlistThumbnail: data?.videos[0]?.thumbnailUrl ?? "",
-              createdAt: data?.playlist?.createdAt || new Date(),
+              createdAt: data?.playlist?.createdAt ?? new Date(),
             }}
             videos={
               data?.videos
@@ -55,7 +55,7 @@ const History: NextPage = () => {
                     title: video?.title ?? "",
                     thumbnailUrl: video?.thumbnailUrl ?? "",
                     createdAt: video?.createdAt ?? new Date(),
-                    views: video?.views || 0,
+                    views: video?.views ?? 0,
                   }))
                 : []
             }
@@ -72,7 +72,7 @@ const History: NextPage = () => {
               id: data?.user?.id ?? "",
               image: data?.user?.image ?? "",
               name: data?.user?.name ?? "",
-              followers: data?.user?.followers || 0,
+              followers: data?.user?.followers ?? 0,
             }}
             ifHistory={true}
           />
