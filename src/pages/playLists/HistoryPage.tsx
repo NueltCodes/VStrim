@@ -14,6 +14,27 @@ const History: NextPage = () => {
       userId: sessionData ? sessionData.user.id : ("none" as string),
     });
 
+  const deleteMutation = api.playList.removeVideoToPlaylist.useMutation();
+
+  const deleteHistory = (input: { videoId: string; playlistId: string }) => {
+    deleteMutation.mutate(input, {
+      onSuccess: () => {
+        void refetch?.();
+      },
+    });
+  };
+
+  const handleDelete = (videoId: string) => {
+    if (data?.playlist?.id) {
+      deleteHistory({
+        videoId: videoId,
+        playlistId: data.playlist.id,
+      });
+    } else {
+      console.error("Playlist ID is undefined");
+    }
+  };
+
   const Error = () => {
     if (isLoading) {
       return <LoadingMessage />;
@@ -75,6 +96,7 @@ const History: NextPage = () => {
               followers: data?.user?.followers ?? 0,
             }}
             ifHistory={true}
+            handleDelete={handleDelete}
           />
         </>
       </Layout>
