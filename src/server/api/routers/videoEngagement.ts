@@ -67,21 +67,6 @@ export const videoEngagementRouter = createTRPCRouter({
           input.userId,
         );
 
-        const existingHistory = await ctx.prisma.playlistHasVideo.findFirst({
-          where: {
-            playlistId: playlist.id,
-            videoId: input.id,
-          },
-        });
-
-        if (existingHistory) {
-          // Delete the old history entry
-          await ctx.prisma.playlistHasVideo.delete({
-            where: { id: existingHistory.id },
-          });
-        }
-
-        // Create a new history entry
         await ctx.prisma.playlistHasVideo.create({
           data: { playlistId: playlist.id, videoId: input.id },
         });
