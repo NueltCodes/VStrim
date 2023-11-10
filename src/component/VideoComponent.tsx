@@ -106,158 +106,150 @@ export const SmallSingleColumnVideo: React.FC<VideoComponentProps> = ({
   refetch,
   handleDelete,
   ifHistory,
-}) => (
-  <>
-    {videos.map((video, index) => {
-      const user = users[index];
-      if (!user) {
-        return null;
-      }
+}) => {
+  const [playList, setPlayList] = useState(false);
+  const [ifShare, setIfShare] = useState(false);
 
-      // eslint-disable-next-line react-hooks/rules-of-hooks
-      const [playList, setPlayList] = useState(false);
-      // eslint-disable-next-line react-hooks/rules-of-hooks
-      const [ifShare, setIfShare] = useState(false);
-
-      const closeShareOption = () => {
-        if (ifShare) {
-          setIfShare(false);
-        } else {
-          setIfShare(false);
+  return (
+    <>
+      {videos.map((video, index) => {
+        const user = users[index];
+        if (!user) {
+          return null;
         }
-      };
 
-      return (
-        <div key={video.id} className="relative">
-          <Link href={`/video/${video.id}`} key={video.id} onClick={refetch}>
-            <div className=" relative isolate my-4 flex flex-col gap-4 rounded-2xl border hover:bg-gray-100 lg:flex-row ">
-              <div className=" aspect-[16/9] sm:aspect-[2/1] lg:w-52  lg:shrink-0">
-                <Thumbnail thumbnailUrl={video.thumbnailUrl} />
-              </div>
-              <div className="mt-2 flex w-full flex-col items-start overflow-hidden text-xs max-lg:mx-2 lg:mr-5">
-                <VideoTitle
-                  title={video.title}
-                  limitHeight={true}
-                  limitSize={true}
-                />
-                <VideoInfo views={video.views} createdAt={video.createdAt} />
-                <UserName name={user.name || ""} />
-              </div>
-            </div>
-          </Link>
-          {playList && (
-            <SaveBtn videoId={video.id} playList setPlayList={setPlayList} />
-          )}
-
-          {/* Sharing options to socials */}
-          {ifShare && (
-            <ShareBtn
-              videoId={video.id}
-              ifShare={ifShare}
-              setIfShare={setIfShare}
-            />
-          )}
-
-          <div
-            className="absolute right-0 top-0 mx-1 mt-2"
-            onClick={(event) => {
-              event.stopPropagation();
-            }}
-          >
-            <Menu as="div" className="relative inline-block text-left">
-              <div>
-                <Menu.Button
-                  className=""
-                  onClick={(event) => {
-                    event.stopPropagation();
-                  }}
-                >
-                  {/* Options */}
-                  <BsThreeDotsVertical
-                    className="ml-2 mr-0 h-6 w-6 rounded-lg bg-gray-700/70 text-violet-200 hover:text-violet-100 md:-mr-1 lg:bg-transparent"
-                    aria-hidden="true"
+        return (
+          <div key={video.id} className="relative">
+            <Link href={`/video/${video.id}`} key={video.id} onClick={refetch}>
+              <div className=" relative isolate my-4 flex flex-col gap-4 rounded-2xl border hover:bg-gray-100 lg:flex-row ">
+                <div className=" aspect-[16/9] sm:aspect-[2/1] lg:w-52  lg:shrink-0">
+                  <Thumbnail thumbnailUrl={video.thumbnailUrl} />
+                </div>
+                <div className="mt-2 flex w-full flex-col items-start overflow-hidden text-xs max-lg:mx-2 lg:mr-5">
+                  <VideoTitle
+                    title={video.title}
+                    limitHeight={true}
+                    limitSize={true}
                   />
-                </Menu.Button>
+                  <VideoInfo views={video.views} createdAt={video.createdAt} />
+                  <UserName name={user.name || ""} />
+                </div>
               </div>
-              <Transition
-                as={Fragment}
-                enter="transition ease-out duration-100"
-                enterFrom="transform opacity-0 scale-95"
-                enterTo="transform opacity-100 scale-100"
-                leave="transition ease-in duration-75"
-                leaveFrom="transform opacity-100 scale-100"
-                leaveTo="transform opacity-0 scale-95"
-              >
-                <Menu.Items className="absolute right-0 z-20 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                  <div className="px-1 py-1">
-                    <Menu.Item>
-                      {({ active }) => (
-                        <button
-                          className={`${
-                            active
-                              ? "bg-violet-500 text-white"
-                              : "text-gray-900"
-                          } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
-                          onClick={() => setIfShare(true)}
-                        >
-                          <PiShareFatLight
-                            className="mr-2 h-5 w-5"
-                            aria-hidden="true"
-                          />
-                          Share
-                        </button>
-                      )}
-                    </Menu.Item>
-                    <Menu.Item>
-                      {({ active }) => (
-                        <button
-                          onClick={() => setPlayList(true)}
-                          className={`${
-                            active
-                              ? "bg-violet-500 text-white"
-                              : "text-gray-900"
-                          } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
-                        >
-                          <AiOutlineSave
-                            className="mr-2 h-5 w-5"
-                            aria-hidden="true"
-                          />
-                          Save playlist
-                        </button>
-                      )}
-                    </Menu.Item>
-                  </div>
-                  {ifHistory && (
+            </Link>
+            {playList && (
+              <SaveBtn videoId={video.id} playList setPlayList={setPlayList} />
+            )}
+
+            {/* Sharing options to socials */}
+            {ifShare && (
+              <ShareBtn
+                videoId={video.id}
+                ifShare={ifShare}
+                setIfShare={setIfShare}
+              />
+            )}
+
+            <div
+              className="absolute right-0 top-0 mx-1 mt-2"
+              onClick={(event) => {
+                event.stopPropagation();
+              }}
+            >
+              <Menu as="div" className="relative inline-block text-left">
+                <div>
+                  <Menu.Button
+                    className=""
+                    onClick={(event) => {
+                      event.stopPropagation();
+                    }}
+                  >
+                    {/* Options */}
+                    <BsThreeDotsVertical
+                      className="ml-2 mr-0 h-6 w-6 rounded-lg bg-gray-700/70 text-violet-200 hover:text-violet-100 md:-mr-1 lg:bg-transparent"
+                      aria-hidden="true"
+                    />
+                  </Menu.Button>
+                </div>
+                <Transition
+                  as={Fragment}
+                  enter="transition ease-out duration-100"
+                  enterFrom="transform opacity-0 scale-95"
+                  enterTo="transform opacity-100 scale-100"
+                  leave="transition ease-in duration-75"
+                  leaveFrom="transform opacity-100 scale-100"
+                  leaveTo="transform opacity-0 scale-95"
+                >
+                  <Menu.Items className="absolute right-0 z-20 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                     <div className="px-1 py-1">
                       <Menu.Item>
                         {({ active }) => (
                           <button
-                            onClick={() => handleDelete?.(video?.id)}
+                            className={`${
+                              active
+                                ? "bg-violet-500 text-white"
+                                : "text-gray-900"
+                            } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+                            onClick={() => setIfShare(true)}
+                          >
+                            <PiShareFatLight
+                              className="mr-2 h-5 w-5"
+                              aria-hidden="true"
+                            />
+                            Share
+                          </button>
+                        )}
+                      </Menu.Item>
+                      <Menu.Item>
+                        {({ active }) => (
+                          <button
+                            onClick={() => setPlayList(true)}
                             className={`${
                               active
                                 ? "bg-violet-500 text-white"
                                 : "text-gray-900"
                             } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
                           >
-                            <GoTrash
-                              className="mr-2 h-5 w-5 text-violet-400"
+                            <AiOutlineSave
+                              className="mr-2 h-5 w-5"
                               aria-hidden="true"
                             />
-                            Delete
+                            Save playlist
                           </button>
                         )}
                       </Menu.Item>
                     </div>
-                  )}
-                </Menu.Items>
-              </Transition>
-            </Menu>
+                    {ifHistory && (
+                      <div className="px-1 py-1">
+                        <Menu.Item>
+                          {({ active }) => (
+                            <button
+                              onClick={() => handleDelete?.(video?.id)}
+                              className={`${
+                                active
+                                  ? "bg-violet-500 text-white"
+                                  : "text-gray-900"
+                              } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+                            >
+                              <GoTrash
+                                className="mr-2 h-5 w-5 text-violet-400"
+                                aria-hidden="true"
+                              />
+                              Delete
+                            </button>
+                          )}
+                        </Menu.Item>
+                      </div>
+                    )}
+                  </Menu.Items>
+                </Transition>
+              </Menu>
+            </div>
           </div>
-        </div>
-      );
-    })}
-  </>
-);
+        );
+      })}
+    </>
+  );
+};
 
 export function VideoTitle({
   title,
